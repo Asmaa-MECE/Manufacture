@@ -120,22 +120,22 @@
   .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
   .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
   .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
+
+  /* Hello Kitty decorative SVG elements — always hidden */
+  .hk-bg, .hk-faces { display:none !important; }
+
+  /* Hello Kitty ribbon tile background via ::before on body */
+  .theme-hellokitty::before {
+    content:'';
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cellipse cx='22' cy='40' rx='18' ry='12' fill='%23FF6B9D' opacity='0.55'/%3E%3Cellipse cx='58' cy='40' rx='18' ry='12' fill='%23FF6B9D' opacity='0.55'/%3E%3Cellipse cx='40' cy='40' rx='7' ry='8' fill='%23FF8FAB' opacity='0.7'/%3E%3Cellipse cx='18' cy='36' rx='5' ry='3' fill='white' opacity='0.3'/%3E%3Cellipse cx='62' cy='36' rx='5' ry='3' fill='white' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 80px 80px;
+    opacity: 0.18;
+  }
 </style>
 </head>
 <body>
-<div class="hk-bg" aria-hidden="true">
-  <svg class="hk-bow" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="140" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="100" cy="60" rx="18" ry="22" fill="#DD2222" stroke="#8B0000" stroke-width="4"/></svg>
-  <svg class="hk-bow" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="140" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="100" cy="60" rx="18" ry="22" fill="#DD2222" stroke="#8B0000" stroke-width="4"/></svg>
-  <svg class="hk-bow" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="140" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="100" cy="60" rx="18" ry="22" fill="#DD2222" stroke="#8B0000" stroke-width="4"/></svg>
-  <svg class="hk-bow" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="140" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="100" cy="60" rx="18" ry="22" fill="#DD2222" stroke="#8B0000" stroke-width="4"/></svg>
-  <svg class="hk-bow" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="140" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="100" cy="60" rx="18" ry="22" fill="#DD2222" stroke="#8B0000" stroke-width="4"/></svg>
-  <svg class="hk-bow" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="140" cy="60" rx="55" ry="38" fill="#CC0000" stroke="#8B0000" stroke-width="5"/><ellipse cx="100" cy="60" rx="18" ry="22" fill="#DD2222" stroke="#8B0000" stroke-width="4"/></svg>
-</div>
-<div class="hk-faces" aria-hidden="true">
-  <svg class="hk-face-img" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="65" r="52" fill="white" stroke="#222" stroke-width="3.5"/><ellipse cx="38" cy="48" rx="16" ry="18" fill="white" stroke="#222" stroke-width="3"/><ellipse cx="82" cy="48" rx="16" ry="18" fill="white" stroke="#222" stroke-width="3"/><circle cx="46" cy="72" r="5" fill="#222"/><circle cx="74" cy="72" r="5" fill="#222"/><ellipse cx="60" cy="82" rx="5" ry="3.5" fill="#FFC107"/><line x1="28" y1="75" x2="12" y2="70" stroke="#222" stroke-width="2.5"/><line x1="28" y1="80" x2="10" y2="80" stroke="#222" stroke-width="2.5"/><line x1="92" y1="75" x2="108" y2="70" stroke="#222" stroke-width="2.5"/><line x1="92" y1="80" x2="110" y2="80" stroke="#222" stroke-width="2.5"/><ellipse cx="36" cy="20" rx="18" ry="13" fill="#CC0000" stroke="#8B0000" stroke-width="2.5"/><ellipse cx="68" cy="20" rx="18" ry="13" fill="#CC0000" stroke="#8B0000" stroke-width="2.5"/><ellipse cx="52" cy="20" rx="7" ry="9" fill="#DD2222" stroke="#8B0000" stroke-width="2"/></svg>
-  <svg class="hk-face-img" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="65" r="52" fill="white" stroke="#222" stroke-width="3.5"/><ellipse cx="38" cy="48" rx="16" ry="18" fill="white" stroke="#222" stroke-width="3"/><ellipse cx="82" cy="48" rx="16" ry="18" fill="white" stroke="#222" stroke-width="3"/><circle cx="46" cy="72" r="5" fill="#222"/><circle cx="74" cy="72" r="5" fill="#222"/><ellipse cx="60" cy="82" rx="5" ry="3.5" fill="#FFC107"/><line x1="28" y1="75" x2="12" y2="70" stroke="#222" stroke-width="2.5"/><line x1="28" y1="80" x2="10" y2="80" stroke="#222" stroke-width="2.5"/><line x1="92" y1="75" x2="108" y2="70" stroke="#222" stroke-width="2.5"/><line x1="92" y1="80" x2="110" y2="80" stroke="#222" stroke-width="2.5"/><ellipse cx="36" cy="20" rx="18" ry="13" fill="#CC0000" stroke="#8B0000" stroke-width="2.5"/><ellipse cx="68" cy="20" rx="18" ry="13" fill="#CC0000" stroke="#8B0000" stroke-width="2.5"/><ellipse cx="52" cy="20" rx="7" ry="9" fill="#DD2222" stroke="#8B0000" stroke-width="2"/></svg>
-  <svg class="hk-face-img" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="65" r="52" fill="white" stroke="#222" stroke-width="3.5"/><ellipse cx="38" cy="48" rx="16" ry="18" fill="white" stroke="#222" stroke-width="3"/><ellipse cx="82" cy="48" rx="16" ry="18" fill="white" stroke="#222" stroke-width="3"/><circle cx="46" cy="72" r="5" fill="#222"/><circle cx="74" cy="72" r="5" fill="#222"/><ellipse cx="60" cy="82" rx="5" ry="3.5" fill="#FFC107"/><line x1="28" y1="75" x2="12" y2="70" stroke="#222" stroke-width="2.5"/><line x1="28" y1="80" x2="10" y2="80" stroke="#222" stroke-width="2.5"/><line x1="92" y1="75" x2="108" y2="70" stroke="#222" stroke-width="2.5"/><line x1="92" y1="80" x2="110" y2="80" stroke="#222" stroke-width="2.5"/><ellipse cx="36" cy="20" rx="18" ry="13" fill="#CC0000" stroke="#8B0000" stroke-width="2.5"/><ellipse cx="68" cy="20" rx="18" ry="13" fill="#CC0000" stroke="#8B0000" stroke-width="2.5"/><ellipse cx="52" cy="20" rx="7" ry="9" fill="#DD2222" stroke="#8B0000" stroke-width="2"/></svg>
-</div>
+
 <nav>
   <a href="index.html" class="nav-brand">MECE<span>350</span></a>
   <div class="nav-links">
