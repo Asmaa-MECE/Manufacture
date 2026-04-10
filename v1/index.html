@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MECE350 – Intelligent Manufacturing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c1: #F2C4CE;
+    --c2: #E8A0AE;
+    --c3: #B0A8BE;
+    --c4: #ffffff;
+    --text: #3a2a35;
+    --text2: #6b5060;
+    --card-bg: rgba(255,255,255,0.85);
+    --shadow: rgba(176,168,190,0.25);
+    --accent: #c47b8a;
+    --nav-bg: rgba(242,196,206,0.95);
+  }
+  .theme-hellokitty {
+    --c1: #FFB7C5;
+    --c2: #FF8FAB;
+    --c3: #FFC8DD;
+    --c4: #ffffff;
+    --text: #8B1A4A;
+    --text2: #c05478;
+    --card-bg: rgba(255,255,255,0.9);
+    --shadow: rgba(255,143,171,0.25);
+    --accent: #FF6B9D;
+    --nav-bg: rgba(255,183,197,0.97);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background: linear-gradient(135deg, var(--c1) 0%, var(--c4) 50%, var(--c3) 100%); min-height:100vh; color:var(--text); transition: all 0.4s ease; }
+  
+  /* NAV */
+  nav { position:sticky; top:0; z-index:100; background:var(--nav-bg); backdrop-filter:blur(12px); border-bottom:1.5px solid var(--c2); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .nav-brand { font-family:'DM Serif Display',serif; font-size:1.35rem; color:var(--text); letter-spacing:-0.02em; }
+  .nav-brand span { color:var(--accent); }
+  .nav-links { display:flex; gap:1.5rem; align-items:center; }
+  .nav-links a { text-decoration:none; color:var(--text2); font-size:0.88rem; font-weight:500; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--accent); }
+  .theme-btn { background:var(--accent); color:#fff; border:none; padding:0.4rem 1rem; border-radius:20px; font-size:0.8rem; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:600; transition:all 0.2s; }
+  .theme-btn:hover { opacity:0.85; transform:scale(1.04); }
+
+  /* HERO */
+  .hero { text-align:center; padding:5rem 2rem 3rem; }
+  .hero-tag { background:var(--c2); color:var(--text); font-size:0.78rem; font-weight:600; padding:0.35rem 1rem; border-radius:20px; display:inline-block; margin-bottom:1.2rem; letter-spacing:0.08em; text-transform:uppercase; }
+  .hero h1 { font-family:'DM Serif Display',serif; font-size:clamp(2.2rem,5vw,3.8rem); color:var(--text); line-height:1.1; margin-bottom:1rem; }
+  .hero h1 em { color:var(--accent); font-style:italic; }
+  .hero p { color:var(--text2); font-size:1.05rem; max-width:560px; margin:0 auto 2rem; line-height:1.7; }
+  .hero-kitty { display:none; width:90px; margin:0 auto 1rem; border-radius:50%; box-shadow:0 8px 32px var(--shadow); }
+  .theme-hellokitty .hero-kitty { display:block; }
+
+  /* CHAPTERS GRID */
+  .section-title { font-family:'DM Serif Display',serif; font-size:1.7rem; color:var(--text); margin-bottom:0.4rem; }
+  .section-sub { color:var(--text2); font-size:0.9rem; margin-bottom:2rem; }
+  .container { max-width:1100px; margin:0 auto; padding:0 2rem 4rem; }
+  .chapters-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; }
+  .chapter-card { background:var(--card-bg); border-radius:20px; border:1.5px solid var(--c2); padding:1.8rem; text-decoration:none; color:var(--text); transition:all 0.25s; box-shadow:0 4px 20px var(--shadow); position:relative; overflow:hidden; }
+  .chapter-card::before { content:''; position:absolute; top:0;left:0;right:0; height:4px; background:linear-gradient(90deg,var(--c2),var(--accent)); }
+  .chapter-card:hover { transform:translateY(-4px); box-shadow:0 12px 36px var(--shadow); border-color:var(--accent); }
+  .chapter-card.active::before { background:linear-gradient(90deg,var(--accent),var(--c2)); }
+  .chapter-num { font-size:0.75rem; font-weight:700; color:var(--accent); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.5rem; }
+  .chapter-title { font-family:'DM Serif Display',serif; font-size:1.2rem; margin-bottom:0.6rem; }
+  .chapter-desc { font-size:0.85rem; color:var(--text2); line-height:1.5; }
+  .chapter-badge { display:inline-block; margin-top:1rem; background:var(--c1); color:var(--text); font-size:0.72rem; font-weight:600; padding:0.25rem 0.75rem; border-radius:12px; }
+  .chapter-badge.available { background:var(--accent); color:#fff; }
+  .coming-soon { opacity:0.6; cursor:default; }
+  .coming-soon:hover { transform:none; }
+
+  /* FOOTER */
+  footer { text-align:center; padding:2rem; color:var(--text2); font-size:0.82rem; border-top:1px solid var(--c2); }
+
+  /* THEME MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:200; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:#fff; border-radius:24px; padding:2.5rem; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+  .modal h2 { font-family:'DM Serif Display',serif; font-size:1.5rem; margin-bottom:0.3rem; color:#3a2a35; }
+  .modal p { font-size:0.85rem; color:#6b5060; margin-bottom:1.5rem; }
+  .theme-options { display:grid; gap:0.85rem; }
+  .theme-option { border:2px solid #e8e0ec; border-radius:14px; padding:1rem 1.2rem; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:1rem; }
+  .theme-option:hover, .theme-option.selected { border-color:var(--accent,#c47b8a); background:#fdf7f9; }
+  .theme-swatch { display:flex; gap:4px; }
+  .theme-swatch span { width:18px; height:18px; border-radius:50%; }
+  .theme-label { font-weight:600; font-size:0.88rem; }
+  .theme-label small { display:block; font-weight:400; color:#888; font-size:0.75rem; }
+  .color-picker-row { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.5rem; }
+  .color-pick { display:flex; align-items:center; gap:0.5rem; font-size:0.82rem; }
+  .color-pick input[type=color] { width:36px; height:36px; border:none; border-radius:8px; cursor:pointer; padding:2px; }
+  .modal-actions { display:flex; gap:0.75rem; margin-top:1.5rem; }
+  .btn-apply { background:#c47b8a; color:#fff; border:none; padding:0.6rem 1.4rem; border-radius:12px; font-size:0.88rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+  .btn-apply:hover { opacity:0.85; }
+  .btn-cancel { background:transparent; color:#6b5060; border:1.5px solid #ddd; padding:0.6rem 1.2rem; border-radius:12px; font-size:0.88rem; cursor:pointer; font-family:'DM Sans',sans-serif; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">MECE<span>350</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="chapter6.html">Ch. 6</a>
+    <button class="theme-btn" onclick="openTheme()">🎨 Theme</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <img class="hero-kitty" src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Hello_kitty_character_portrait.png/220px-Hello_kitty_character_portrait.png" alt="Hello Kitty">
+  <div class="hero-tag">MECE350 · Intelligent Manufacturing</div>
+  <h1>Your Complete<br><em>Study Hub</em></h1>
+  <p>Summaries, MCQ banks, fill-in-the-blank exercises, and mock tests — all in one place for every chapter of the course.</p>
+</div>
+
+<div class="container">
+  <div class="section-title">Course Chapters</div>
+  <div class="section-sub">Click on an available chapter to start studying</div>
+  <div class="chapters-grid">
+    <a href="chapter6.html" class="chapter-card active">
+      <div class="chapter-num">Chapter 6</div>
+      <div class="chapter-title">Metal Forming &amp; Shaping Processes</div>
+      <div class="chapter-desc">Rolling, forging, extrusion, and wire drawing — bulk deformation and sheet metalworking covered in full.</div>
+      <div class="chapter-badge available">✓ Available</div>
+    </a>
+    <div class="chapter-card coming-soon">
+      <div class="chapter-num">Chapter 7</div>
+      <div class="chapter-title">Coming Soon</div>
+      <div class="chapter-desc">Summary, MCQs, fill-in-the-blank exercises and mock tests will be added here.</div>
+      <div class="chapter-badge">⏳ Pending</div>
+    </div>
+    <div class="chapter-card coming-soon">
+      <div class="chapter-num">Chapter 8</div>
+      <div class="chapter-title">Coming Soon</div>
+      <div class="chapter-desc">Summary, MCQs, fill-in-the-blank exercises and mock tests will be added here.</div>
+      <div class="chapter-badge">⏳ Pending</div>
+    </div>
+    <div class="chapter-card coming-soon">
+      <div class="chapter-num">Chapter 9</div>
+      <div class="chapter-title">Coming Soon</div>
+      <div class="chapter-desc">Summary, MCQs, fill-in-the-blank exercises and mock tests will be added here.</div>
+      <div class="chapter-badge">⏳ Pending</div>
+    </div>
+    <div class="chapter-card coming-soon">
+      <div class="chapter-num">Chapter 10</div>
+      <div class="chapter-title">Coming Soon</div>
+      <div class="chapter-desc">Summary, MCQs, fill-in-the-blank exercises and mock tests will be added here.</div>
+      <div class="chapter-badge">⏳ Pending</div>
+    </div>
+    <div class="chapter-card coming-soon">
+      <div class="chapter-num">Chapter 11</div>
+      <div class="chapter-title">Coming Soon</div>
+      <div class="chapter-desc">Summary, MCQs, fill-in-the-blank exercises and mock tests will be added here.</div>
+      <div class="chapter-badge">⏳ Pending</div>
+    </div>
+  </div>
+</div>
+
+<footer>MECE350 Intelligent Manufacturing · Study Hub · Dr Jamil Renno</footer>
+
+<!-- THEME MODAL -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <h2>🎨 Choose Your Theme</h2>
+    <p>Pick a predefined palette or build your own custom one.</p>
+    <div class="theme-options">
+      <div class="theme-option selected" id="opt-default" onclick="selectTheme('default')">
+        <div class="theme-swatch">
+          <span style="background:#F2C4CE"></span>
+          <span style="background:#E8A0AE"></span>
+          <span style="background:#B0A8BE"></span>
+        </div>
+        <div class="theme-label">Default Blush <small>The original pink-mauve palette</small></div>
+      </div>
+      <div class="theme-option" id="opt-hellokitty" onclick="selectTheme('hellokitty')">
+        <div class="theme-swatch">
+          <span style="background:#FFB7C5"></span>
+          <span style="background:#FF8FAB"></span>
+          <span style="background:#FFC8DD"></span>
+        </div>
+        <div class="theme-label">Hello Kitty 🎀 <small>Sanrio hot pink vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-custom" onclick="selectTheme('custom')">
+        <div class="theme-swatch">
+          <span id="sw1" style="background:#aaa"></span>
+          <span id="sw2" style="background:#bbb"></span>
+          <span id="sw3" style="background:#ccc"></span>
+        </div>
+        <div class="theme-label">Custom 🎨 <small>Pick your own colors</small></div>
+      </div>
+    </div>
+    <div id="colorPickers" style="display:none;margin-top:1rem;">
+      <div class="color-picker-row">
+        <div class="color-pick"><input type="color" id="cp1" value="#F2C4CE" oninput="previewCustom()"> Primary</div>
+        <div class="color-pick"><input type="color" id="cp2" value="#E8A0AE" oninput="previewCustom()"> Secondary</div>
+        <div class="color-pick"><input type="color" id="cp3" value="#B0A8BE" oninput="previewCustom()"> Accent Bg</div>
+        <div class="color-pick"><input type="color" id="cp4" value="#c47b8a" oninput="previewCustom()"> Accent</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-apply" onclick="applyTheme()">Apply</button>
+      <button class="btn-cancel" onclick="closeTheme()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let selectedTheme = 'default';
+  const saved = localStorage.getItem('mece350-theme');
+  if(saved) applyThemeData(JSON.parse(saved));
+
+  function openTheme(){ document.getElementById('themeModal').classList.add('open'); }
+  function closeTheme(){ document.getElementById('themeModal').classList.remove('open'); }
+  function selectTheme(t){
+    selectedTheme=t;
+    document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));
+    document.getElementById('opt-'+t).classList.add('selected');
+    document.getElementById('colorPickers').style.display = t==='custom'?'block':'none';
+  }
+  function previewCustom(){
+    const c1=document.getElementById('cp1').value;
+    const c2=document.getElementById('cp2').value;
+    const c3=document.getElementById('cp3').value;
+    document.getElementById('sw1').style.background=c1;
+    document.getElementById('sw2').style.background=c2;
+    document.getElementById('sw3').style.background=c3;
+  }
+  function applyTheme(){
+    let data = { type: selectedTheme };
+    if(selectedTheme==='custom'){
+      data.c1=document.getElementById('cp1').value;
+      data.c2=document.getElementById('cp2').value;
+      data.c3=document.getElementById('cp3').value;
+      data.c4=document.getElementById('cp4').value;
+    }
+    applyThemeData(data);
+    localStorage.setItem('mece350-theme', JSON.stringify(data));
+    closeTheme();
+  }
+  function applyThemeData(data){
+    document.body.classList.remove('theme-hellokitty','theme-custom');
+    const r = document.documentElement.style;
+    if(data.type==='hellokitty'){
+      document.body.classList.add('theme-hellokitty');
+    } else if(data.type==='custom' && data.c1){
+      r.setProperty('--c1',data.c1);
+      r.setProperty('--c2',data.c2);
+      r.setProperty('--c3',data.c3);
+      r.setProperty('--accent',data.c4);
+      r.setProperty('--nav-bg',data.c1+'f5');
+    } else {
+      r.removeProperty('--c1'); r.removeProperty('--c2'); r.removeProperty('--c3');
+      r.removeProperty('--accent'); r.removeProperty('--nav-bg');
+    }
+  }
+</script>
+</body>
+</html>
