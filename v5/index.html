@@ -115,18 +115,19 @@
   }
 
   /* PPG characters */
-  .ppg-hero{position:absolute;opacity:0;animation:ppg-fly linear infinite;will-change:transform;}
-  @keyframes ppg-fly{
-    0%{transform:translateX(-160px) translateY(0px);opacity:0;}
-    5%{opacity:1;}
-    50%{transform:translateX(50vw) translateY(var(--dy,0px));opacity:1;}
-    95%{opacity:1;}
-    100%{transform:translateX(calc(100vw + 160px)) translateY(var(--dy,0px));opacity:0;}
+  .ppg-hero{position:absolute;opacity:0;animation:ppg-fly-diag linear infinite;will-change:transform;transform-origin:center center;}
+  @keyframes ppg-fly-diag{
+    0%  {transform:translate(-220px, 180px) rotate(var(--tilt,-26deg)) scale(0.75); opacity:0;}
+    8%  {opacity:1;}
+    48% {transform:translate(40vw, var(--dy,-120px)) rotate(var(--tilt,-26deg)) scale(1); opacity:1;}
+    52% {transform:translate(52vw, var(--dy,-120px)) rotate(var(--tilt,-26deg)) scale(1); opacity:1;}
+    92% {opacity:1;}
+    100%{transform:translate(calc(100vw + 220px), calc(var(--dy,-120px) - 200px)) rotate(var(--tilt,-26deg)) scale(0.8); opacity:0;}
   }
   /* PPG speed line behind character */
-  .ppg-trail-line{position:absolute;height:10px;border-radius:5px;filter:blur(3px);animation:ppg-fly linear infinite;}
+  .ppg-trail-line{position:absolute;border-radius:8px;filter:blur(5px);animation:ppg-fly-diag linear infinite;transform-origin:left center;}
   /* Cloud drift */
-  .ppg-cloud{position:absolute;animation:ppg-fly linear infinite;opacity:0.22;}
+  .ppg-cloud{position:absolute;animation:ppg-fly-diag linear infinite;opacity:0.15;--tilt:0deg;--dy:-60px;}
   .ppg-city{position:absolute;bottom:0;left:0;right:0;height:200px;pointer-events:none;}
 
   /* MODAL */
@@ -413,98 +414,92 @@ function spawnSkywars(){
   });
 }
 
-/* ─── POWERPUFF GIRLS: city + trails + flying characters ─── */
-
-
 function makeCityBg(){
-  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 200" preserveAspectRatio="none" style="width:100%;height:100%">
-    <defs><linearGradient id="cityGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#001829" stop-opacity="0"/><stop offset="100%" stop-color="#001829" stop-opacity="0.55"/></linearGradient></defs>
-    <!-- background buildings layer -->
-    <rect x="0"   y="100" width="80"  height="100" fill="#001a2e" opacity="0.3"/>
-    <rect x="70"  y="70"  width="50"  height="130" fill="#001a2e" opacity="0.35"/>
-    <rect x="110" y="85"  width="40"  height="115" fill="#001a2e" opacity="0.3"/>
-    <rect x="140" y="45"  width="65"  height="155" fill="#001a2e" opacity="0.4"/>
-    <rect x="152" y="22"  width="12"  height="28"  fill="#001a2e" opacity="0.4"/>
-    <rect x="195" y="72"  width="55"  height="128" fill="#001a2e" opacity="0.35"/>
-    <rect x="242" y="50"  width="48"  height="150" fill="#001a2e" opacity="0.4"/>
-    <rect x="282" y="78"  width="65"  height="122" fill="#001a2e" opacity="0.32"/>
-    <rect x="338" y="28"  width="75"  height="172" fill="#001a2e" opacity="0.42"/>
-    <rect x="354" y="4"   width="14"  height="28"  fill="#001a2e" opacity="0.42"/>
-    <rect x="403" y="60"  width="52"  height="140" fill="#001a2e" opacity="0.35"/>
-    <rect x="447" y="82"  width="42"  height="118" fill="#001a2e" opacity="0.32"/>
-    <rect x="480" y="40"  width="60"  height="160" fill="#001a2e" opacity="0.4"/>
-    <rect x="532" y="55"  width="70"  height="145" fill="#001a2e" opacity="0.35"/>
-    <rect x="592" y="30"  width="55"  height="170" fill="#001a2e" opacity="0.42"/>
-    <rect x="638" y="65"  width="45"  height="135" fill="#001a2e" opacity="0.35"/>
-    <rect x="675" y="50"  width="58"  height="150" fill="#001a2e" opacity="0.4"/>
-    <rect x="724" y="75"  width="50"  height="125" fill="#001a2e" opacity="0.33"/>
-    <rect x="765" y="35"  width="68"  height="165" fill="#001a2e" opacity="0.42"/>
-    <rect x="780" y="10"  width="12"  height="28"  fill="#001a2e" opacity="0.42"/>
-    <rect x="824" y="58"  width="55"  height="142" fill="#001a2e" opacity="0.36"/>
-    <rect x="870" y="45"  width="44"  height="155" fill="#001a2e" opacity="0.4"/>
-    <rect x="906" y="70"  width="65"  height="130" fill="#001a2e" opacity="0.35"/>
-    <rect x="962" y="25"  width="78"  height="175" fill="#001a2e" opacity="0.42"/>
-    <rect x="978" y="2"   width="14"  height="28"  fill="#001a2e" opacity="0.42"/>
-    <rect x="1030" y="60" width="50"  height="140" fill="#001a2e" opacity="0.35"/>
-    <rect x="1072" y="80" width="38"  height="120" fill="#001a2e" opacity="0.32"/>
-    <rect x="1102" y="38" width="62"  height="162" fill="#001a2e" opacity="0.4"/>
-    <rect x="1155" y="52" width="68"  height="148" fill="#001a2e" opacity="0.36"/>
-    <rect x="1214" y="72" width="52"  height="128" fill="#001a2e" opacity="0.33"/>
-    <rect x="1258" y="30" width="72"  height="170" fill="#001a2e" opacity="0.42"/>
-    <rect x="1322" y="62" width="78"  height="138" fill="#001a2e" opacity="0.36"/>
-    <!-- yellow windows -->
-    <rect x="75"  y="78"  width="7" height="5" fill="#FFD700" opacity="0.5"/>
-    <rect x="86"  y="78"  width="7" height="5" fill="#FFD700" opacity="0.35"/>
-    <rect x="75"  y="90"  width="7" height="5" fill="#FFD700" opacity="0.4"/>
-    <rect x="148" y="54"  width="7" height="5" fill="#FFD700" opacity="0.45"/>
-    <rect x="163" y="54"  width="7" height="5" fill="#FFD700" opacity="0.5"/>
-    <rect x="346" y="36"  width="7" height="5" fill="#FFD700" opacity="0.45"/>
-    <rect x="360" y="36"  width="7" height="5" fill="#FFD700" opacity="0.35"/>
-    <rect x="594" y="38"  width="7" height="5" fill="#FFD700" opacity="0.5"/>
-    <rect x="610" y="38"  width="7" height="5" fill="#FFD700" opacity="0.4"/>
-    <rect x="966" y="32"  width="7" height="5" fill="#FFD700" opacity="0.45"/>
-    <rect x="984" y="32"  width="7" height="5" fill="#FFD700" opacity="0.35"/>
-    <rect x="1260" y="38" width="7" height="5" fill="#FFD700" opacity="0.5"/>
-    <!-- gradient overlay -->
-    <rect width="1400" height="200" fill="url(#cityGrad)"/>
-  </svg>`;
+  return `
+    <div style="position:absolute;inset:0;overflow:hidden;">
+      <div style="position:absolute;left:3%;bottom:0;width:18%;height:35%;background:rgba(6,34,67,0.92);border-radius:0 0 14px 14px;"></div>
+      <div style="position:absolute;left:22%;bottom:0;width:12%;height:28%;background:rgba(11,48,104,0.88);border-radius:0 0 12px 12px;"></div>
+      <div style="position:absolute;left:38%;bottom:0;width:24%;height:45%;background:rgba(8,64,140,0.95);border-radius:0 0 16px 16px;"></div>
+      <div style="position:absolute;left:62%;bottom:0;width:16%;height:33%;background:rgba(10,38,81,0.9);border-radius:0 0 13px 13px;"></div>
+      <div style="position:absolute;left:80%;bottom:0;width:14%;height:38%;background:rgba(16,74,160,0.92);border-radius:0 0 15px 15px;"></div>
+      <div style="position:absolute;left:34%;bottom:44%;width:6%;height:22%;background:rgba(158,228,255,0.18);border-radius:4px;"></div>
+      <div style="position:absolute;left:69%;bottom:30%;width:5%;height:16%;background:rgba(158,228,255,0.14);border-radius:4px;"></div>
+    </div>
+  `;
 }
 
+  return `
+    <div style="position:absolute;inset:0;overflow:hidden;">
+      <div style="position:absolute;left:3%;bottom:0;width:18%;height:35%;background:rgba(6,34,67,0.92);border-radius:0 0 14px 14px;"></div>
+      <div style="position:absolute;left:22%;bottom:0;width:12%;height:28%;background:rgba(11,48,104,0.88);border-radius:0 0 12px 12px;"></div>
+      <div style="position:absolute;left:38%;bottom:0;width:24%;height:45%;background:rgba(8,64,140,0.95);border-radius:0 0 16px 16px;"></div>
+      <div style="position:absolute;left:62%;bottom:0;width:16%;height:33%;background:rgba(10,38,81,0.9);border-radius:0 0 13px 13px;"></div>
+      <div style="position:absolute;left:80%;bottom:0;width:14%;height:38%;background:rgba(16,74,160,0.92);border-radius:0 0 15px 15px;"></div>
+      <div style="position:absolute;left:34%;bottom:44%;width:6%;height:22%;background:rgba(158,228,255,0.18);border-radius:4px;"></div>
+      <div style="position:absolute;left:69%;bottom:30%;width:5%;height:16%;background:rgba(158,228,255,0.14);border-radius:4px;"></div>
+    </div>
+  `;
+}
+
+/* ─── POWERPUFF GIRLS: city + trails + flying characters ─── */
 function spawnPPG(){
   const bg=document.getElementById('ppgBg');if(!bg)return;
 
-  // Speed trail lines behind characters
+  // ── Diagonal glow trails behind each girl: pink, green, blue
   [
-    {top:25,col:'rgba(255,100,160,0.22)',dur:20,delay:0,w:350},
-    {top:42,col:'rgba(80,150,255,0.22)',dur:26,delay:-8,w:280},
-    {top:32,col:'rgba(50,200,100,0.22)',dur:17,delay:-14,w:320},
-  ].forEach(tr=>{
+    {col:'rgba(255,100,160,0.65)',top:65,dur:22,delay:0},
+    {col:'rgba(80,215,80,0.6)',  top:75,dur:18,delay:-7},
+    {col:'rgba(80,175,255,0.6)', top:57,dur:25,delay:-13},
+  ].forEach((tr,i)=>{
     const el=document.createElement('div');
-    el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.delay}s infinite;`;
+    const w=520+i*50;
+    el.style.cssText=
+      `position:absolute;top:${tr.top}%;left:0;`+
+      `width:${w}px;height:24px;`+
+      `background:linear-gradient(90deg,transparent 0%,${tr.col} 30%,rgba(255,255,255,0.95) 62%,${tr.col} 78%,transparent 100%);`+
+      `border-radius:12px;filter:blur(4px);`+
+      `--tilt:-26deg;--dy:-${160+i*45}px;`+
+      `animation:ppg-fly-diag ${tr.dur}s linear ${tr.delay}s infinite;`;
     bg.appendChild(el);
   });
 
-  // Flying characters
-  [
-    {src:'img/powerR.png', top:18, dur:20, delay:0,   dy:-25},
-    {src:'img/powerB.png', top:38, dur:26, delay:-9,  dy:18},
-    {src:'img/powerG.png', top:26, dur:17, delay:-14, dy:-12},
-  ].forEach(ch=>{
-    const el=document.createElement('div');el.className='ppg-hero';
-    el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.delay}s;`;
-    const img=document.createElement('img');
-    img.src=ch.src;
-    img.style.cssText='width:120px;height:auto;display:block;';
-    el.appendChild(img);bg.appendChild(el);
-  });
+  // ── Three girls using the image at img/powerpuffs
+  // Source image is ~1320×480: Buttercup(left ~0-440), Blossom(center ~370-900), Bubbles(right ~850-1320)
+  const IMG='img/powerpuffs.png';
+  const SRC_W=1320, SRC_H=480;
+  const DSP_H=148;
+  const SCALE=DSP_H/SRC_H;
+  const DSP_FULL_W=Math.round(SRC_W*SCALE); // full rendered width ≈412px
 
-  // Clouds
-  for(let i=0;i<5;i++){
-    const cl=document.createElement('div');cl.className='ppg-cloud';
-    cl.style.cssText=`top:${4+Math.random()*22}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;
-    cl.innerHTML=`<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>`;
-    bg.appendChild(cl);
-  }
+  [
+    {name:'blossom',   cropX:365, cropW:530, top:13, dur:22, delay:0,   tilt:-27, dy:-210},
+    {name:'buttercup', cropX:0,   cropW:450, top:34, dur:18, delay:-7,  tilt:-27, dy:-115},
+    {name:'bubbles',   cropX:845, cropW:475, top:23, dur:25, delay:-14, tilt:-27, dy:-160},
+  ].forEach(g=>{
+    const cropWScaled=Math.round(g.cropW*SCALE);
+    const cropXScaled=Math.round(g.cropX*SCALE);
+
+    const wrap=document.createElement('div');
+    wrap.className='ppg-hero';
+    wrap.style.cssText=
+      `top:${g.top}%;left:0;`+
+      `width:${cropWScaled}px;height:${DSP_H}px;overflow:hidden;`+
+      `--dy:${g.dy}px;--tilt:${g.tilt}deg;`+
+      `animation-duration:${g.dur}s;animation-delay:${g.delay}s;`;
+
+    const img=document.createElement('img');
+    img.src=IMG;
+    img.alt=g.name;
+    img.draggable=false;
+    img.style.cssText=
+      `position:absolute;`+
+      `width:${DSP_FULL_W}px;height:${DSP_H}px;`+
+      `left:-${cropXScaled}px;top:0;`+
+      `display:block;pointer-events:none;`;
+
+    wrap.appendChild(img);
+    bg.appendChild(wrap);
+  });
 
   // City silhouette
   const city=document.createElement('div');city.className='ppg-city';

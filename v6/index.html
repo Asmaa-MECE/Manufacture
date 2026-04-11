@@ -414,7 +414,87 @@ function spawnSkywars(){
 }
 
 /* ─── POWERPUFF GIRLS: city + trails + flying characters ─── */
+function makeBlossom(){
+  return`<svg xmlns="http://www.w3.org/2000/svg" width="90" height="100" viewBox="0 0 90 100">
+    <!-- auburn/orange hair back -->
+    <ellipse cx="45" cy="30" rx="30" ry="28" fill="#B84400"/>
+    <rect x="18" y="22" width="54" height="20" rx="10" fill="#B84400"/>
+    <!-- Red bow -->
+    <polygon points="45,8 26,0 32,14" fill="#DD0022"/><polygon points="45,8 64,0 58,14" fill="#DD0022"/>
+    <circle cx="45" cy="8" r="5" fill="#AA0018"/>
+    <!-- face -->
+    <ellipse cx="45" cy="42" rx="26" ry="24" fill="#FFDAB9"/>
+    <!-- big eyes -->
+    <circle cx="34" cy="44" r="11" fill="#111"/><circle cx="56" cy="44" r="11" fill="#111"/>
+    <circle cx="36" cy="42" r="4.5" fill="white"/><circle cx="58" cy="42" r="4.5" fill="white"/>
+    <circle cx="37" cy="41" r="2" fill="#111"/><circle cx="59" cy="41" r="2" fill="#111"/>
+    <circle cx="36.5" cy="40.5" r="1" fill="white"/><circle cx="58.5" cy="40.5" r="1" fill="white"/>
+    <!-- small smile -->
+    <path d="M36 56 Q45 63 54 56" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- pink dress -->
+    <ellipse cx="45" cy="80" rx="24" ry="22" fill="#FF69B4"/>
+    <rect x="21" y="65" width="48" height="20" rx="4" fill="#FF69B4"/>
+    <!-- black belt -->
+    <rect x="21" y="67" width="48" height="6" rx="3" fill="#111"/>
+    <!-- arms -->
+    <ellipse cx="14" cy="74" rx="9" ry="5" fill="#FFDAB9" transform="rotate(-20,14,74)"/>
+    <ellipse cx="76" cy="74" rx="9" ry="5" fill="#FFDAB9" transform="rotate(20,76,74)"/>
+  </svg>`;
+}
 
+function makeBubbles(){
+  return`<svg xmlns="http://www.w3.org/2000/svg" width="90" height="100" viewBox="0 0 90 100">
+    <!-- pigtails -->
+    <circle cx="14" cy="32" r="13" fill="#FFD700"/>
+    <circle cx="76" cy="32" r="13" fill="#FFD700"/>
+    <circle cx="14" cy="32" r="5" fill="#6699FF"/>
+    <circle cx="76" cy="32" r="5" fill="#6699FF"/>
+    <!-- hair top -->
+    <ellipse cx="45" cy="22" rx="24" ry="13" fill="#FFD700"/>
+    <!-- face -->
+    <ellipse cx="45" cy="42" rx="26" ry="24" fill="#FFDAB9"/>
+    <!-- big happy eyes -->
+    <circle cx="34" cy="44" r="11" fill="#111"/><circle cx="56" cy="44" r="11" fill="#111"/>
+    <circle cx="36" cy="42" r="4.5" fill="white"/><circle cx="58" cy="42" r="4.5" fill="white"/>
+    <circle cx="37" cy="41" r="2" fill="#111"/><circle cx="59" cy="41" r="2" fill="#111"/>
+    <circle cx="36.5" cy="40.5" r="1" fill="white"/><circle cx="58.5" cy="40.5" r="1" fill="white"/>
+    <!-- big smile -->
+    <path d="M32 56 Q45 68 58 56" stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- blue dress -->
+    <ellipse cx="45" cy="80" rx="24" ry="22" fill="#6699FF"/>
+    <rect x="21" y="65" width="48" height="20" rx="4" fill="#6699FF"/>
+    <rect x="21" y="67" width="48" height="6" rx="3" fill="#111"/>
+    <ellipse cx="14" cy="74" rx="9" ry="5" fill="#FFDAB9" transform="rotate(-20,14,74)"/>
+    <ellipse cx="76" cy="74" rx="9" ry="5" fill="#FFDAB9" transform="rotate(20,76,74)"/>
+  </svg>`;
+}
+
+function makeButtercup(){
+  return`<svg xmlns="http://www.w3.org/2000/svg" width="90" height="100" viewBox="0 0 90 100">
+    <!-- short black hair -->
+    <ellipse cx="45" cy="24" rx="28" ry="16" fill="#1a1a1a"/>
+    <rect x="18" y="20" width="54" height="14" rx="7" fill="#1a1a1a"/>
+    <!-- cowlick -->
+    <path d="M64 18 Q76 6 70 22" stroke="#1a1a1a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <!-- face -->
+    <ellipse cx="45" cy="44" rx="26" ry="24" fill="#FFDAB9"/>
+    <!-- slightly squinting attitude eyes -->
+    <circle cx="34" cy="44" r="10" fill="#111"/><circle cx="56" cy="44" r="10" fill="#111"/>
+    <circle cx="36" cy="42" r="4" fill="white"/><circle cx="58" cy="42" r="4" fill="white"/>
+    <!-- frowning eyebrows -->
+    <path d="M26 36 Q34 32 40 36" stroke="#1a1a1a" stroke-width="2.5" fill="none"/>
+    <path d="M50 36 Q56 32 64 36" stroke="#1a1a1a" stroke-width="2.5" fill="none"/>
+    <circle cx="37" cy="41" r="2" fill="#111"/><circle cx="59" cy="41" r="2" fill="#111"/>
+    <!-- smirk -->
+    <path d="M36 55 Q45 59 54 55" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- green dress -->
+    <ellipse cx="45" cy="80" rx="24" ry="22" fill="#33CC66"/>
+    <rect x="21" y="65" width="48" height="20" rx="4" fill="#33CC66"/>
+    <rect x="21" y="67" width="48" height="6" rx="3" fill="#111"/>
+    <ellipse cx="13" cy="72" rx="9" ry="5" fill="#FFDAB9" transform="rotate(-25,13,72)"/>
+    <ellipse cx="77" cy="72" rx="9" ry="5" fill="#FFDAB9" transform="rotate(25,77,72)"/>
+  </svg>`;
+}
 
 function makeCityBg(){
   return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 200" preserveAspectRatio="none" style="width:100%;height:100%">
@@ -486,16 +566,13 @@ function spawnPPG(){
 
   // Flying characters
   [
-    {src:'img/powerR.png', top:18, dur:20, delay:0,   dy:-25},
-    {src:'img/powerB.png', top:38, dur:26, delay:-9,  dy:18},
-    {src:'img/powerG.png', top:26, dur:17, delay:-14, dy:-12},
+    {svg:makeBlossom(), top:18, dur:20, delay:0,   dy:-25},
+    {svg:makeBubbles(), top:38, dur:26, delay:-9,  dy:18},
+    {svg:makeButtercup(), top:26, dur:17, delay:-14, dy:-12},
   ].forEach(ch=>{
     const el=document.createElement('div');el.className='ppg-hero';
     el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.delay}s;`;
-    const img=document.createElement('img');
-    img.src=ch.src;
-    img.style.cssText='width:120px;height:auto;display:block;';
-    el.appendChild(img);bg.appendChild(el);
+    el.innerHTML=ch.svg;bg.appendChild(el);
   });
 
   // Clouds
