@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.5 Metal Casting – MECE350</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#F2C4CE;--c2:#E8A0AE;--c3:#B0A8BE;--c4:#fff;--text:#3a2a35;--text2:#6b5060;--card-bg:rgba(255,255,255,0.88);--shadow:rgba(176,168,190,0.22);--accent:#c47b8a;--nav-bg:rgba(242,196,206,0.96);}
+  .theme-hellokitty{--c1:#FFB7C5;--c2:#FF8FAB;--c3:#FFC8DD;--c4:#fff;--text:#8B1A4A;--text2:#c05478;--card-bg:rgba(255,255,255,0.92);--shadow:rgba(255,143,171,0.25);--accent:#FF6B9D;--nav-bg:rgba(255,183,197,0.97);}
+  .theme-hellokitty,body.theme-hellokitty{background:linear-gradient(135deg,#FFB7C5 0%,#fff 50%,#FFC8DD 100%)!important;}
+  .theme-skywars{--c1:#0a1628;--c2:#1e3a6e;--c3:#162444;--c4:#0d1f3c;--text:#e0f0ff;--text2:#8bb8e8;--card-bg:rgba(14,30,60,0.94);--shadow:rgba(0,150,255,0.22);--accent:#00cfff;--nav-bg:rgba(6,14,28,0.97);}
+  .theme-skywars,body.theme-skywars{background:linear-gradient(180deg,#020b18 0%,#0a1628 40%,#0d2040 100%)!important;}
+  .theme-skywars nav{border-bottom-color:rgba(0,207,255,0.25);}
+  .theme-skywars .summary-section,.theme-skywars .q-card,.theme-skywars .fitb-card,.theme-skywars .mock-header{border-color:rgba(0,207,255,0.2);}
+  .theme-skywars .chapter-hero h1{font-family:'Orbitron',sans-serif;letter-spacing:0.04em;text-transform:uppercase;}
+  .theme-skywars .nav-brand{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;}
+  .theme-skywars .tab.active{color:#00cfff;border-bottom-color:#00cfff;}
+  .theme-ppg{--c1:#4BC4E8;--c2:#2AA4CC;--c3:#6DD4F0;--c4:#B0ECFF;--text:#001829;--text2:#0a3a55;--card-bg:rgba(160,225,248,0.85);--shadow:rgba(0,140,200,0.22);--accent:#FF3399;--nav-bg:rgba(20,120,170,0.97);}
+  .theme-ppg,body.theme-ppg{background:linear-gradient(160deg,#1e9ed0 0%,#4BC4E8 45%,#2a8ab8 100%)!important;}
+  .theme-ppg nav{border-bottom-color:rgba(255,51,153,0.4);}
+  .theme-ppg .chapter-hero h1{font-family:'Bangers',cursive;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:0.05em;text-transform:uppercase;color:#fff;text-shadow:3px 3px 0 #001829;}
+  .theme-ppg .nav-brand{font-family:'Bangers',cursive;font-size:1.7rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;text-shadow:2px 2px 0 #001829;}
+  .theme-ppg .page-tag{background:rgba(255,51,153,0.2);color:#001829;border:2px solid #FF3399;font-weight:700;}
+  .theme-ppg .tab.active{color:#FF3399;border-bottom-color:#FF3399;}
+  .theme-ppg .nav-links a{color:#fff;}
+  .theme-ppg .theme-btn{background:#FF3399;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 50%,var(--c3) 100%);min-height:100vh;color:var(--text);transition:background 0.5s,color 0.3s;overflow-x:hidden;}
+  nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--c2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-brand{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);text-decoration:none;}
+  .nav-brand span{color:var(--accent);}
+  .nav-links{display:flex;gap:1rem;align-items:center;}
+  .nav-links a{text-decoration:none;color:var(--text2);font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .theme-btn{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;}
+  .tabs-wrap{position:sticky;top:64px;z-index:999;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--c2);overflow-x:auto;}
+  .tabs{display:flex;padding:0 1.5rem;gap:0;white-space:nowrap;}
+  .tab{padding:0.9rem 1.3rem;font-size:0.85rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab:hover{color:var(--accent);}
+  .content{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .summary-section{background:var(--card-bg);border-radius:20px;border:1.5px solid var(--c2);padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .summary-section h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--c1);}
+  .summary-section h3{font-size:1rem;font-weight:600;color:var(--accent);margin:1rem 0 0.4rem;}
+  .summary-section p,.summary-section li{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:0.4rem;}
+  .summary-section ul{padding-left:1.4rem;}
+  .comparison-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;}
+  .comparison-table th{background:var(--c2);color:var(--text);padding:0.6rem 0.9rem;text-align:left;}
+  .comparison-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--c1);}
+  .comparison-table tr:last-child td{border:none;}
+  .formula-box{background:var(--c1);border-radius:10px;padding:0.8rem 1.2rem;margin:0.8rem 0;font-size:0.88rem;font-family:monospace;}
+  .img-block{text-align:center;margin:1rem 0;}
+  .img-block img{max-width:100%;border-radius:12px;border:1.5px solid var(--c2);box-shadow:0 3px 12px var(--shadow);}
+  .img-block figcaption{font-size:0.78rem;color:var(--text2);margin-top:0.4rem;font-style:italic;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.8rem 0;}
+  .two-col .img-block{margin:0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .q-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .q-num{font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .q-text{font-size:0.95rem;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.5;}
+  .options{display:grid;gap:0.6rem;}
+  .option{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid transparent;background:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;font-size:0.88rem;color:var(--text);}
+  .option:hover{border-color:var(--c2);background:var(--c1);}
+  .option.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .option.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .option.reveal-correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-letter{font-weight:700;min-width:1.2rem;}
+  .q-feedback{margin-top:0.8rem;padding:0.65rem 1rem;border-radius:10px;font-size:0.83rem;display:none;}
+  .q-feedback.show{display:block;}
+  .q-feedback.correct{background:#d4edda;color:#155724;}
+  .q-feedback.wrong{background:#f8d7da;color:#721c24;}
+  .fitb-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .fitb-sentence{font-size:0.95rem;line-height:2.2;color:var(--text);}
+  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:130px;color:var(--text);outline:none;transition:all 0.2s;}
+  .blank-input:focus{border-bottom-color:var(--c3);}
+  .blank-input.correct-ans{border-bottom-color:#28a745;color:#155724;}
+  .blank-input.wrong-ans{border-bottom-color:#dc3545;color:#dc3545;}
+  .check-btn{margin-top:1rem;background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:12px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .check-btn:hover{opacity:0.85;}
+  .fitb-result{margin-top:0.6rem;font-size:0.82rem;display:none;}
+  .fitb-result.show{display:block;}
+  .mock-header{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .mock-header h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);}
+  .mock-meta span{background:var(--c1);padding:0.25rem 0.75rem;border-radius:12px;}
+  .submit-btn{background:var(--accent);color:#fff;border:none;padding:0.75rem 2rem;border-radius:14px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:all 0.2s;}
+  .submit-btn:hover{opacity:0.85;transform:scale(1.02);}
+  .score-box{background:var(--card-bg);border:2px solid var(--accent);border-radius:20px;padding:2rem;text-align:center;margin-top:1.5rem;display:none;}
+  .score-box.show{display:block;}
+  .score-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--accent);}
+  .score-label{font-size:0.9rem;color:var(--text2);margin-top:0.25rem;}
+  .retake-btn{background:transparent;border:2px solid var(--accent);color:var(--accent);padding:0.6rem 1.5rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-top:1rem;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .retake-btn:hover{background:var(--accent);color:#fff;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:2.5rem;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:90vh;overflow-y:auto;}
+  .modal h2{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:0.3rem;color:#3a2a35;}
+  .modal p{font-size:0.85rem;color:#6b5060;margin-bottom:1.5rem;}
+  .theme-options{display:grid;gap:0.85rem;}
+  .theme-option{border:2px solid #e8e0ec;border-radius:14px;padding:1rem 1.2rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem;}
+  .theme-option:hover,.theme-option.selected{border-color:#c47b8a;background:#fdf7f9;}
+  .theme-swatch{display:flex;gap:4px;}
+  .theme-swatch span{width:18px;height:18px;border-radius:50%;}
+  .theme-label{font-weight:600;font-size:0.88rem;}
+  .theme-label small{display:block;font-weight:400;color:#888;font-size:0.75rem;}
+  .color-picker-row{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem;}
+  .color-pick{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;}
+  .color-pick input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;}
+  .modal-actions{display:flex;gap:0.75rem;margin-top:1.5rem;}
+  .btn-apply{background:#c47b8a;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-cancel{background:transparent;color:#6b5060;border:1.5px solid #ddd;padding:0.6rem 1.2rem;border-radius:12px;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .page-tag{display:inline-block;background:var(--c2);color:var(--text);font-size:0.72rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:15px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
+  .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
+  .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
+  .hk-bg,.skywars-bg,.ppg-bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .theme-hellokitty .hk-bg{display:block;}
+  .theme-skywars .skywars-bg{display:block;}
+  .theme-ppg .ppg-bg{display:block;}
+  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,.theme-skywars .content,.theme-skywars .chapter-hero,.theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
+  .hk-icon{position:absolute;opacity:0.12;animation:hk-float 6s ease-in-out infinite;}
+  .hk-icon:nth-child(2n){animation-duration:8s;animation-delay:-2s;}
+  .hk-icon:nth-child(3n){animation-duration:7s;animation-delay:-4s;}
+  @keyframes hk-float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+  .sky-star{position:absolute;border-radius:50%;background:#00cfff;animation:sky-twinkle 3s ease-in-out infinite;}
+  @keyframes sky-twinkle{0%,100%{opacity:0.2;transform:scale(1)}50%{opacity:0.9;transform:scale(1.5)}}
+  .sky-player{position:absolute;opacity:0;animation:sky-fly linear infinite;}
+  @keyframes sky-fly{0%{transform:translateX(-140px);opacity:0}5%{opacity:0.8}95%{opacity:0.8}100%{transform:translateX(calc(100vw + 140px));opacity:0}}
+  .ppg-hero{position:absolute;opacity:0;animation:ppg-fly linear infinite;will-change:transform;}
+  @keyframes ppg-fly{0%{transform:translateX(-160px) translateY(0px);opacity:0}5%{opacity:1}50%{transform:translateX(50vw) translateY(var(--dy,0px));opacity:1}95%{opacity:1}100%{transform:translateX(calc(100vw + 160px)) translateY(var(--dy,0px));opacity:0}}
+  .ppg-cloud{position:absolute;animation:ppg-fly linear infinite;opacity:0.2;}
+  .ppg-city{position:absolute;bottom:0;left:0;right:0;height:180px;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<div class="hk-bg" id="hkBg"></div>
+<div class="skywars-bg" id="skywarsBg"></div>
+<div class="ppg-bg" id="ppgBg"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">MECE<span>350</span></a>
+  <div class="nav-links">
+    <a href="index.html">← Home</a>
+    <a href="#" onclick="scrollTo(0,0)">Top</a>
+    <button class="theme-btn" onclick="openTheme()">🎨 Theme</button>
+  </div>
+</nav>
+
+<div class="chapter-hero">
+  <div class="page-tag">Chapter 5 · Dr Jamil Renno</div>
+  <h1>Metal Casting Processes</h1>
+  <p>Summary · MCQ Bank · Fill-in-the-Blank · 3 Mock Tests</p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('summary',this)">📖 Summary</div>
+    <div class="tab" onclick="showPanel('mcq',this)">❓ MCQ Bank</div>
+    <div class="tab" onclick="showPanel('fitb',this)">✏️ Fill in the Blank</div>
+    <div class="tab" onclick="showPanel('mock1',this)">🧪 Mock Test 1</div>
+    <div class="tab" onclick="showPanel('mock2',this)">🧪 Mock Test 2</div>
+    <div class="tab" onclick="showPanel('mock3',this)">🧪 Mock Test 3</div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ===== SUMMARY ===== -->
+<div class="panel active" id="panel-summary">
+
+  <div class="summary-section">
+    <h2>1. What is Casting?</h2>
+    <p>Casting is a manufacturing process where <strong>molten metal is poured into a mold</strong>, allowed to solidify, then removed to produce a finished part. It can produce complex shapes — including internal cavities — in almost any metal, from millimetres to metres in size.</p>
+    <h3>General Process Steps</h3>
+    <ul>
+      <li><strong>1.</strong> Pattern / mold making</li>
+      <li><strong>2.</strong> Melt preparation</li>
+      <li><strong>3.</strong> Mold filling</li>
+      <li><strong>4.</strong> Cooling &amp; solidification</li>
+      <li><strong>5.</strong> Removal (breakout) &amp; finishing</li>
+    </ul>
+    <div class="img-block">
+      <img src="img/casting_overview.png" alt="Casting overview diagram">
+      <figcaption>General casting process overview</figcaption>
+    </div>
+    <div class="img-block" style="margin-top:1rem;">
+      <img src="img/open_and_close_mold.png" alt="Open and closed mold types">
+      <figcaption>Open mold vs. closed mold — the two fundamental mold configurations</figcaption>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2>2. Sand Casting</h2>
+    <p>The most widely used casting process — molten metal is poured into a sand mold. Suitable for almost any metal and any size, but gives lower accuracy and rougher surface finish.</p>
+    <h3>Mold Composition (Memorise!)</h3>
+    <ul>
+      <li><strong>90%</strong> sand &nbsp;·&nbsp; <strong>7%</strong> clay &nbsp;·&nbsp; <strong>3%</strong> water</li>
+    </ul>
+    <h3>Key Gating System Components</h3>
+    <ul>
+      <li><strong>Sprue</strong> — vertical entry channel for molten metal</li>
+      <li><strong>Runner</strong> — horizontal path distributing metal to gates</li>
+      <li><strong>Gate</strong> — entry point directly into the cavity</li>
+      <li><strong>Vent</strong> — channels for gases to escape</li>
+      <li><strong>Riser</strong> — reservoir to feed metal &amp; compensate shrinkage</li>
+      <li><strong>Core</strong> — inserted shape to create internal cavities</li>
+      <li><strong>Filter</strong> — removes impurities from metal flow</li>
+    </ul>
+    <div class="two-col">
+      <div class="img-block">
+        <img src="img/sand_casting_mold.png" alt="Sand casting mold cross-section">
+        <figcaption>Sand casting mold cross-section</figcaption>
+      </div>
+      <div class="img-block">
+        <img src="img/draft_angle.png" alt="Draft angles on casting patterns">
+        <figcaption>Draft angles — essential for removing the pattern without damaging the mold</figcaption>
+      </div>
+    </div>
+    <h3>Design Guidelines</h3>
+    <ul>
+      <li>Avoid sharp corners — use fillets/radii</li>
+      <li>Add <strong>draft angles</strong> for easy removal from mold</li>
+      <li>Choose a good parting line (prefer flat surface)</li>
+      <li>Keep part in the drag (lower mold half)</li>
+      <li>Avoid trapped sand — add exit paths for air and material</li>
+      <li>Add an extra outlet to ensure full filling (cut later)</li>
+    </ul>
+    <h3>Characteristics</h3>
+    <ul>
+      <li>Lower accuracy &amp; rougher surface than other processes</li>
+      <li>Can make very large parts (any metal)</li>
+      <li>Highly automatable — BMW plants use robots for pouring, finishing, inspection with only 2–3 human operators</li>
+    </ul>
+    <h3>⚠️ Safety Hazards</h3>
+    <ul>
+      <li>Extreme temperatures · Molten metal splash · Toxic fumes · Dust inhalation · Explosion risk from moisture!</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>3. Lost Foam Casting</h2>
+    <p>A polystyrene foam pattern is coated and embedded in sand. When molten metal is poured, the foam <strong>evaporates and is replaced</strong> by metal — no parting line results.</p>
+    <h3>Process Steps</h3>
+    <ul>
+      <li>Create foam pattern → coat with refractory → embed in sand → pour metal → foam evaporates → metal fills space → remove &amp; finish</li>
+    </ul>
+    <div class="img-block">
+      <img src="img/loss_foam_casting.png" alt="Lost foam casting process">
+      <figcaption>Lost foam casting — the polystyrene pattern evaporates on contact with molten metal, leaving no parting line</figcaption>
+    </div>
+    <h3>Advantages</h3>
+    <ul>
+      <li>✔ No parting line</li>
+      <li>✔ Minimal finishing needed</li>
+      <li>✔ Good for complex geometries</li>
+    </ul>
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>New pattern required every time</li>
+      <li>Environmental concerns (foam vapours)</li>
+      <li>Cost depends on pattern complexity</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>4. Investment Casting (Lost Wax)</h2>
+    <p>Produces the <strong>highest accuracy and best surface finish</strong> of all casting processes. Used for jet engine blades, aerospace components, jewelry, and high-temperature metals.</p>
+    <h3>Process Steps (Very Important)</h3>
+    <ul>
+      <li><strong>1.</strong> Inject wax into a die to create the pattern</li>
+      <li><strong>2.</strong> Assemble multiple wax patterns onto a central "tree"</li>
+      <li><strong>3.</strong> Apply ~7 ceramic layers to build the shell</li>
+      <li><strong>4.</strong> Autoclave: melt/burn out the wax</li>
+      <li><strong>5.</strong> Pour molten metal into the preheated ceramic shell</li>
+      <li><strong>6.</strong> Break the ceramic shell after solidification</li>
+      <li><strong>7.</strong> Cut parts from tree, finish &amp; inspect</li>
+    </ul>
+    <div class="two-col">
+      <div class="img-block">
+        <img src="img/investment_casting.png" alt="Investment casting wax tree and ceramic shell">
+        <figcaption>Wax patterns assembled into a casting tree, then coated in ceramic</figcaption>
+      </div>
+      <div class="img-block">
+        <img src="img/investment_casting.png" alt="Investment casting ceramic shell">
+        <figcaption>Ceramic shell building, wax burnout &amp; metal pour</figcaption>
+      </div>
+    </div>
+    <h3>Advantages</h3>
+    <ul>
+      <li>✔ Very high dimensional accuracy</li>
+      <li>✔ Excellent surface finish (no machining needed)</li>
+      <li>✔ Complex shapes possible</li>
+      <li>✔ Works for high-temperature metals (titanium, superalloys)</li>
+    </ul>
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>Expensive · Many process steps · Labor intensive (robots increasingly used)</li>
+    </ul>
+    <h3>Applications</h3>
+    <ul>
+      <li>Jewelry · Jet engine turbine blades · Aerospace structures · Medical implants</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>5. Die Casting</h2>
+    <p>Molten metal is injected <strong>under high pressure (10–200 MPa)</strong> into a permanent steel mold (die). Ideal for mass production of small-to-medium parts with excellent surface finish and dimensional accuracy.</p>
+    <h3>Hot Chamber vs Cold Chamber</h3>
+    <table class="comparison-table">
+      <tr><th></th><th>Hot Chamber</th><th>Cold Chamber</th></tr>
+      <tr><td>Plunger location</td><td>Submerged in molten metal</td><td>External — filled separately</td></tr>
+      <tr><td>Speed</td><td>Faster cycle times</td><td>Slower</td></tr>
+      <tr><td>Suitable metals</td><td>Zinc, lead, tin (low melting)</td><td>Aluminum, magnesium, copper</td></tr>
+      <tr><td>Key reason for cold chamber</td><td>—</td><td>Aluminum is corrosive to the plunger mechanism</td></tr>
+    </table>
+    <div class="two-col">
+      <div class="img-block">
+        <img src="img/die_casting_hot_chamber.png" alt="Hot chamber die casting schematic">
+        <figcaption>Hot chamber die casting — plunger submerged in molten metal</figcaption>
+      </div>
+      <div class="img-block">
+        <img src="img/die_casting_cold_chamber.png" alt="Cold chamber die casting schematic">
+        <figcaption>Cold chamber die casting — metal ladled in separately</figcaption>
+      </div>
+    </div>
+    <h3>Advantages</h3>
+    <ul>
+      <li>✔ Very high production rate · Good surface finish · High accuracy · Thin walls possible</li>
+    </ul>
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>High initial machine and tooling cost · Limited part size · Limited to lower-melting metals</li>
+    </ul>
+    <h3>Classic Example</h3>
+    <ul><li>Matchbox/Hot Wheels toy cars — 200,000+ units at speed with excellent finish and thin walls</li></ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>6. Centrifugal Casting</h2>
+    <p>The mold <strong>rotates</strong> as metal is poured. Centrifugal force pushes metal to the outer walls, creating hollow cylindrical parts with no cores needed.</p>
+    <h3>Used For</h3>
+    <ul>
+      <li>Pipes · Bearings · Cylinders · Gun barrels · Pressure vessels</li>
+    </ul>
+    <div class="img-block">
+      <img src="img/centrifugal_casting.png" alt="Centrifugal casting diagram">
+      <figcaption>Centrifugal casting — density is highest at the outer wall due to centrifugal force</figcaption>
+    </div>
+    <h3>Key Concept</h3>
+    <ul>
+      <li>Density is <strong>highest at the outer wall</strong> (centrifugal force)</li>
+      <li>Impurities and inclusions migrate toward the inner surface (can be machined away)</li>
+    </ul>
+    <h3>Advantages</h3>
+    <ul>
+      <li>✔ No cores needed · Strong outer surface · Uniform wall thickness</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>7. Casting Defects</h2>
+    <h3>1. Shrinkage</h3>
+    <p>Metal contracts ~0.8–3% during solidification, forming internal cavities. <strong>Solution: use risers</strong> to supply extra metal.</p>
+    <h3>2. Porosity</h3>
+    <p>Voids caused by <strong>trapped gas</strong> or shrinkage. Weakens the part significantly. <strong>Solution: improve venting, reduce turbulence, add riser.</strong></p>
+    <h3>3. Misrun</h3>
+    <p>Metal solidifies before filling the entire mold. <strong>Cause: temperature too low / pressure too low / sections too thin.</strong></p>
+    <h3>4. Cold Shut</h3>
+    <p>Two separate metal streams meet but don't fuse — leaves a visible seam/crack defect.</p>
+    <h3>5. Turbulence Effects</h3>
+    <ul>
+      <li>Gas absorption · Oxidation · Mold wall erosion</li>
+      <li>⚠️ Always design for <strong>laminar</strong> (smooth) flow — turbulence causes defects</li>
+    </ul>
+    <div class="img-block">
+      <img src="img/defects.png" alt="Casting defects diagram">
+      <figcaption>Common casting defects: porosity, misrun, cold shut, shrinkage</figcaption>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2>8. Key Theory Concepts</h2>
+    <h3>Laminar vs Turbulent Flow</h3>
+    <ul>
+      <li>✔ <strong>Laminar</strong> — smooth, continuous flow → prevents gas entrapment and erosion</li>
+      <li>✗ <strong>Turbulent</strong> — chaotic flow → gas absorption, oxidation, mold erosion, defects</li>
+    </ul>
+    <h3>Chvorinov's Rule</h3>
+    <div class="formula-box">
+      Solidification time ∝ (Volume / Surface Area)²<br>
+      → Larger/thicker sections cool SLOWER and solidify LAST<br>
+      → Design risers to be the LAST part to solidify
+    </div>
+    <h3>Grain Size &amp; Strength</h3>
+    <ul>
+      <li>Faster cooling → smaller grains → <strong>stronger material</strong></li>
+      <li>Die casting (metal die, rapid cooling) → stronger than sand casting (slow sand cooling)</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>9. Process Selection — Golden Rules</h2>
+    <table class="comparison-table">
+      <tr><th>Requirement</th><th>Best Process</th></tr>
+      <tr><td>Low quantity (1–10 parts)</td><td>Sand casting / 3D printing</td></tr>
+      <tr><td>Medium quantity (10–1000)</td><td>Sand casting</td></tr>
+      <tr><td>High quantity (1000+)</td><td>Die casting</td></tr>
+      <tr><td>Highest precision &amp; finish</td><td>Investment casting</td></tr>
+      <tr><td>Cylindrical / hollow parts</td><td>Centrifugal casting</td></tr>
+      <tr><td>No parting line required</td><td>Lost foam casting</td></tr>
+      <tr><td>Lowest tooling cost</td><td>Sand casting</td></tr>
+      <tr><td>High-temperature metals (Ti)</td><td>Investment casting</td></tr>
+      <tr><td>Zinc (fast, low melting)</td><td>Hot chamber die casting</td></tr>
+      <tr><td>Aluminum</td><td>Cold chamber die casting</td></tr>
+    </table>
+    <h3>Full Process Comparison</h3>
+    <table class="comparison-table">
+      <tr><th>Process</th><th>Production Rate</th><th>Quality/Finish</th><th>Cost</th><th>Best Application</th></tr>
+      <tr><td>Sand casting</td><td>Medium</td><td>Low</td><td>Low</td><td>Large parts, any metal</td></tr>
+      <tr><td>Investment casting</td><td>Low</td><td>Very High</td><td>High</td><td>Precision, aerospace</td></tr>
+      <tr><td>Die casting</td><td>High</td><td>High</td><td>High initial</td><td>Mass production</td></tr>
+      <tr><td>Centrifugal casting</td><td>Medium</td><td>Medium</td><td>Medium</td><td>Pipes, cylinders</td></tr>
+      <tr><td>Lost foam casting</td><td>Low–Medium</td><td>Medium</td><td>Medium</td><td>Complex, no parting line</td></tr>
+    </table>
+  </div>
+
+</div><!-- end summary -->
+
+<!-- ===== MCQ BANK ===== -->
+<div class="panel" id="panel-mcq">
+  <div id="mcq-container"></div>
+</div>
+
+<!-- ===== FILL IN BLANK ===== -->
+<div class="panel" id="panel-fitb">
+  <div id="fitb-container"></div>
+</div>
+
+<!-- ===== MOCK TEST 1 ===== -->
+<div class="panel" id="panel-mock1">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 1 — Fundamentals &amp; Sand Casting</h2>
+    <div class="mock-meta">
+      <span>📝 15 Questions</span>
+      <span>⏱ Mixed: MCQ + Fill-in-Blank</span>
+    </div>
+  </div>
+  <div id="mock1-container"></div>
+  <button class="submit-btn" onclick="submitMock(1)">Submit Test 1</button>
+  <div class="score-box" id="score1">
+    <div class="score-num" id="score1-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(1)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ===== MOCK TEST 2 ===== -->
+<div class="panel" id="panel-mock2">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 2 — Investment, Die &amp; Centrifugal</h2>
+    <div class="mock-meta">
+      <span>📝 15 Questions</span>
+      <span>⏱ Mixed: MCQ + Fill-in-Blank</span>
+    </div>
+  </div>
+  <div id="mock2-container"></div>
+  <button class="submit-btn" onclick="submitMock(2)">Submit Test 2</button>
+  <div class="score-box" id="score2">
+    <div class="score-num" id="score2-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(2)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ===== MOCK TEST 3 ===== -->
+<div class="panel" id="panel-mock3">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 3 — Comprehensive</h2>
+    <div class="mock-meta">
+      <span>📝 20 Questions</span>
+      <span>⏱ Mixed: MCQ + Fill-in-Blank</span>
+    </div>
+  </div>
+  <div id="mock3-container"></div>
+  <button class="submit-btn" onclick="submitMock(3)">Submit Test 3</button>
+  <div class="score-box" id="score3">
+    <div class="score-num" id="score3-num">0/20</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(3)">🔄 Retake Test</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<!-- THEME MODAL -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <h2>🎨 Choose Your Theme</h2>
+    <p>Pick a predefined palette or build your own custom one.</p>
+    <div class="theme-options">
+      <div class="theme-option selected" id="opt-default" onclick="selectTheme('default')">
+        <div class="theme-swatch"><span style="background:#F2C4CE"></span><span style="background:#E8A0AE"></span><span style="background:#B0A8BE"></span></div>
+        <div class="theme-label">Default Blush <small>The original pink-mauve palette</small></div>
+      </div>
+      <div class="theme-option" id="opt-hellokitty" onclick="selectTheme('hellokitty')">
+        <div class="theme-swatch"><span style="background:#FFB7C5"></span><span style="background:#FF8FAB"></span><span style="background:#FFC8DD"></span></div>
+        <div class="theme-label">Hello Kitty 🎀 <small>Sanrio hot pink vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-skywars" onclick="selectTheme('skywars')">
+        <div class="theme-swatch"><span style="background:#0a1628"></span><span style="background:#1e3a6e"></span><span style="background:#00cfff"></span></div>
+        <div class="theme-label">Skywars 🚀 <small>Deep sky cosmic vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-ppg" onclick="selectTheme('ppg')">
+        <div class="theme-swatch"><span style="background:#4BC4E8"></span><span style="background:#FF3399"></span><span style="background:#33CC66"></span></div>
+        <div class="theme-label">Powerpuff Girls 💥 <small>Sugar, spice & everything nice</small></div>
+      </div>
+      <div class="theme-option" id="opt-custom" onclick="selectTheme('custom')">
+        <div class="theme-swatch"><span id="sw1" style="background:#aaa"></span><span id="sw2" style="background:#bbb"></span><span id="sw3" style="background:#ccc"></span></div>
+        <div class="theme-label">Custom 🎨 <small>Pick your own colors</small></div>
+      </div>
+    </div>
+    <div id="colorPickers" style="display:none;margin-top:1rem;">
+      <div class="color-picker-row">
+        <div class="color-pick"><input type="color" id="cp1" value="#F2C4CE" oninput="previewCustom()"> Primary</div>
+        <div class="color-pick"><input type="color" id="cp2" value="#E8A0AE" oninput="previewCustom()"> Secondary</div>
+        <div class="color-pick"><input type="color" id="cp3" value="#B0A8BE" oninput="previewCustom()"> Accent Bg</div>
+        <div class="color-pick"><input type="color" id="cp4" value="#c47b8a" oninput="previewCustom()"> Accent</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-apply" onclick="applyTheme()">Apply</button>
+      <button class="btn-cancel" onclick="closeTheme()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const THEME_KEY='mece350-theme-v2';
+let selectedTheme='default';
+function openTheme(){document.getElementById('themeModal').classList.add('open');}
+function closeTheme(){document.getElementById('themeModal').classList.remove('open');}
+function selectTheme(t){selectedTheme=t;document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));const el=document.getElementById('opt-'+t);if(el)el.classList.add('selected');const p=document.getElementById('colorPickers');if(p)p.style.display=t==='custom'?'block':'none';}
+function previewCustom(){document.getElementById('sw1').style.background=document.getElementById('cp1').value;document.getElementById('sw2').style.background=document.getElementById('cp2').value;document.getElementById('sw3').style.background=document.getElementById('cp3').value;}
+function applyTheme(){let data={type:selectedTheme};if(selectedTheme==='custom'){data.c1=document.getElementById('cp1').value;data.c2=document.getElementById('cp2').value;data.c3=document.getElementById('cp3').value;data.c4=document.getElementById('cp4').value;}applyThemeData(data);localStorage.setItem(THEME_KEY,JSON.stringify(data));closeTheme();}
+function clearBgs(){['hkBg','skywarsBg','ppgBg'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});document.body.classList.remove('theme-hellokitty','theme-skywars','theme-ppg');const r=document.documentElement.style;['--c1','--c2','--c3','--accent','--nav-bg'].forEach(p=>r.removeProperty(p));}
+function applyThemeData(data){clearBgs();const t=data?data.type:'default';if(t==='hellokitty'){document.body.classList.add('theme-hellokitty');spawnHKIcons();}else if(t==='skywars'){document.body.classList.add('theme-skywars');spawnSkywars();}else if(t==='ppg'){document.body.classList.add('theme-ppg');spawnPPG();}else if(t==='custom'&&data.c1){const r=document.documentElement.style;r.setProperty('--c1',data.c1);r.setProperty('--c2',data.c2);r.setProperty('--c3',data.c3);r.setProperty('--accent',data.c4);r.setProperty('--nav-bg',data.c1+'f5');}selectTheme(t||'default');}
+function spawnHKIcons(){const bg=document.getElementById('hkBg');if(!bg)return;const icons=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 55"><path d="M30 50 C10 35 0 25 0 15 C0 5 8 0 15 0 C21 0 27 4 30 9 C33 4 39 0 45 0 C52 0 60 5 60 15 C60 25 50 35 30 50Z" fill="#FF3366"/></svg>','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,4 36,22 56,22 40,34 46,52 30,40 14,52 20,34 4,22 24,22" fill="#FF6B9D"/></svg>'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='hk-icon';const sz=35+Math.random()*55;d.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;width:${sz}px;height:${sz}px;--rot:${(Math.random()-0.5)*40}deg;animation-delay:${-Math.random()*8}s;`;d.innerHTML=icons[i%icons.length];bg.appendChild(d);}}
+function makeSkyShip(b,c){return`<svg xmlns="http://www.w3.org/2000/svg" width="88" height="48" viewBox="0 0 88 48"><polygon points="88,24 60,8 52,24 60,40" fill="${b}"/><ellipse cx="36" cy="24" rx="28" ry="10" fill="${b}"/><polygon points="8,24 0,42 18,30" fill="${b}" opacity="0.7"/><polygon points="8,24 0,6 18,18" fill="${b}" opacity="0.7"/><ellipse cx="42" cy="20" rx="10" ry="6" fill="${c}" opacity="0.9"/><ellipse cx="40" cy="19" rx="5" ry="3" fill="#cef8ff" opacity="0.75"/><ellipse cx="10" cy="24" rx="6" ry="3" fill="#ff7700" opacity="0.95"/><ellipse cx="7" cy="24" rx="8" ry="2.5" fill="#ffcc00" opacity="0.55"/></svg>`;}
+function spawnSkywars(){const bg=document.getElementById('skywarsBg');if(!bg)return;for(let i=0;i<150;i++){const s=document.createElement('div');s.className='sky-star';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${-Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;bg.appendChild(s);}['rgba(0,207,255,0.05)','rgba(60,0,200,0.04)','rgba(0,100,200,0.05)'].forEach(col=>{const o=document.createElement('div');const sz=180+Math.random()*280;o.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;top:${Math.random()*90}%;left:${Math.random()*90}%;background:${col};filter:blur(55px);`;bg.appendChild(o);});[{b:'#1a5fa0',c:'#00cfff',top:12,dur:20,d:0},{b:'#0c3560',c:'#55eeff',top:32,dur:27,d:-9},{b:'#1d3d7a',c:'#00cfff',top:55,dur:18,d:-5},{b:'#2a146e',c:'#8888ff',top:74,dur:24,d:-14},{b:'#0a2a50',c:'#00aaff',top:88,dur:31,d:-20}].forEach(sh=>{const el=document.createElement('div');el.className='sky-player';el.style.cssText=`top:${sh.top}%;animation-duration:${sh.dur}s;animation-delay:${sh.d}s;`;el.innerHTML=makeSkyShip(sh.b,sh.c);bg.appendChild(el);});}
+function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;[{top:25,col:'rgba(255,100,160,0.22)',dur:20,d:0,w:350},{top:42,col:'rgba(80,150,255,0.22)',dur:26,d:-8,w:280},{top:32,col:'rgba(50,200,100,0.22)',dur:17,d:-14,w:320}].forEach(tr=>{const el=document.createElement('div');el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.d}s infinite;`;bg.appendChild(el);});[{src:'img/powerR.png',top:18,dur:20,d:0,dy:-25},{src:'img/powerB.png',top:38,dur:26,d:-9,dy:18},{src:'img/powerG.png',top:26,dur:17,d:-14,dy:-12}].forEach(ch=>{const el=document.createElement('div');el.className='ppg-hero';el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.d}s;`;const img=document.createElement('img');img.src=ch.src;img.style.cssText='width:120px;height:auto;display:block;';el.appendChild(img);bg.appendChild(el);});for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}const city=document.createElement('div');city.className='ppg-city';city.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none" style="width:100%;height:100%"><rect x="0" y="90" width="70" height="90" fill="#001829" opacity="0.35"/><rect x="65" y="55" width="48" height="125" fill="#001829" opacity="0.4"/><rect x="140" y="35" width="62" height="145" fill="#001829" opacity="0.45"/><rect x="245" y="42" width="45" height="138" fill="#001829" opacity="0.42"/><rect x="342" y="22" width="72" height="158" fill="#001829" opacity="0.45"/><rect x="490" y="38" width="58" height="142" fill="#001829" opacity="0.42"/><rect x="608" y="28" width="52" height="152" fill="#001829" opacity="0.45"/><rect x="788" y="32" width="65" height="148" fill="#001829" opacity="0.45"/><rect x="990" y="22" width="75" height="158" fill="#001829" opacity="0.45"/><rect x="1105" y="36" width="60" height="144" fill="#001829" opacity="0.42"/></svg>';bg.appendChild(city);}
+(function(){const saved=localStorage.getItem(THEME_KEY);if(saved){try{applyThemeData(JSON.parse(saved));}catch(e){}}})();
+
+function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+// ===== DATA =====
+const mcqData=[
+  {q:"What is the main function of a riser in casting?",opts:["Increase metal temperature","Feed molten metal during shrinkage","Filter impurities from the melt","Release trapped gases"],ans:1,exp:"A riser is a reservoir that supplies extra metal to compensate for shrinkage as the casting solidifies."},
+  {q:"Which gating system component allows gases to escape the mold?",opts:["Gate","Runner","Vent","Riser"],ans:2,exp:"Vents are channels that allow trapped gases to escape from the mold cavity during pouring."},
+  {q:"What is the typical composition of a sand casting mold?",opts:["70% sand, 20% clay, 10% water","90% sand, 7% clay, 3% water","80% sand, 10% clay, 10% water","95% sand, 5% water"],ans:1,exp:"Sand molds are composed of 90% sand, 7% clay (binder), and 3% water."},
+  {q:"Which casting method uses a wax pattern that is subsequently burned out?",opts:["Sand casting","Die casting","Investment casting","Centrifugal casting"],ans:2,exp:"Investment (lost wax) casting uses a wax pattern that is melted/burned away after the ceramic shell is built around it."},
+  {q:"Which casting process uses rotational motion to distribute metal?",opts:["Die casting","Sand casting","Investment casting","Centrifugal casting"],ans:3,exp:"In centrifugal casting the mold rotates and centrifugal force pushes molten metal to the outer walls."},
+  {q:"Turbulence in casting primarily leads to:",opts:["Better surface finish","Reduced shrinkage","Gas porosity and defects","Faster cooling rates"],ans:2,exp:"Turbulent flow causes gas absorption, oxidation, and mold erosion — all leading to casting defects."},
+  {q:"Which casting process produces the best surface finish?",opts:["Sand casting","Investment casting","Die casting","Centrifugal casting"],ans:1,exp:"Investment casting produces the best surface finish and dimensional accuracy of all standard casting processes."},
+  {q:"Which process is most suitable for mass production of small metal parts?",opts:["Investment casting","Sand casting","Die casting","Lost foam casting"],ans:2,exp:"Die casting offers the highest production rate and is ideal for mass production with good surface finish and accuracy."},
+  {q:"In die casting, the typical injection pressure range is:",opts:["Very low (near zero)","Gravity only","10–200 MPa","0.1–1 MPa"],ans:2,exp:"Die casting injects molten metal at high pressure, typically between 10 and 200 MPa."},
+  {q:"Cold chamber die casting is preferred for aluminum because:",opts:["Aluminum needs higher pressure","Aluminum is corrosive to the hot chamber plunger","Aluminum melts too slowly","Aluminum needs gravity feeding"],ans:1,exp:"Aluminum is corrosive and would damage the submerged plunger mechanism in a hot chamber, so a separate cold chamber is used."},
+  {q:"Which defect occurs when metal solidifies before the mold is fully filled?",opts:["Porosity","Misrun","Shrinkage","Cold shot"],ans:1,exp:"A misrun occurs when molten metal solidifies too early and fails to fill the entire mold cavity."},
+  {q:"Gas porosity in castings is mainly caused by:",opts:["High injection pressure","Gas trapped during solidification","Low pouring temperature","Fast machining after casting"],ans:1,exp:"Gas porosity forms when gas becomes trapped inside the molten metal as it solidifies, creating small voids."},
+  {q:"Why is laminar flow preferred over turbulent flow in casting?",opts:["It increases speed","It reduces defects and gas entrapment","It increases injection pressure","It slows cooling"],ans:1,exp:"Laminar flow fills the mold smoothly without entrapping gas, causing oxidation, or eroding the mold walls."},
+  {q:"Which casting process completely eliminates parting lines?",opts:["Sand casting","Die casting","Lost foam casting","Investment casting"],ans:2,exp:"Lost foam casting evaporates the foam pattern in-situ — no mold separation is needed, so no parting lines appear."},
+  {q:"In centrifugal casting, where is density highest?",opts:["At the center of the casting","Uniformly distributed throughout","At the outer wall","At the gate entry point"],ans:2,exp:"Centrifugal force pushes denser metal to the outer wall, making the outer surface the densest and strongest region."},
+  {q:"Which process is BEST for casting titanium jet engine blades?",opts:["Sand casting","Die casting","Investment casting","Centrifugal casting"],ans:2,exp:"Investment casting handles high-temperature metals like titanium and provides the precision and surface finish required for turbine blades."},
+  {q:"According to Chvorinov's Rule, solidification time is proportional to:",opts:["Temperature only","(Volume / Surface Area)²","Mold material hardness","Injection pressure"],ans:1,exp:"Chvorinov's Rule: t ∝ (V/A)². Larger sections with low surface area cool more slowly and solidify last."},
+  {q:"Which casting process produces the smallest grain size (strongest parts)?",opts:["Sand casting","Investment casting","Die casting","Lost foam casting"],ans:2,exp:"Die casting cools metal very rapidly against the metal die, producing finer grain sizes and therefore stronger parts than sand casting."},
+  {q:"If a gating system is poorly designed, what is the main consequence?",opts:["Faster cooling and better finish","Turbulence, mold erosion, and defects","No shrinkage at all","Higher production rate"],ans:1,exp:"Poor gating design causes turbulent flow, leading to gas entrapment, mold wall erosion, and various casting defects."},
+  {q:"Which casting process is NOT suitable for very large parts?",opts:["Sand casting","Investment casting","Die casting","Centrifugal casting"],ans:2,exp:"Die casting is limited by machine and die size — it cannot accommodate very large parts unlike sand casting."},
+  {q:"Which defect describes two metal streams that meet but fail to properly fuse?",opts:["Porosity","Misrun","Cold shut","Shrinkage"],ans:2,exp:"A cold shut occurs when two separate streams of molten metal join but the interface doesn't fully fuse due to premature cooling."},
+  {q:"Typical shrinkage for most metals during solidification is:",opts:["10–15%","0.8–3%","5–10%","20%"],ans:1,exp:"Most metals shrink by 0.8–3% during solidification, which is compensated by using properly sized risers."},
+  {q:"Which component distributes molten metal horizontally from the sprue to the gates?",opts:["Sprue","Runner","Core","Vent"],ans:1,exp:"The runner is the horizontal channel that distributes molten metal from the base of the sprue to the individual gates."},
+  {q:"For high-quantity production of zinc parts with very fast cycles, the preferred die casting type is:",opts:["Cold chamber","Investment casting","Hot chamber","Centrifugal"],ans:2,exp:"Hot chamber die casting is faster and is ideal for low-melting-point metals like zinc where the plunger can remain submerged."},
+  {q:"What is the primary function of a core in sand casting?",opts:["Feed extra metal during shrinkage","Create internal cavities in the casting","Distribute metal horizontally","Filter impurities from molten metal"],ans:1,exp:"A core is a separate sand shape placed inside the mold to create internal cavities or through-holes in the finished casting."},
+];
+
+const fitbData=[
+  {sentence:"Casting involves pouring molten metal into a ___ and allowing it to solidify.",blanks:["mold"],answers:["mold","die","mould"]},
+  {sentence:"Sand molds consist of ___% sand, 7% clay, and 3% water.",blanks:["90"],answers:["90"]},
+  {sentence:"The ___ feeds extra molten metal to compensate for shrinkage during solidification.",blanks:["riser"],answers:["riser","feeder"]},
+  {sentence:"In investment casting, a ___ pattern is used and melted out after the ceramic shell is formed.",blanks:["wax"],answers:["wax"]},
+  {sentence:"Aluminum uses ___ chamber die casting because it is corrosive to the plunger mechanism.",blanks:["cold"],answers:["cold"]},
+  {sentence:"In centrifugal casting, density is highest at the ___ wall.",blanks:["outer"],answers:["outer","outside","outermost"]},
+  {sentence:"___ flow is preferred over turbulent flow because it prevents gas entrapment and mold erosion.",blanks:["Laminar"],answers:["laminar"]},
+  {sentence:"According to Chvorinov's Rule, solidification time is proportional to (V/A)___.",blanks:["²"],answers:["²","2","^2","squared"]},
+  {sentence:"The ___ is the vertical entry channel through which molten metal first enters the gating system.",blanks:["sprue"],answers:["sprue"]},
+  {sentence:"Lost foam casting eliminates the ___ line since no mold separation is required.",blanks:["parting"],answers:["parting"]},
+  {sentence:"Die casting uses injection pressures of ___ to 200 MPa.",blanks:["10"],answers:["10"]},
+  {sentence:"A ___ occurs when metal solidifies before the mold cavity is completely filled.",blanks:["misrun"],answers:["misrun","mis-run"]},
+  {sentence:"A cold shut forms when two metal streams meet but fail to properly ___ due to premature cooling.",blanks:["fuse"],answers:["fuse","bond","join","merge"]},
+  {sentence:"Investment casting applies approximately ___ ceramic layers to build the shell around the wax pattern.",blanks:["7"],answers:["7","seven"]},
+  {sentence:"Fast cooling in die casting produces ___ grains and therefore stronger parts.",blanks:["smaller"],answers:["smaller","finer","small"]},
+  {sentence:"The ___ component of the gating system removes impurities from molten metal during pouring.",blanks:["filter"],answers:["filter"]},
+  {sentence:"___ casting uses a foam pattern that evaporates when molten metal is poured, leaving no parting line.",blanks:["Lost foam"],answers:["lost foam","foam"]},
+  {sentence:"For very high precision aerospace parts, ___ casting is the preferred manufacturing process.",blanks:["investment"],answers:["investment","lost wax"]},
+  {sentence:"Typical metal shrinkage during solidification is between ___ and 3 percent.",blanks:["0.8"],answers:["0.8","0.8%"]},
+  {sentence:"Draft angles must be added to casting designs to allow ___ removal of the part from the mold.",blanks:["easy"],answers:["easy","clean","smooth"]},
+];
+
+const mock1Qs=[0,1,2,5,6,7,11,12,22,24];
+const mock1Fitb=[0,1,2,3,4];
+const mock2Qs=[3,4,8,9,10,13,14,16,17,18];
+const mock2Fitb=[5,6,7,8,9];
+const mock3Qs=[0,3,5,7,9,10,12,14,15,17,19,20];
+const mock3Fitb=[2,4,6,10,13,15,17,19];
+
+function renderMCQ(data,container,prefix){
+  let html='';
+  data.forEach((q,i)=>{
+    html+=`<div class="q-card" id="${prefix}-${i}">
+      <div class="q-num">Question ${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{
+      html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}">
+        <span class="opt-letter">${l}</span>${q.opts[j]}</div>`;
+    });
+    html+=`</div><div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div></div>`;
+  });
+  document.getElementById(container).innerHTML=html;
+}
+
+function answerMCQ(prefix,qi,chosen,correct){
+  document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`).forEach(o=>o.style.pointerEvents='none');
+  const chosenEl=document.getElementById(`${prefix}-opt-${qi}-${chosen}`);
+  const correctEl=document.getElementById(`${prefix}-opt-${qi}-${correct}`);
+  if(chosen===correct){chosenEl.classList.add('correct');}
+  else{chosenEl.classList.add('wrong');correctEl.classList.add('reveal-correct');}
+  const fb=document.getElementById(`${prefix}-fb-${qi}`);
+  fb.classList.add('show',chosen===correct?'correct':'wrong');
+}
+
+function renderFITB2(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" data-qi="${i}" data-prefix="${prefix}">
+      <div class="q-num">Question ${i+1}</div>
+      <div class="fitb-sentence">${sentence}</div>
+      <button class="check-btn" onclick="checkFITB2(this,${i})">Check Answer</button>
+      <div class="fitb-result"></div>
+    </div>`;
+  });
+  document.getElementById(containerId).innerHTML=html;
+  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{card.__fitbData=dataArr[i];});
+}
+
+function checkFITB2(btn,qi){
+  const card=btn.closest('.fitb-card');
+  const data=card.__fitbData;
+  const inputs=card.querySelectorAll('.blank-input');
+  let allCorrect=true;
+  inputs.forEach((inp,idx)=>{
+    const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+    const correct=data.blanks[idx].toLowerCase().replace(/-/g,' ');
+    let ok=userVal===correct||(data.answers&&data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+    inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+    if(!ok)allCorrect=false;
+  });
+  const res=card.querySelector('.fitb-result');res.classList.add('show');btn.disabled=true;
+  if(allCorrect){res.style.color='#155724';res.innerHTML='✅ Correct!';}
+  else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct: <strong>'+data.blanks.join(' / ')+'</strong>';}
+}
+
+function renderMockMCQ(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Q${i+1} — Multiple Choice</div>
+      <div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{
+      html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}">
+        <span class="opt-letter">${l}</span>${q.opts[j]}</div>`;
+    });
+    html+=`</div></div>`;
+  });
+  document.getElementById(containerId).innerHTML+=html;
+}
+
+function selectMockMCQ(prefix,qi,chosen){
+  const card=document.getElementById(`${prefix}-m-${qi}-${chosen}`).closest('.q-card');
+  card.querySelectorAll('.option').forEach(o=>{o.style.background='';o.style.borderColor='';});
+  const el=document.getElementById(`${prefix}-m-${qi}-${chosen}`);
+  el.style.background='var(--c1)';el.style.borderColor='var(--accent)';
+  if(!window.mockAnswers)window.mockAnswers={};
+  if(!window.mockAnswers[prefix])window.mockAnswers[prefix]={};
+  window.mockAnswers[prefix][`mcq-${qi}`]=chosen;
+}
+
+function renderMockFITB(dataArr,containerId,prefix,startNum){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx2=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx2++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}" data-qi="${i}">
+      <div class="q-num">Q${startNum+i} — Fill in the Blank</div>
+      <div class="fitb-sentence">${sentence}</div>
+    </div>`;
+  });
+  const container=document.getElementById(containerId);
+  const div=document.createElement('div');div.innerHTML=html;container.appendChild(div);
+  dataArr.forEach((q,i)=>{
+    const card=document.getElementById(`${prefix}-fitb-${i}`);
+    if(card)card.__fitbData=q;
+  });
+}
+
+function submitMock(num){
+  const prefix='m'+num;
+  const mcqD=num===1?mock1Qs.map(i=>mcqData[i]):num===2?mock2Qs.map(i=>mcqData[i]):mock3Qs.map(i=>mcqData[i]);
+  const fitbD=num===1?mock1Fitb.map(i=>fitbData[i]):num===2?mock2Fitb.map(i=>fitbData[i]):mock3Fitb.map(i=>fitbData[i]);
+  let score=0;const total=mcqD.length+fitbD.length;
+  mcqD.forEach((q,i)=>{
+    const chosen=(window.mockAnswers&&window.mockAnswers[prefix])?window.mockAnswers[prefix][`mcq-${i}`]:null;
+    const correctEl=document.getElementById(`${prefix}-m-${i}-${q.ans}`);
+    if(correctEl){correctEl.style.background='#d4edda';correctEl.style.borderColor='#28a745';}
+    if(chosen!==null&&chosen!==undefined){
+      const chosenEl=document.getElementById(`${prefix}-m-${i}-${chosen}`);
+      if(chosen===q.ans){score++;if(chosenEl)chosenEl.style.borderWidth='2.5px';}
+      else{if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}}
+    }
+    document.querySelectorAll(`[id^="${prefix}-m-${i}-"]`).forEach(o=>o.style.pointerEvents='none');
+  });
+  fitbD.forEach((q,i)=>{
+    const card=document.getElementById(`${prefix}-fitb-${i}`);if(!card)return;
+    const inputs=card.querySelectorAll('.blank-input');let allOk=true;
+    inputs.forEach((inp,idx)=>{
+      const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+      const correct=q.blanks[idx].toLowerCase().replace(/-/g,' ');
+      const ok=userVal===correct||(q.answers&&q.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+      inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+      if(!ok)allOk=false;
+    });
+    if(allOk)score++;
+    const res=document.createElement('div');res.className='fitb-result show';
+    if(allOk){res.style.color='#155724';res.innerHTML='✅ Correct!';}
+    else{res.style.color='#721c24';res.innerHTML='❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong>';}
+    card.appendChild(res);
+  });
+  document.getElementById('score'+num+'-num').textContent=`${score}/${total}`;
+  document.getElementById('score'+num).classList.add('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='none';
+  document.getElementById('score'+num).scrollIntoView({behavior:'smooth'});
+}
+
+function retakeMock(num){
+  window.mockAnswers={};initMocks();
+  document.getElementById('score'+num).classList.remove('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='block';
+}
+
+function initMocks(){
+  document.getElementById('mock1-container').innerHTML='';
+  renderMockMCQ(mock1Qs.map(i=>mcqData[i]),'mock1-container','m1');
+  renderMockFITB(mock1Fitb.map(i=>fitbData[i]),'mock1-container','m1',mock1Qs.length+1);
+  document.getElementById('mock2-container').innerHTML='';
+  renderMockMCQ(mock2Qs.map(i=>mcqData[i]),'mock2-container','m2');
+  renderMockFITB(mock2Fitb.map(i=>fitbData[i]),'mock2-container','m2',mock2Qs.length+1);
+  document.getElementById('mock3-container').innerHTML='';
+  renderMockMCQ(mock3Qs.map(i=>mcqData[i]),'mock3-container','m3');
+  renderMockFITB(mock3Fitb.map(i=>fitbData[i]),'mock3-container','m3',mock3Qs.length+1);
+}
+
+renderMCQ(mcqData,'mcq-container','q');
+renderFITB2(fitbData,'fitb-container','f');
+initMocks();
+</script>
+</body>
+</html>
