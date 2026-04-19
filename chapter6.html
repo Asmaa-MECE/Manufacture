@@ -25,7 +25,6 @@
   .theme-ppg .tab.active{color:#FF3399;border-bottom-color:#FF3399;}
   .theme-ppg .nav-links a{color:#fff;}
   .theme-ppg .theme-btn{background:#FF3399;}
-
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 50%,var(--c3) 100%);min-height:100vh;color:var(--text);transition:background 0.5s,color 0.3s;overflow-x:hidden;}
   nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--c2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
@@ -52,7 +51,10 @@
   .comparison-table th{background:var(--c2);color:var(--text);padding:0.6rem 0.9rem;text-align:left;}
   .comparison-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--c1);}
   .comparison-table tr:last-child td{border:none;}
-  .formula-box{background:var(--c1);border-radius:10px;padding:0.8rem 1.2rem;margin:0.8rem 0;font-size:0.88rem;font-family:monospace;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.8rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .highlight-box{background:linear-gradient(135deg,var(--c1),var(--c3));border-radius:12px;padding:1rem 1.2rem;margin:0.8rem 0;border-left:4px solid var(--accent);}
+  .highlight-box p{font-size:0.88rem;color:var(--text);font-weight:500;}
   .q-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
   .q-num{font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
   .q-text{font-size:0.95rem;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.5;}
@@ -68,8 +70,8 @@
   .q-feedback.correct{background:#d4edda;color:#155724;}
   .q-feedback.wrong{background:#f8d7da;color:#721c24;}
   .fitb-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
-  .fitb-sentence{font-size:0.95rem;line-height:2.2;color:var(--text);}
-  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:120px;color:var(--text);outline:none;transition:all 0.2s;}
+  .fitb-sentence{font-size:0.95rem;line-height:2.4;color:var(--text);}
+  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:140px;color:var(--text);outline:none;transition:all 0.2s;}
   .blank-input:focus{border-bottom-color:var(--c3);}
   .blank-input.correct-ans{border-bottom-color:#28a745;color:#155724;}
   .blank-input.wrong-ans{border-bottom-color:#dc3545;color:#dc3545;}
@@ -79,7 +81,7 @@
   .fitb-result.show{display:block;}
   .mock-header{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
   .mock-header h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
-  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);}
+  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);flex-wrap:wrap;}
   .mock-meta span{background:var(--c1);padding:0.25rem 0.75rem;border-radius:12px;}
   .submit-btn{background:var(--accent);color:#fff;border:none;padding:0.75rem 2rem;border-radius:14px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:all 0.2s;}
   .submit-btn:hover{opacity:0.85;transform:scale(1.02);}
@@ -107,18 +109,20 @@
   .modal-actions{display:flex;gap:0.75rem;margin-top:1.5rem;}
   .btn-apply{background:#c47b8a;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
   .btn-cancel{background:transparent;color:#6b5060;border:1.5px solid #ddd;padding:0.6rem 1.2rem;border-radius:12px;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .section-img{width:100%;max-width:680px;display:block;margin:1rem auto;border-radius:14px;border:1.5px solid var(--c2);box-shadow:0 4px 18px var(--shadow);}
+  .section-img-sm{width:100%;max-width:440px;display:block;margin:1rem auto;border-radius:14px;border:1.5px solid var(--c2);box-shadow:0 4px 18px var(--shadow);}
+  .img-caption{text-align:center;font-size:0.76rem;color:var(--text2);margin-top:0.3rem;margin-bottom:0.8rem;font-style:italic;}
+  .img-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  @media(max-width:600px){.img-pair{grid-template-columns:1fr;}}
   .page-tag{display:inline-block;background:var(--c2);color:var(--text);font-size:0.72rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:15px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem;}
   .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
   .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
   .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
-  /* Dynamic backgrounds */
   .hk-bg,.skywars-bg,.ppg-bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
   .theme-hellokitty .hk-bg{display:block;}
   .theme-skywars .skywars-bg{display:block;}
   .theme-ppg .ppg-bg{display:block;}
-  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,
-  .theme-skywars .content,.theme-skywars .chapter-hero,
-  .theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
+  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,.theme-skywars .content,.theme-skywars .chapter-hero,.theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
   .hk-icon{position:absolute;opacity:0.12;animation:hk-float 6s ease-in-out infinite;}
   .hk-icon:nth-child(2n){animation-duration:8s;animation-delay:-2s;}
   .hk-icon:nth-child(3n){animation-duration:7s;animation-delay:-4s;}
@@ -134,11 +138,9 @@
 </style>
 </head>
 <body>
-
 <div class="hk-bg" id="hkBg"></div>
 <div class="skywars-bg" id="skywarsBg"></div>
 <div class="ppg-bg" id="ppgBg"></div>
-
 
 <nav>
   <a href="index.html" class="nav-brand">MECE<span>350</span></a>
@@ -151,7 +153,7 @@
 
 <div class="chapter-hero">
   <div class="page-tag">Chapter 6</div>
-  <h1>Metal Forming &amp; Shaping Processes</h1>
+  <h1>Metal Forming &amp; Shaping</h1>
   <p>Summary · MCQ Bank · Fill-in-the-Blank · 3 Mock Tests</p>
 </div>
 
@@ -167,164 +169,415 @@
 </div>
 
 <div class="content">
-
-<!-- ===== SUMMARY ===== -->
 <div class="panel active" id="panel-summary">
 
   <div class="summary-section">
     <h2>1. What is Metal Forming?</h2>
-    <p>Metal forming involves shaping metal through <strong>mechanical deformation</strong> — no material is added or removed; the mass of the workpiece stays constant.</p>
+    <p>Metal forming shapes metal through <strong>mechanical deformation</strong> — there is neither addition nor removal of material. The mass of the workpiece remains the same throughout.</p>
+    <div class="highlight-box">
+      <p>⚠️ <strong>Key law:</strong> Volume is conserved. Material is only redistributed — never added or removed.</p>
+    </div>
+    <h3>How Deformation Works</h3>
     <ul>
-      <li><strong>Plastic deformation</strong> changes shape; stresses exceed the yield stress of the material.</li>
-      <li>Stresses are usually <strong>compressive</strong> (rolling, forging, extrusion).</li>
-      <li>Some processes apply tensile stresses (stretching), combined tensile &amp; compressive (bending), or shear stresses.</li>
+      <li>Stresses must exceed the <strong>yield stress</strong> to cause permanent (plastic) deformation</li>
+      <li>Most bulk forming processes use <strong>compressive</strong> stresses (rolling, forging, extrusion)</li>
+      <li>Some processes use <strong>tensile</strong> stresses (drawing)</li>
+      <li>Some processes use <strong>bending</strong> (tensile + compressive) or <strong>shear</strong> stresses</li>
     </ul>
-    <h3>Effect of Temperature</h3>
+    <h3>Effect of Temperature on Material</h3>
     <ul>
-      <li>Higher temperature → increased ductility + reduced yield stress.</li>
-      <li>Forming can result in <em>lower yield stress</em> and <em>higher ductility</em> — desirable properties.</li>
+      <li>Higher temperature → <strong>yield stress decreases</strong> → easier to deform</li>
+      <li>Higher temperature → <strong>ductility increases</strong> → less risk of cracking</li>
+      <li>Hot forming converts a <strong>cast structure</strong> into a <strong>wrought product</strong> with finer grains and better ductility</li>
     </ul>
-    <h3>Two Main Categories</h3>
-    <ul>
-      <li><strong>Bulk Deformation</strong> – massive shape changes, low surface-to-volume ratio: Rolling, Forging, Extrusion, Wire Drawing.</li>
-      <li><strong>Sheet Metalworking</strong> – Bending, Deep Drawing, Shearing.</li>
-    </ul>
+    <div class="img-pair">
+      <div>
+        <img src="img/stress-strain.jpg" alt="Stress-strain curve showing elastic and plastic regions, yield stress, UTS, necking and fracture" class="section-img">
+        <p class="img-caption">Fig 1.1 — Engineering stress–strain curve: elastic region, yield point, UTS, necking & fracture</p>
+      </div>
+      <div>
+        <img src="img/temp-properties.jpg" alt="Graph showing how elastic modulus, tensile strength, yield strength decrease and elongation increases with temperature" class="section-img">
+        <p class="img-caption">Fig 1.2 — Effect of temperature on material properties: strength drops, ductility rises</p>
+      </div>
+    </div>
+
+    <h3>Two Major Categories</h3>
+    <table class="comparison-table">
+      <tr><th>Category</th><th>Characteristic</th><th>Processes</th></tr>
+      <tr><td><strong>Bulk Deformation</strong></td><td>Massive shape changes; low surface-to-volume ratio</td><td>Rolling, Forging, Extrusion, Wire Drawing</td></tr>
+      <tr><td><strong>Sheet Metalworking</strong></td><td>Thin flat sheets; geometry dominated by surface area</td><td>Bending, Deep/Cup Drawing, Shearing</td></tr>
+    </table>
   </div>
 
   <div class="summary-section">
-    <h2>2. Metal Rolling</h2>
-    <p>Rolling reduces the thickness or changes the cross-section of a long workpiece using compressive forces from rotating rolls. It accounts for <strong>90% of all metals produced by metalworking</strong>.</p>
-    <h3>Products</h3>
-    <ul>
-      <li><strong>Plates</strong> — thickness &gt; 6 mm (e.g., boilers: 300 mm, reactor vessels: 150 mm, battleships: 100–125 mm).</li>
-      <li><strong>Sheets</strong> — thickness &lt; 6 mm (automobile bodies, beverage cans: 0.28 mm, aluminum foil: 0.008 mm).</li>
-    </ul>
-    <h3>Types by Geometry</h3>
-    <ul>
-      <li><strong>Flat Rolling</strong> – reduces rectangular cross-section thickness.</li>
-      <li><strong>Shape Rolling</strong> – converts square cross-section into I-beams, channels, rails.</li>
-      <li><strong>Ring Rolling</strong> – seamless rings (bearing rings, turbine disks, gear blanks).</li>
-      <li><strong>Thread Rolling</strong> – produces threads (cold forming; stronger than machined threads).</li>
-      <li><strong>Skew Rolling</strong> – produces steel balls for ball bearings.</li>
-    </ul>
-    <h3>Hot vs Cold Rolling</h3>
+    <h2>2. Rolling</h2>
+    <p>Rolling reduces the thickness or changes the cross-section of a long workpiece by <strong>compressive forces through rotating rolls</strong>. It accounts for <strong>90% of all metals produced</strong> by metalworking and was first developed in the late 1500s.</p>
+
+    <h3>Plates vs Sheets</h3>
     <table class="comparison-table">
-      <tr><th></th><th>Hot Rolling</th><th>Cold Rolling</th></tr>
-      <tr><td>Deformation</td><td>Larger</td><td>Less</td></tr>
-      <tr><td>Accuracy</td><td>Less accurate</td><td>Tight tolerances</td></tr>
-      <tr><td>Energy</td><td>Lower rolling energy</td><td>Higher rolling energy</td></tr>
-      <tr><td>Surface</td><td>Scaling needed</td><td>Better finish</td></tr>
-      <tr><td>Temperature</td><td>Above recrystallization temp (≈50% of melting temp)</td><td>Room temperature</td></tr>
+      <tr><th>Product</th><th>Thickness</th><th>Real-World Examples</th></tr>
+      <tr><td><strong>Plate</strong></td><td>&gt; 6 mm</td><td>300 mm for boiler support; 150 mm for reactor vessel; 100–125 mm for battleship/tank armour</td></tr>
+      <tr><td><strong>Sheet</strong></td><td>&lt; 6 mm</td><td>1 mm for aircraft fuselage; 0.28 mm for beverage cans; 0.008 mm for aluminum foil</td></tr>
     </table>
-    <h3>Flat Rolling Formulas</h3>
-    <div class="formula-box">
-      Draft: d = h₀ − h_f &nbsp;|&nbsp; Reduction ratio: r = d / h₀<br>
-      Max draft: d_max = μ²R (R = roll radius)<br>
-      Roll force: F = LwY_avg where L = √(R·d)<br>
-      Power (kW): P = 2πNFL / 60,000
-    </div>
-    <h3>Reducing Roll Force</h3>
+
+    <img src="img/rolling-products-flow.jpg" alt="Flowchart showing how continuous casting or ingots → slab, billet, bloom → various rolled products" class="section-img">
+    <p class="img-caption">Fig 2.1 — Rolling product flow: from continuous casting to final rolled products</p>
+
+    <h3>Types of Rolling (By Geometry)</h3>
     <ul>
-      <li>Reduce friction | Use smaller-diameter rolls | Take smaller reductions per pass</li>
-      <li>Roll at elevated temperature | Apply longitudinal tension to the strip</li>
+      <li><strong>Flat Rolling</strong> — reduces thickness of a rectangular cross-section</li>
+      <li><strong>Shape Rolling (Profile Rolling)</strong> — forms stock into shapes such as I-beams, channels, and railroad rails; heated stock passes through pairs of specially shaped rolls</li>
+      <li><strong>Ring Rolling</strong> — reduces wall thickness of a ring, causing its <strong>diameter to increase</strong>; produces seamless rings (bearing rings, turbine disks, gear blanks)</li>
+      <li><strong>Thread Rolling</strong> — cold forming process to form straight or tapered threads on round rods or wires</li>
+      <li><strong>Skew Rolling</strong> — produces balls for ball-bearings</li>
     </ul>
+
+    <img src="img/shape-rolling-stages.jpg" alt="6 stages of shape rolling from blooming rolls through edging to finishing horizontal and vertical rolls" class="section-img">
+    <p class="img-caption">Fig 2.2 — Shape rolling stages: 6-pass sequence from bloom to finished structural profile</p>
+
+    <h3>Thread Rolling vs Thread Cutting — Key Exam Point</h3>
+    <p>Unlike machining, which <strong>cuts through the grains</strong>, thread rolling <strong>imparts improved strength</strong> because the favorable grain flow is preserved and follows the thread profile. Machined threads sever grain lines; rolled threads align them.</p>
+    <img src="img/thread-rolling.jpg" alt="Three thread rolling methods: flat die, cylindrical die, and planetary die setups, with photo of thread-rolled products" class="section-img">
+    <p class="img-caption">Fig 2.3 — Thread rolling methods: (a) flat die, (b) cylindrical die, (c) planetary die; (d) typical products</p>
+
+    <h3>Seamless Tube and Pipe Production</h3>
+    <p>When <strong>compressive forces are applied radially</strong> to a solid round bar, <strong>tensile stresses develop at the center</strong>, creating a cavity. This is exploited in the <strong>rotary tube piercing process</strong> to manufacture seamless pipes and tubing.</p>
+
+    <h3>Hot Rolling vs Cold Rolling</h3>
+    <table class="comparison-table">
+      <tr><th>Feature</th><th>Hot Rolling</th><th>Cold Rolling</th></tr>
+      <tr><td>Temperature</td><td>Above recrystallization (~50% of melting temp); typically 450°C for Al, up to 1250°C for alloy steels, up to 1650°C for refractory alloys</td><td>Room temperature or slightly above</td></tr>
+      <tr><td>Deformation</td><td>Larger deformation per pass</td><td>Less deformation per pass</td></tr>
+      <tr><td>Accuracy</td><td>Less accurate (lower tolerances)</td><td>Tight tolerances</td></tr>
+      <tr><td>Surface finish</td><td>Scaling required; rough surface</td><td>Better surface finish</td></tr>
+      <tr><td>Energy</td><td>Lower rolling energy</td><td>Higher rolling energy</td></tr>
+      <tr><td>Grain structure result</td><td>Converts cast structure → wrought; finer grains; closes porosity</td><td>Strain hardening; ductility limits forming amount</td></tr>
+      <tr><td>Machining afterwards?</td><td>Often required</td><td>Minimum or no machining needed</td></tr>
+    </table>
+
+    <img src="img/hot-rolling-grains.jpg" alt="Diagram showing hot rolling converting large cast grains into small uniform wrought grains through recrystallization, with stainless steel cups below" class="section-img">
+    <p class="img-caption">Fig 2.4 — Hot rolling grain evolution: cast → deformed elongated → recrystallized fine uniform grains (wrought product)</p>
+
+    <h3>Reducing Roll Force</h3>
+    <p>High roll forces cause roll deflection and roll flattening, both of which harm the rolling operation. Force can be reduced by:</p>
+    <ul>
+      <li>Reducing friction</li>
+      <li>Using smaller diameter rolls (reduces contact area)</li>
+      <li>Taking smaller reductions per pass</li>
+      <li>Rolling at elevated temperature (reduces material strength)</li>
+      <li>Applying longitudinal tension to the strip during rolling</li>
+    </ul>
+
+    <h3>Roll Materials</h3>
+    <ul>
+      <li>Must have <strong>strength</strong> and <strong>resistance to wear</strong></li>
+      <li>Three common materials: <strong>cast iron, cast steel, forged steel</strong></li>
+      <li>Cold rolling rolls are <strong>ground to a fine finish</strong>; for special applications, they are polished</li>
+    </ul>
+
+    <h3>Roll Deflection</h3>
+    <p>Under transverse load, rolls can deflect, producing strips thicker in the center than the edges. To compensate, rolls are <strong>ground with a smaller diameter at the edges</strong> (crowned rolls).</p>
+
     <h3>Rolling Defects</h3>
     <ul>
-      <li><strong>Wavy edges</strong> – caused by roll bending.</li>
-      <li><strong>Cracks (zipper/edge)</strong> – poor material ductility at rolling temperature.</li>
-      <li><strong>Alligatoring</strong> – nonuniform deformation or original cast defects.</li>
+      <li><strong>Wavy edges</strong> — result of roll bending (non-uniform deformation; edges elongate more)</li>
+      <li><strong>Zipper cracks</strong> — cracks in the center of the strip</li>
+      <li><strong>Edge cracks</strong> — due to poor material ductility at rolling temperature</li>
+      <li><strong>Alligatoring</strong> — catastrophic internal splitting along the mid-plane; caused by non-uniform deformation through thickness or defects in the original cast material</li>
     </ul>
+    <img src="img/rolling-defects.jpg" alt="Four rolling defects: (a) wavy edges, (b) zipper cracks in center, (c) edge cracks, (d) alligatoring" class="section-img">
+    <p class="img-caption">Fig 2.5 — Flat rolling defects: (a) wavy edges, (b) zipper cracks, (c) edge cracks, (d) alligatoring</p>
   </div>
 
   <div class="summary-section">
     <h2>3. Forging</h2>
-    <p>One of the oldest metalworking operations (8,000 B.C.), forging shapes a workpiece using compressive forces through dies and tools. Forged parts have excellent strength and toughness due to favorable grain flow.</p>
-    <h3>Types by Temperature</h3>
-    <ul>
-      <li><strong>Cold Forging</strong> – greater forces required; better surface finish &amp; dimensional accuracy.</li>
-      <li><strong>Hot Forging</strong> – smaller forces; less accuracy and poorer surface finish.</li>
-    </ul>
-    <h3>Types by Die Configuration</h3>
-    <ul>
-      <li><strong>Open-Die Forging (Upsetting)</strong> – between two flat dies; metal flows laterally. Used for large parts (up to 275 tons, shafts up to 23 m).</li>
-      <li><strong>Closed-Die Forging (Impression-Die)</strong> – die contains cavity; flash is created. Stages: Edging → Blocking → Finishing → Trimming.</li>
-      <li><strong>Flashless Forging</strong> – metal completely constrained, no flash.</li>
-    </ul>
-    <h3>Open-Die Forging Force Formula</h3>
-    <div class="formula-box">
-      F = Y_f · A · (1 + μD/3h)<br>
-      Flow stress: Y_f = Kε^n &nbsp;|&nbsp; True strain: ε = ln(h₀/h)
+    <p>Forging is one of the <strong>oldest metalworking operations (8,000 B.C.)</strong>. The workpiece is shaped by <strong>compressive forces applied through dies and tools</strong>. Simple forging was done by hand hammer and anvil (blacksmith); modern forging uses heavy presses and precision dies.</p>
+    <div class="highlight-box">
+      <p>💪 <strong>Why forged parts are strong:</strong> Forging produces <strong>favorable grain flow</strong> — grain lines follow the shape of the finished part — giving superior <strong>strength and toughness</strong> compared to cast or machined equivalents.</p>
     </div>
-    <h3>Other Forging Operations</h3>
+    <img src="img/grain-flow-comparison.jpg" alt="Comparison of grain flow in cast, machined, and forged chain links — forged shows aligned grain following part contour" class="section-img">
+    <p class="img-caption">Fig 3.1 — Grain flow comparison: (a) cast — random, (b) machined — severed, (c) forged — continuous & follows part shape</p>
+
+    <h3>Critical Applications of Forging</h3>
+    <p>Forging is used where <strong>high stress and reliability are required</strong>:</p>
     <ul>
-      <li><strong>Cogging</strong> – successive open-die steps to reduce bar thickness.</li>
-      <li><strong>Coining</strong> – closed-die for coins, medallions, jewelry.</li>
-      <li><strong>Swaging</strong> – rotary process to reduce cross-section of rods/tubes.</li>
+      <li>Landing gear (C5A Galaxy, Airbus A350 XWB)</li>
+      <li>Jet engine shafts and disks</li>
+      <li>Crankshafts and connecting rods</li>
+      <li>Structural links and bridge chains (e.g., 5/6 Arch Doha — all links are likely forged)</li>
+      <li>Bevel pinions, bearing fittings, shafts</li>
     </ul>
+
+    <h3>Types of Forging</h3>
+    <table class="comparison-table">
+      <tr><th>Type</th><th>Description</th><th>Flash?</th><th>Notes</th></tr>
+      <tr><td><strong>Open-Die Forging</strong></td><td>Workpiece compressed between two flat dies; metal flows laterally with minimum constraint</td><td>Uncontrolled excess</td><td>Parts typically 15–500 kg; up to 275 tons possible; shafts up to 23 m long (ship shafts)</td></tr>
+      <tr><td><strong>Closed-Die Forging</strong> (Impression-Die)</td><td>Die contains a cavity; workpiece acquires the shape of the die impressions; metal flow constrained</td><td>Yes — trimmed afterwards</td><td>Connects rod, gears, complex near-net shapes</td></tr>
+      <tr><td><strong>Flashless Forging</strong></td><td>Metal completely constrained in fully enclosed die</td><td>None</td><td>Near-net shape; no material waste</td></tr>
+    </table>
+
+    <h3>Stages of Closed-Die Forging (Connecting Rod Example)</h3>
+    <ul>
+      <li><strong>1. Edging</strong> — defines the dimensions of the part</li>
+      <li><strong>2. Blocking</strong> — distributes and reserves material for the part geometry</li>
+      <li><strong>3. Finishing</strong> — imprints fine details of the part into the cavity</li>
+      <li><strong>4. Trimming</strong> — removes the flash</li>
+    </ul>
+    <img src="img/forging-stages.jpg" alt="5-step sequence: blank bar stock, edging, blocking with flash, finishing, trimming — producing a connecting rod" class="section-img-sm">
+    <p class="img-caption">Fig 3.2 — Closed-die forging sequence for a connecting rod: blank → edging → blocking → finishing → trimming</p>
+
+    <h3>Open-Die Forging: Cogging</h3>
+    <p>Cogging reduces the thickness of a bar by <strong>successive forging steps at intervals</strong> — like a blacksmith hammering a bar on an anvil in steps along its length.</p>
+
+    <h3>Open-Die Forging: Upsetting (Barreling)</h3>
+    <p>When a cylinder is compressed between flat dies, friction at the interfaces resists flow at the contact surfaces while the middle is free to flow — causing the sides to bulge outward. This is called <strong>barreling</strong>. It can be minimized with effective lubrication.</p>
+
+    <h3>Impact Forging vs Press Forging</h3>
+    <ul>
+      <li><strong>Impact forging</strong> — forge hammer applies a <strong>rapid impact force</strong></li>
+      <li><strong>Press forging</strong> — forging force is applied <strong>gradually and continuously</strong></li>
+    </ul>
+
+    <h3>Hot Forging vs Cold Forging</h3>
+    <table class="comparison-table">
+      <tr><th>Feature</th><th>Hot Forging</th><th>Cold Forging</th></tr>
+      <tr><td>Temperature</td><td>Elevated (warm or hot)</td><td>Room temperature</td></tr>
+      <tr><td>Force required</td><td>Smaller forces</td><td>Greater forces; workpiece must have sufficient ductility</td></tr>
+      <tr><td>Surface finish</td><td>Not as good</td><td>Good surface finish</td></tr>
+      <tr><td>Dimensional accuracy</td><td>Lower</td><td>Good dimensional accuracy</td></tr>
+    </table>
+    <p style="margin-top:0.7rem;">Both types generally require additional finishing: <strong>heat treatment</strong> to modify properties and <strong>machining</strong> for accurate final dimensions.</p>
+
+    <h3>Forging Die Design Rules</h3>
+    <ul>
+      <li>Most important rule: <strong>material flows in the direction of least resistance</strong></li>
+      <li>Parting line is usually at the <strong>largest cross-section</strong> of the part</li>
+      <li><strong>Draft angles are mandatory</strong> for removal of the part from the die without damage</li>
+      <li>Die distortion must be considered for close tolerances</li>
+    </ul>
+    <img src="img/forging-die-anatomy.jpg" alt="Cross-section of a closed forging die showing flash, parting line, land, gutter, rib, web, fillet, corner, trim line, and draft angles" class="section-img">
+    <p class="img-caption">Fig 3.3 — Closed-die anatomy: flash, gutter, parting line, land, rib, web, fillet, corner, and draft angles</p>
+
     <h3>Forging Defects</h3>
     <ul>
-      <li><strong>Insufficient material</strong> – web may buckle and develop laps.</li>
-      <li><strong>Too much material</strong> – excess flows past forged portions, internal cracks form.</li>
+      <li><strong>Insufficient material</strong> — web may buckle and develop laps</li>
+      <li><strong>Too much material</strong> — excess material flows past forged portions, creating <strong>internal cracks</strong></li>
+      <li>Internal defects also arise from <strong>non-uniform deformation</strong> or temperature variations through the workpiece</li>
     </ul>
-    <h3>Die Design Rules</h3>
+    <img src="img/forging-cracks.jpg" alt="4-step illustration of crack development during forging: forging begins, die cavities fill, cracks develop in ribs, cracks propagate" class="section-img">
+    <p class="img-caption">Fig 3.4 — Forging defect progression: cavity filling → crack nucleation in ribs → crack propagation</p>
+
+    <h3>Forging Economics</h3>
+    <p>Setup and tooling costs per piece <strong>decrease as the number of pieces increases</strong> (same die). High initial investment but very cost-effective at volume.</p>
+
+    <h3>Advantages and Limitations of Forging</h3>
+    <div class="two-col">
+      <div>
+        <h3>✔ Advantages vs Machining</h3>
+        <ul>
+          <li>Higher production rate</li>
+          <li>Less material waste</li>
+          <li>Greater strength</li>
+          <li>Favorable grain orientation</li>
+        </ul>
+      </div>
+      <div>
+        <h3>✗ Limitations</h3>
+        <ul>
+          <li>Not capable of close tolerances directly</li>
+          <li>Machining often required afterwards</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Special Forging Operations</h3>
     <ul>
-      <li>Material flows in direction of least resistance.</li>
-      <li>Parting line is usually at the largest cross-section.</li>
-      <li>Draft angles are mandatory for die removal.</li>
+      <li><strong>Coining</strong> — closed-die forging for minting coins, medallions, and jewelry; also used for marking parts with letters and numbers</li>
+      <li><strong>Rotary Swaging</strong> — reduces the diameter of rods and tubes using rapidly reciprocating dies; can form <strong>internal profiles on tubes</strong> using shaped mandrels; produces tapered shafts and shaped tubes; can be done with or without a mandrel</li>
     </ul>
+
+    <h3>Forgeability</h3>
+    <p>Forgeability is the <strong>capability of a material to undergo deformation without cracking</strong>. Higher forgeability = more complex shapes achievable.</p>
   </div>
 
   <div class="summary-section">
     <h2>4. Extrusion</h2>
-    <p>Material is forced through a die to produce a constant cross-section product — like squeezing toothpaste. Typical products: door/window frames, railings, tubing, structural shapes.</p>
-    <h3>Types</h3>
-    <ul>
-      <li><strong>Direct (Forward)</strong> – billet pushed through stationary die; friction between billet &amp; container wall.</li>
-      <li><strong>Indirect (Reverse/Backward)</strong> – die moves toward billet; less friction, less force. Supporting product on exit is difficult.</li>
-      <li><strong>Hydrostatic</strong> – fluid fills container; no friction with container walls; cold extrusion only.</li>
-      <li><strong>Impact</strong> – punch descends rapidly; billet extruded backward (cold forming).</li>
-    </ul>
-    <h3>Extrusion Force Formula</h3>
-    <div class="formula-box">
-      F = A₀ · k · ln(A₀/A_f)<br>
-      Extrusion ratio = A₀/A_f (typically 10:1 to 100:1, up to 400:1)
+    <p>In extrusion, material is <strong>forced through a die opening</strong> by a ram — like squeezing toothpaste from a tube. The output is a part with a <strong>constant cross-sectional profile</strong>.</p>
+    <div class="highlight-box">
+      <p>🔑 <strong>Defining feature:</strong> Since the die geometry doesn't change, extruded products <strong>always have a constant cross-section</strong> throughout their length.</p>
     </div>
-    <h3>Advantages</h3>
-    <ul><li>Wide variety of shapes | Enhanced grain structure &amp; strength | Little material waste | Close tolerances (cold extrusion)</li></ul>
-    <h3>Disadvantage</h3>
-    <ul><li>Cross-section must be uniform throughout the length of the part.</li></ul>
+    <div class="img-pair">
+      <div>
+        <img src="img/extrusion-direct.jpg" alt="Direct extrusion setup showing billet, container liner, die, dummy block, pressing stem (ram), and the extruded product exiting" class="section-img">
+        <p class="img-caption">Fig 4.1 — Direct (forward) extrusion: ram pushes billet through stationary die</p>
+      </div>
+      <div>
+        <img src="img/lateral-extrusion.jpg" alt="Lateral extrusion with punch, plate, container, die holder and side-exit die" class="section-img">
+        <p class="img-caption">Fig 4.2 — Lateral/side extrusion: product exits perpendicular to ram direction</p>
+      </div>
+    </div>
+
+    <h3>Extruded Products</h3>
+    <ul>
+      <li>Almost any solid or hollow cross-section can be produced</li>
+      <li>Door and window frames, railing for sliding doors, tubing, structural and architectural shapes</li>
+      <li>Heat sinks for printed circuit boards</li>
+      <li>Parts designed for snap-fit, keyed, cylindrical sliding, and lap-lock assembly</li>
+    </ul>
+
+    <h3>Types of Extrusion</h3>
+    <table class="comparison-table">
+      <tr><th>Type</th><th>Mechanism</th><th>Friction</th><th>Notes</th></tr>
+      <tr><td><strong>Direct (Forward)</strong></td><td>Billet placed in container; ram forces billet through die in same direction as output</td><td>High — billet slides along container wall</td><td>Most common type</td></tr>
+      <tr><td><strong>Indirect (Backward/Reverse)</strong></td><td>Die moves toward stationary billet; no billet-container relative motion</td><td>None along container wall → lower force needed</td><td>Supporting extruded product as it exits is difficult</td></tr>
+      <tr><td><strong>Lateral / Side</strong></td><td>Product exits at an angle to the ram</td><td>—</td><td>Suitable for low melting point metals</td></tr>
+      <tr><td><strong>Hydrostatic</strong></td><td>Billet smaller than container, which is filled with pressurized fluid</td><td>None — fluid transmits force; no billet-wall contact</td><td>Cold extrusion only; holding pressure is difficult</td></tr>
+      <tr><td><strong>Impact Extrusion</strong></td><td>Punch descends rapidly on a blank; material extruded backward (similar to indirect)</td><td>—</td><td>Cold extrusion category; toothpaste tubes, caps, small containers</td></tr>
+    </table>
+
+    <h3>Extrusion Practice</h3>
+    <ul>
+      <li><strong>Aluminum, copper, magnesium</strong> and their alloys, plus <strong>steels and stainless steels</strong> — extruded with relative ease into many shapes</li>
+      <li><strong>Titanium and refractory metals</strong> — can be extruded but with difficulty and considerable die wear</li>
+      <li>Extrusion ratios typically <strong>10:1 to 100:1</strong>; up to 400:1 for special applications; lower for less ductile materials</li>
+      <li>Economical for both <strong>large and short production runs</strong></li>
+      <li>Tool costs are generally <strong>low</strong> for simple solid cross-sections</li>
+    </ul>
+
+    <h3>Design for Extrusion</h3>
+    <ul>
+      <li>Eliminate sharp corners — use fillets and radii</li>
+      <li>Keep section thicknesses as <strong>uniform</strong> as possible</li>
+    </ul>
+    <img src="img/extrusion-design.jpg" alt="Poor vs good extrusion cross-section design: sharp corners vs rounded, unbalanced voids vs balanced, thin warping sections vs reinforced ribs" class="section-img">
+    <p class="img-caption">Fig 4.3 — Extrusion cross-section design: (left) poor — sharp corners, unbalanced walls, thin warping; (right) good — rounded, balanced, reinforced</p>
+
+    <h3>Advantages and Limitations</h3>
+    <div class="two-col">
+      <div>
+        <h3>✔ Advantages</h3>
+        <ul>
+          <li>Wide variety of shapes (especially hot extrusion)</li>
+          <li>Grain structure and strength enhanced</li>
+          <li>Close tolerances possible (cold extrusion)</li>
+          <li>Little or no material waste</li>
+          <li>Enables assembly-friendly cross-sections</li>
+        </ul>
+      </div>
+      <div>
+        <h3>✗ Limitations</h3>
+        <ul>
+          <li><strong>Part cross-section must be constant (uniform) throughout its length</strong></li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="summary-section">
-    <h2>5. Wire Drawing</h2>
-    <p>The cross-section of a rod or wire is reduced or changed by <strong>pulling it through a die</strong> (unlike extrusion which pushes). Key variables: cross-sectional area reduction, die angle, friction, and speed.</p>
+    <h2>5. Wire Drawing &amp; Rod Drawing</h2>
+    <p>In drawing, the cross-section of a round rod or wire is reduced by <strong>pulling it through a die</strong> using tensile force. This is the critical distinction from extrusion.</p>
+    <div class="highlight-box">
+      <p>🔑 <strong>Extrusion = PUSH (compressive force). &nbsp; Drawing = PULL (tensile force).</strong></p>
+    </div>
+
+    <h3>Key Variables in Drawing</h3>
     <ul>
-      <li>Maximum reduction in area per pass: <strong>63%</strong>.</li>
-      <li>Very long products (km of wire) are drawn using multi-stage rotating drum machines.</li>
-      <li>Common cross-sections: less than 13 mm diameter.</li>
+      <li>Reduction in cross-sectional area</li>
+      <li>Die angle</li>
+      <li>Friction along the die–workpiece interface</li>
+      <li>Drawing speed</li>
     </ul>
+
+    <h3>Maximum Reduction per Pass</h3>
+    <ul>
+      <li>Maximum reduction per pass is ideally <strong>63%</strong></li>
+      <li>Beyond this, the product undergoes further uncontrolled deformation after leaving the die</li>
+      <li>Example: a 10 mm diameter rod can be reduced to at most <strong>7.93 mm</strong> in one pass</li>
+    </ul>
+
+    <h3>Multi-Stage Wire Drawing</h3>
+    <ul>
+      <li>Very long wires (many kilometres) and cross-sections smaller than <strong>13 mm</strong> are drawn using a <strong>multistage machine</strong></li>
+      <li>Wire passes through a series of <strong>rotating drums</strong> with progressively smaller dies</li>
+      <li>Classic application: <strong>copper wire for electrical wiring</strong></li>
+    </ul>
+
+    <h3>Applications</h3>
+    <ul>
+      <li>Electrical wire · Steel cable · Nails · Rods · Tubes · Precision bars</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>6. Sheet Metalworking</h2>
+    <p>Sheet metalworking processes work on thin flat sheets (thickness &lt; 6 mm). The three main categories are <strong>bending, deep/cup drawing, and shearing</strong>.</p>
+
+    <h3>Bending</h3>
+    <ul>
+      <li>Outer surface of the bend → <strong>tension</strong>; inner surface → <strong>compression</strong></li>
+      <li><strong>Springback</strong> — elastic recovery after bending force is removed; the die must <strong>overbend</strong> to achieve the final desired angle</li>
+      <li>Too tight a bend radius → <strong>cracking on the outer (tensile) surface</strong></li>
+    </ul>
+
+    <h3>Deep Drawing (Cup Drawing)</h3>
+    <ul>
+      <li>Flat blank is drawn into a cup or box shape by a punch and die</li>
+      <li>A <strong>blank holder</strong> applies force to the sheet flange to prevent wrinkling</li>
+      <li><strong>Too little blank-holder force</strong> → <strong>wrinkling</strong> of the flange</li>
+      <li><strong>Too much blank-holder force</strong> → <strong>tearing</strong> of the cup wall</li>
+    </ul>
+
+    <h3>Shearing</h3>
+    <ul>
+      <li><strong>Blanking</strong> — the cut-out piece IS the desired product (e.g., disc blanks)</li>
+      <li><strong>Punching / Piercing</strong> — the hole remaining in the sheet IS the product; slug is scrap</li>
+      <li>Clearance between punch and die critically affects cut edge quality</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>7. Process Selection Quick Guide</h2>
+    <table class="comparison-table">
+      <tr><th>Need</th><th>Best Process</th></tr>
+      <tr><td>Highest strength + best grain flow</td><td>Forging (closed-die or flashless)</td></tr>
+      <tr><td>Long uniform cross-section profile</td><td>Extrusion</td></tr>
+      <tr><td>Small diameter wire / precision rod</td><td>Wire/rod drawing</td></tr>
+      <tr><td>Flat sheet or plate production</td><td>Rolling</td></tr>
+      <tr><td>Structural sections (I-beams, rails)</td><td>Shape rolling</td></tr>
+      <tr><td>Seamless bearing rings / flanges</td><td>Ring rolling</td></tr>
+      <tr><td>Balls for ball-bearings</td><td>Skew rolling</td></tr>
+      <tr><td>Stronger threads than cutting</td><td>Thread rolling</td></tr>
+      <tr><td>Coins, medallions, jewelry</td><td>Coining (forging)</td></tr>
+      <tr><td>Tapered rods / shaped tubes</td><td>Swaging</td></tr>
+      <tr><td>Seamless pipe / tube</td><td>Rotary tube piercing</td></tr>
+      <tr><td>Cup / box shaped parts from sheet</td><td>Deep drawing</td></tr>
+      <tr><td>Best surface finish + tightest tolerances</td><td>Cold forming</td></tr>
+      <tr><td>Minimum force / energy</td><td>Hot forming</td></tr>
+    </table>
+
+    <h3>Overall Process Comparison</h3>
+    <table class="comparison-table">
+      <tr><th>Process</th><th>Force Type</th><th>Hot/Cold</th><th>Key Output</th><th>Grain Alignment</th></tr>
+      <tr><td>Rolling</td><td>Compressive</td><td>Both</td><td>Plate / sheet / profiles</td><td>Moderate</td></tr>
+      <tr><td>Forging</td><td>Compressive</td><td>Both</td><td>3D near-net shapes</td><td>Excellent — follows part</td></tr>
+      <tr><td>Extrusion</td><td>Compressive</td><td>Both</td><td>Constant cross-section</td><td>Good</td></tr>
+      <tr><td>Wire Drawing</td><td>Tensile</td><td>Cold (mostly)</td><td>Wires / rods</td><td>Good</td></tr>
+      <tr><td>Thread Rolling</td><td>Compressive</td><td>Cold</td><td>Strong threads</td><td>Excellent (around thread)</td></tr>
+      <tr><td>Swaging</td><td>Compressive (radial)</td><td>Both</td><td>Tapered rods / shaped tubes</td><td>Good</td></tr>
+      <tr><td>Deep Drawing</td><td>Tensile + Compressive</td><td>Cold</td><td>Cups / cans</td><td>N/A</td></tr>
+      <tr><td>Bending</td><td>Bending moment</td><td>Cold</td><td>Bent sheet parts</td><td>N/A</td></tr>
+    </table>
   </div>
 
 </div><!-- end summary -->
 
-<!-- ===== MCQ BANK ===== -->
-<div class="panel" id="panel-mcq">
-  <div id="mcq-container"></div>
-</div>
+<div class="panel" id="panel-mcq"><div id="mcq-container"></div></div>
+<div class="panel" id="panel-fitb"><div id="fitb-container"></div></div>
 
-<!-- ===== FILL IN BLANK ===== -->
-<div class="panel" id="panel-fitb">
-  <div id="fitb-container"></div>
-</div>
-
-<!-- ===== MOCK TEST 1 ===== -->
 <div class="panel" id="panel-mock1">
   <div class="mock-header">
     <h2>🧪 Mock Test 1 — Fundamentals &amp; Rolling</h2>
-    <div class="mock-meta">
-      <span>📝 15 Questions</span>
-      <span>⏱ Mixed: MCQ + Fill-in-Blank</span>
-    </div>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
   </div>
   <div id="mock1-container"></div>
   <button class="submit-btn" onclick="submitMock(1)">Submit Test 1</button>
@@ -335,14 +588,10 @@
   </div>
 </div>
 
-<!-- ===== MOCK TEST 2 ===== -->
 <div class="panel" id="panel-mock2">
   <div class="mock-header">
-    <h2>🧪 Mock Test 2 — Forging &amp; Extrusion</h2>
-    <div class="mock-meta">
-      <span>📝 15 Questions</span>
-      <span>⏱ Mixed: MCQ + Fill-in-Blank</span>
-    </div>
+    <h2>🧪 Mock Test 2 — Forging, Extrusion &amp; Drawing</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
   </div>
   <div id="mock2-container"></div>
   <button class="submit-btn" onclick="submitMock(2)">Submit Test 2</button>
@@ -353,14 +602,10 @@
   </div>
 </div>
 
-<!-- ===== MOCK TEST 3 ===== -->
 <div class="panel" id="panel-mock3">
   <div class="mock-header">
-    <h2>🧪 Mock Test 3 — Comprehensive</h2>
-    <div class="mock-meta">
-      <span>📝 20 Questions</span>
-      <span>⏱ Mixed: MCQ + Fill-in-Blank</span>
-    </div>
+    <h2>🧪 Mock Test 3 — Comprehensive Metal Forming</h2>
+    <div class="mock-meta"><span>📝 20 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
   </div>
   <div id="mock3-container"></div>
   <button class="submit-btn" onclick="submitMock(3)">Submit Test 3</button>
@@ -416,11 +661,7 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════
-   SHARED THEME ENGINE — v2 (synced across pages)
-═══════════════════════════════════════════════ */
-const THEME_KEY='mece350-theme-v2';
-let selectedTheme='default';
+const THEME_KEY='mece350-theme-v2';let selectedTheme='default';
 function openTheme(){document.getElementById('themeModal').classList.add('open');}
 function closeTheme(){document.getElementById('themeModal').classList.remove('open');}
 function selectTheme(t){selectedTheme=t;document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));const el=document.getElementById('opt-'+t);if(el)el.classList.add('selected');const p=document.getElementById('colorPickers');if(p)p.style.display=t==='custom'?'block':'none';}
@@ -428,335 +669,207 @@ function previewCustom(){document.getElementById('sw1').style.background=documen
 function applyTheme(){let data={type:selectedTheme};if(selectedTheme==='custom'){data.c1=document.getElementById('cp1').value;data.c2=document.getElementById('cp2').value;data.c3=document.getElementById('cp3').value;data.c4=document.getElementById('cp4').value;}applyThemeData(data);localStorage.setItem(THEME_KEY,JSON.stringify(data));closeTheme();}
 function clearBgs(){['hkBg','skywarsBg','ppgBg'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});document.body.classList.remove('theme-hellokitty','theme-skywars','theme-ppg');const r=document.documentElement.style;['--c1','--c2','--c3','--accent','--nav-bg'].forEach(p=>r.removeProperty(p));}
 function applyThemeData(data){clearBgs();const t=data?data.type:'default';if(t==='hellokitty'){document.body.classList.add('theme-hellokitty');spawnHKIcons();}else if(t==='skywars'){document.body.classList.add('theme-skywars');spawnSkywars();}else if(t==='ppg'){document.body.classList.add('theme-ppg');spawnPPG();}else if(t==='custom'&&data.c1){const r=document.documentElement.style;r.setProperty('--c1',data.c1);r.setProperty('--c2',data.c2);r.setProperty('--c3',data.c3);r.setProperty('--accent',data.c4);r.setProperty('--nav-bg',data.c1+'f5');}selectTheme(t||'default');}
-/* HK */
 function spawnHKIcons(){const bg=document.getElementById('hkBg');if(!bg)return;const icons=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 55"><path d="M30 50 C10 35 0 25 0 15 C0 5 8 0 15 0 C21 0 27 4 30 9 C33 4 39 0 45 0 C52 0 60 5 60 15 C60 25 50 35 30 50Z" fill="#FF3366"/></svg>','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,4 36,22 56,22 40,34 46,52 30,40 14,52 20,34 4,22 24,22" fill="#FF6B9D"/></svg>'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='hk-icon';const sz=35+Math.random()*55;d.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;width:${sz}px;height:${sz}px;--rot:${(Math.random()-0.5)*40}deg;animation-delay:${-Math.random()*8}s;`;d.innerHTML=icons[i%icons.length];bg.appendChild(d);}}
-/* Skywars */
 function makeSkyShip(b,c){return`<svg xmlns="http://www.w3.org/2000/svg" width="88" height="48" viewBox="0 0 88 48"><polygon points="88,24 60,8 52,24 60,40" fill="${b}"/><ellipse cx="36" cy="24" rx="28" ry="10" fill="${b}"/><polygon points="8,24 0,42 18,30" fill="${b}" opacity="0.7"/><polygon points="8,24 0,6 18,18" fill="${b}" opacity="0.7"/><ellipse cx="42" cy="20" rx="10" ry="6" fill="${c}" opacity="0.9"/><ellipse cx="40" cy="19" rx="5" ry="3" fill="#cef8ff" opacity="0.75"/><ellipse cx="10" cy="24" rx="6" ry="3" fill="#ff7700" opacity="0.95"/><ellipse cx="7" cy="24" rx="8" ry="2.5" fill="#ffcc00" opacity="0.55"/></svg>`;}
 function spawnSkywars(){const bg=document.getElementById('skywarsBg');if(!bg)return;for(let i=0;i<150;i++){const s=document.createElement('div');s.className='sky-star';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${-Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;bg.appendChild(s);}['rgba(0,207,255,0.05)','rgba(60,0,200,0.04)','rgba(0,100,200,0.05)'].forEach(col=>{const o=document.createElement('div');const sz=180+Math.random()*280;o.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;top:${Math.random()*90}%;left:${Math.random()*90}%;background:${col};filter:blur(55px);`;bg.appendChild(o);});[{b:'#1a5fa0',c:'#00cfff',top:12,dur:20,d:0},{b:'#0c3560',c:'#55eeff',top:32,dur:27,d:-9},{b:'#1d3d7a',c:'#00cfff',top:55,dur:18,d:-5},{b:'#2a146e',c:'#8888ff',top:74,dur:24,d:-14},{b:'#0a2a50',c:'#00aaff',top:88,dur:31,d:-20}].forEach(sh=>{const el=document.createElement('div');el.className='sky-player';el.style.cssText=`top:${sh.top}%;animation-duration:${sh.dur}s;animation-delay:${sh.d}s;`;el.innerHTML=makeSkyShip(sh.b,sh.c);bg.appendChild(el);});}
-/* PPG */
-
-function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;[{top:25,col:'rgba(255,100,160,0.22)',dur:20,d:0,w:350},{top:42,col:'rgba(80,150,255,0.22)',dur:26,d:-8,w:280},{top:32,col:'rgba(50,200,100,0.22)',dur:17,d:-14,w:320}].forEach(tr=>{const el=document.createElement('div');el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.d}s infinite;`;bg.appendChild(el);});[{src:'img/powerR.png',top:18,dur:20,d:0,dy:-25},{src:'img/powerB.png',top:38,dur:26,d:-9,dy:18},{src:'img/powerG.png',top:26,dur:17,d:-14,dy:-12}].forEach(ch=>{const el=document.createElement('div');el.className='ppg-hero';el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.d}s;`;const img=document.createElement('img');img.src=ch.src;img.style.cssText='width:120px;height:auto;display:block;';el.appendChild(img);bg.appendChild(el);});for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}const city=document.createElement('div');city.className='ppg-city';city.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none" style="width:100%;height:100%"><rect x="0" y="90" width="70" height="90" fill="#001829" opacity="0.35"/><rect x="65" y="55" width="48" height="125" fill="#001829" opacity="0.4"/><rect x="108" y="75" width="38" height="105" fill="#001829" opacity="0.35"/><rect x="140" y="35" width="62" height="145" fill="#001829" opacity="0.45"/><rect x="154" y="12" width="12" height="28" fill="#001829" opacity="0.45"/><rect x="198" y="65" width="52" height="115" fill="#001829" opacity="0.38"/><rect x="245" y="42" width="45" height="138" fill="#001829" opacity="0.42"/><rect x="285" y="70" width="62" height="110" fill="#001829" opacity="0.36"/><rect x="342" y="22" width="72" height="158" fill="#001829" opacity="0.45"/><rect x="358" y="2" width="13" height="25" fill="#001829" opacity="0.45"/><rect x="410" y="58" width="50" height="122" fill="#001829" opacity="0.38"/><rect x="455" y="78" width="40" height="102" fill="#001829" opacity="0.35"/><rect x="490" y="38" width="58" height="142" fill="#001829" opacity="0.42"/><rect x="544" y="50" width="68" height="130" fill="#001829" opacity="0.38"/><rect x="608" y="28" width="52" height="152" fill="#001829" opacity="0.45"/><rect x="655" y="62" width="44" height="118" fill="#001829" opacity="0.38"/><rect x="694" y="48" width="56" height="132" fill="#001829" opacity="0.42"/><rect x="745" y="72" width="48" height="108" fill="#001829" opacity="0.36"/><rect x="788" y="32" width="65" height="148" fill="#001829" opacity="0.45"/><rect x="803" y="8" width="12" height="28" fill="#001829" opacity="0.45"/><rect x="849" y="55" width="52" height="125" fill="#001829" opacity="0.38"/><rect x="896" y="42" width="42" height="138" fill="#001829" opacity="0.42"/><rect x="933" y="68" width="62" height="112" fill="#001829" opacity="0.36"/><rect x="990" y="22" width="75" height="158" fill="#001829" opacity="0.45"/><rect x="1008" y="2" width="13" height="25" fill="#001829" opacity="0.45"/><rect x="1062" y="58" width="48" height="122" fill="#001829" opacity="0.38"/><rect x="1105" y="36" width="60" height="144" fill="#001829" opacity="0.42"/><rect x="1160" y="55" width="40" height="125" fill="#001829" opacity="0.38"/></svg>';bg.appendChild(city);}
-/* INIT */
+function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;[{top:25,col:'rgba(255,100,160,0.22)',dur:20,d:0,w:350},{top:42,col:'rgba(80,150,255,0.22)',dur:26,d:-8,w:280},{top:32,col:'rgba(50,200,100,0.22)',dur:17,d:-14,w:320}].forEach(tr=>{const el=document.createElement('div');el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.d}s infinite;`;bg.appendChild(el);});[{src:'img/powerR.png',top:18,dur:20,d:0,dy:-25},{src:'img/powerB.png',top:38,dur:26,d:-9,dy:18},{src:'img/powerG.png',top:26,dur:17,d:-14,dy:-12}].forEach(ch=>{const el=document.createElement('div');el.className='ppg-hero';el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.d}s;`;const img=document.createElement('img');img.src=ch.src;img.style.cssText='width:120px;height:auto;display:block;';el.appendChild(img);bg.appendChild(el);});for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}const city=document.createElement('div');city.className='ppg-city';city.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none" style="width:100%;height:100%"><rect x="0" y="90" width="70" height="90" fill="#001829" opacity="0.35"/><rect x="65" y="55" width="48" height="125" fill="#001829" opacity="0.4"/><rect x="140" y="35" width="62" height="145" fill="#001829" opacity="0.45"/><rect x="245" y="42" width="45" height="138" fill="#001829" opacity="0.42"/><rect x="342" y="22" width="72" height="158" fill="#001829" opacity="0.45"/><rect x="490" y="38" width="58" height="142" fill="#001829" opacity="0.42"/><rect x="608" y="28" width="52" height="152" fill="#001829" opacity="0.45"/><rect x="788" y="32" width="65" height="148" fill="#001829" opacity="0.45"/><rect x="990" y="22" width="75" height="158" fill="#001829" opacity="0.45"/><rect x="1105" y="36" width="60" height="144" fill="#001829" opacity="0.42"/></svg>';bg.appendChild(city);}
 (function(){const saved=localStorage.getItem(THEME_KEY);if(saved){try{applyThemeData(JSON.parse(saved));}catch(e){}}})();
-
-// ===== TABS =====
 function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
 
-// ===== DATA =====
+/* ══════════════ DATA ══════════════ */
 const mcqData=[
-  {q:"What is the primary characteristic of metal forming processes?",opts:["Material is removed from the workpiece","Material is added to the workpiece","The mass of the workpiece remains the same","Heat is used to melt the metal"],ans:2,exp:"Metal forming involves mechanical deformation with neither addition nor removal of material."},
-  {q:"Rolling accounts for what percentage of all metals produced by metalworking?",opts:["50%","70%","90%","99%"],ans:2,exp:"Rolling accounts for 90% of all metals produced by metalworking."},
-  {q:"What is the thickness boundary that distinguishes plates from sheets?",opts:["3 mm","6 mm","10 mm","12 mm"],ans:1,exp:"Plates have thickness > 6 mm; sheets have thickness < 6 mm."},
-  {q:"Which rolling process is used to manufacture seamless rings such as bearing rings and turbine disks?",opts:["Flat rolling","Shape rolling","Ring rolling","Skew rolling"],ans:2,exp:"Ring rolling is used to manufacture seamless rings including bearing rings, turbine disks, and gear blanks."},
-  {q:"What is the recrystallization temperature typically expressed as?",opts:["25% of melting temperature","50% of melting temperature","75% of melting temperature","100% of melting temperature"],ans:1,exp:"Hot rolling is performed at/above the recrystallization temperature, approximately 50% of the melting temperature."},
-  {q:"Which defect in flat rolling is caused by roll bending?",opts:["Zipper cracks","Edge cracks","Alligatoring","Wavy edges"],ans:3,exp:"Wavy edges result from roll bending during the flat rolling process."},
-  {q:"In flat rolling, what is the 'draft'?",opts:["The angle of the rolls","The speed difference between rolls","The reduction in thickness (h₀ − h_f)","The width of the workpiece"],ans:2,exp:"Draft d = h₀ − h_f, which is the reduction in thickness."},
-  {q:"What is the approximate temperature for hot rolling of aluminum alloys?",opts:["200°C","450°C","900°C","1250°C"],ans:1,exp:"Temperature ranges for hot rolling aluminum alloys are typically about 450°C."},
-  {q:"Thread rolling compared to machined threading provides:",opts:["Worse grain flow and lower strength","Better grain flow and improved strength","Lower production rate","Larger material removal"],ans:1,exp:"Rolling of threads imparts improved strength because of favorable grain flow, unlike machining which cuts through the grains."},
-  {q:"Forging was first developed approximately:",opts:["In 1500 A.D.","In the late 1500s","Around 8,000 B.C.","In the 20th century"],ans:2,exp:"Forging is one of the oldest metalworking operations, originating around 8,000 B.C."},
-  {q:"In open-die forging, barreling is caused by:",opts:["Excessive die temperature","Friction forces at billet-die interfaces","Insufficient workpiece material","Too much lubrication"],ans:1,exp:"Barreling in open-die forging is caused by friction forces at the billet-die interfaces."},
-  {q:"In closed-die forging, the sequence of operations for a connecting rod is:",opts:["Blocking → Edging → Finishing → Trimming","Edging → Blocking → Finishing → Trimming","Finishing → Edging → Blocking → Trimming","Trimming → Blocking → Edging → Finishing"],ans:1,exp:"The stages are: Edging → Blocking → Finishing → Trimming."},
-  {q:"What is the maximum reduction in cross-sectional area per pass in wire drawing?",opts:["30%","50%","63%","80%"],ans:2,exp:"The maximum reduction in cross-section area per pass is 63%."},
-  {q:"In indirect (reverse) extrusion, compared to direct extrusion:",opts:["More friction is produced","Less extrusion force is needed","The die is stationary","The billet moves forward"],ans:1,exp:"In indirect extrusion the die moves toward the billet; there is no friction between billet and container lining, so less force is needed."},
-  {q:"What is the key disadvantage of extrusion as a manufacturing process?",opts:["Very high material waste","Only metals can be extruded","The part cross-section must be uniform throughout the length","Very high tooling costs"],ans:2,exp:"The main disadvantage of extrusion is that the part cross-section must be uniform throughout the entire length."},
-  {q:"Hydrostatic extrusion can only be used for:",opts:["Hot extrusion","Cold extrusion","Warm extrusion","All temperature ranges"],ans:1,exp:"Holding the pressure is tough and hydrostatic extrusion can only be used for cold extrusion."},
-  {q:"Cogging is best described as:",opts:["A closed-die forging for coins","An open-die forging operation reducing thickness at successive intervals","An extrusion technique","A type of ring rolling"],ans:1,exp:"Cogging is an open-die forging operation in which thickness of the bar is reduced by successive forging steps at certain intervals."},
-  {q:"Which of the following is NOT an advantage of forging over machining?",opts:["Higher production rate","Less waste of material","Capable of close tolerances","Greater strength"],ans:2,exp:"A limitation of forging is that it is NOT capable of close tolerances; machining is often required afterwards."},
-  {q:"Alligatoring in rolling is caused by:",opts:["Excessive friction","Nonuniform deformation or defects in original cast material","Roll deflection","Insufficient lubrication"],ans:1,exp:"Alligatoring is due to nonuniform deformation or defects in the original cast material."},
-  {q:"Skew rolling is primarily used to produce:",opts:["Flat sheets","Steel balls for ball bearings","Seamless tubes","Threaded rods"],ans:1,exp:"Skew rolling is used to produce balls for ball-bearings."},
-  {q:"The forgeability of a material is defined as:",opts:["The force required to forge the part","The material's capability to undergo deformation without cracking","The temperature at which forging occurs","The hardness of the forged part"],ans:1,exp:"Forgeability is the capability of a material to undergo deformation without cracking."},
-  {q:"In extrusion, the extrusion ratio is defined as:",opts:["A_f / A₀","A₀ / A_f","(A₀ - A_f) / A₀","A₀ × A_f"],ans:1,exp:"The extrusion ratio (also called reduction ratio) is A₀/A_f."},
-  {q:"Which material below is most difficult to extrude?",opts:["Aluminum","Copper","Titanium","Magnesium"],ans:2,exp:"Titanium and refractory metals can be extruded but with some difficulty and considerable die wear."},
-  {q:"Open-die forgings generally weigh:",opts:["Less than 1 kg","1–10 kg","15–500 kg","More than 1000 kg"],ans:2,exp:"Open-die forgings generally weigh 15–500 kg, though some have reached 275 tons."},
-  {q:"Cold rolling produces sheet with:",opts:["Lower strength and rough surface","Higher strength, hardness, and better surface finish","Lower hardness but better ductility","Larger deformation capacity"],ans:1,exp:"Cold rolling produces sheet and plate stock with higher strength, hardness, and better surface finish."},
+  {q:"In metal forming, what is conserved throughout the entire process?",opts:["Surface area only","Volume and mass — no material is added or removed","Grain size","Temperature"],ans:1,exp:"Metal forming is defined as shaping metal by mechanical deformation with neither addition nor removal of material — volume and mass are conserved."},
+  {q:"Most bulk metal forming processes (rolling, forging, extrusion) primarily apply which type of stress?",opts:["Tensile stress","Shear stress","Compressive stress","Thermal stress"],ans:2,exp:"Rolling, forging, and extrusion all apply primarily compressive forces. Drawing is the exception — it uses tensile force."},
+  {q:"What happens to ductility when the forming temperature is raised?",opts:["Ductility decreases","Ductility stays the same","Ductility increases","Ductility becomes zero"],ans:2,exp:"Raising temperature increases ductility (less risk of cracking) and decreases yield stress (less force needed). Both effects make forming easier at higher temperatures."},
+  {q:"Rolling accounts for approximately what percentage of all metals produced by metalworking?",opts:["30%","50%","90%","99%"],ans:2,exp:"Rolling is the most widely used metalworking process — approximately 90% of all metals pass through rolling mills. First developed in the late 1500s."},
+  {q:"A steel plate is defined as having a thickness:",opts:["Less than 3 mm","Less than 6 mm","Greater than 6 mm","Greater than 25 mm only"],ans:2,exp:"Plates have thickness > 6 mm (¼ in). Sheets are < 6 mm. Example plate: 300 mm for boiler support, 150 mm for reactor vessel, 100–125 mm for battleship armour."},
+  {q:"A commercial aircraft fuselage is typically manufactured from aluminum sheet of approximately what thickness?",opts:["0.008 mm","0.28 mm","1 mm","6 mm"],ans:2,exp:"Aircraft fuselage panels are typically ~1 mm thick aluminum sheet. Beverage cans are 0.28 mm; aluminum foil is 0.008 mm."},
+  {q:"Ring rolling produces which type of component?",opts:["Flat sheets","Railroad rails and I-beams","Seamless rings (bearing rings, turbine disks, gear blanks)","Threaded rods"],ans:2,exp:"Ring rolling reduces the wall thickness of a ring, increasing its diameter. It produces seamless rings: bearing rings, turbine disks, gear blanks, flanges."},
+  {q:"Thread rolling produces stronger threads than cutting because:",opts:["It uses higher pressure than machining","The process uses lubricant that strengthens the surface","Grain flow is preserved and follows the thread profile, unlike machining which cuts through grain lines","The temperature during rolling hardens the surface"],ans:2,exp:"Thread rolling is a cold forming process. Unlike machining which cuts through grain lines, rolling maintains and aligns the grain flow around the thread, giving improved strength."},
+  {q:"The rolling defect 'alligatoring' is caused by:",opts:["Excessive friction at the roll surface","Non-uniform deformation through thickness or defects in the original cast material","Too much reduction per pass","Applying longitudinal tension"],ans:1,exp:"Alligatoring is caused by non-uniform deformation through the thickness or defects in the original cast material — the workpiece splits along the mid-plane catastrophically."},
+  {q:"Hot rolling converts a cast workpiece into a wrought product. What does this mean for grain structure?",opts:["Grains become coarser and porosity increases","Grains become finer, ductility increases, and internal defects like porosity are closed up","Grain structure is completely destroyed","No change in grain structure occurs"],ans:1,exp:"Hot rolling above recrystallization temperature converts the cast grain structure into a wrought structure with finer grains, enhanced ductility, and closed internal defects."},
+  {q:"Why are rolls sometimes ground to have a smaller diameter at their edges (crowned rolls)?",opts:["To increase rolling speed","To prevent the strip from wandering sideways","To compensate for roll deflection under load, which would otherwise make the strip thicker at the center","To reduce friction at the roll edges"],ans:2,exp:"Under high rolling forces, rolls deflect (bow outward), making the center of the rolled strip thicker than the edges. Crowning the rolls compensates for this bending deflection."},
+  {q:"What are the three most common roll materials?",opts:["Aluminum alloy, copper alloy, and zinc","Cast iron, cast steel, and forged steel","Tungsten carbide, ceramics, and composites","Rubber-bonded abrasive, polymer, and titanium"],ans:1,exp:"Roll materials must have strength and resistance to wear. The three common types are cast iron, cast steel, and forged steel. Cold rolling rolls are ground to a fine finish."},
+  {q:"Forging dates back approximately how far in history?",opts:["500 years — the Renaissance","2,000 years — ancient Rome","4,000 years — ancient Egypt","8,000 years — 8,000 B.C."],ans:3,exp:"The lecture states that forging is one of the oldest metalworking operations, dating back to 8,000 B.C. Simple forging was originally done with a hand hammer and anvil."},
+  {q:"Why are forged parts preferred for aircraft landing gear and jet engine shafts?",opts:["They are the cheapest to manufacture","They have favorable grain flow that follows the part shape, giving superior strength and toughness","They require no finishing operations","They are the lightest components available"],ans:1,exp:"Forging forces material to flow along the part geometry, creating aligned grain flow. This gives superior fatigue and impact strength — critical for landing gear and engine shafts."},
+  {q:"In open-die forging, what is 'barreling'?",opts:["A defect caused by excess material in the die","The bulging of billet sides due to friction at the billet-die interface","Internal cracking along the centerline","The term for open-die forging of barrel-shaped containers"],ans:1,exp:"Friction at the contact faces resists metal flow there while the middle is unconstrained, causing the cylinder's sides to bulge outward in a barrel shape. Minimized with good lubrication."},
+  {q:"What is 'cogging' in the context of forging?",opts:["Closed-die forging used for minting coins","An open-die forging operation reducing bar thickness by successive forging steps at intervals","The trimming operation to remove flash after closed-die forging","Creating internal hollow shapes with a mandrel"],ans:1,exp:"Cogging is an open-die forging operation where a bar's thickness is reduced by successive hammering steps at intervals along the length — like a blacksmith working a bar on an anvil."},
+  {q:"What is the correct sequence of operations in closed-die forging of a connecting rod?",opts:["Finishing → Blocking → Edging → Trimming","Edging → Blocking → Finishing → Trimming","Trimming → Edging → Blocking → Finishing","Blocking → Finishing → Edging → Trimming"],ans:1,exp:"The correct closed-die forging sequence is: Edging (define dimensions) → Blocking (distribute material) → Finishing (imprint fine details) → Trimming (remove flash)."},
+  {q:"The most important rule in forging die design is:",opts:["Parting line must always be at the smallest cross-section","Draft angles must be 5° exactly","Material flows in the direction of least resistance","The die must be made from forged steel"],ans:2,exp:"The most critical die design rule is that material always flows in the direction of least resistance. Die geometry must guide the metal correctly to fill the cavity."},
+  {q:"'Forgeability' is defined as:",opts:["The maximum forging force a material can withstand","The capability of a material to undergo deformation without cracking","The ratio of forging force to die area","The minimum temperature at which a material can be forged"],ans:1,exp:"Forgeability is the capability of a material to undergo deformation during forging without cracking. Materials with high forgeability can be formed into complex shapes."},
+  {q:"What is the defining characteristic of all extruded products?",opts:["They must be hollow","They must be circular in cross-section","Their cross-section is constant throughout the entire length","They must be produced at high temperature"],ans:2,exp:"Since the die geometry does not change during extrusion, extruded products always have a constant (uniform) cross-sectional profile along the full length. This is the key feature of extrusion."},
+  {q:"In indirect (backward) extrusion, what is the advantage over direct extrusion?",opts:["Higher extrusion ratio achievable","Faster cycle times","Lower friction — billet is stationary in container so there is no billet-container friction","Better surface finish on the extruded product"],ans:2,exp:"In indirect extrusion the die moves toward the stationary billet. There is no relative motion between billet and container wall, eliminating friction and reducing required extrusion force."},
+  {q:"Hydrostatic extrusion is limited to cold extrusion because:",opts:["Fluid cannot be used at high temperatures","Hot metals have too low a yield stress for hydrostatic pressure to work","Maintaining the high fluid pressure in the container is difficult and limits it to cold work","The billet must remain at room temperature to prevent die damage"],ans:2,exp:"Maintaining very high fluid pressure in the hydrostatic extrusion container is technically difficult, and this limits the process to cold (room temperature) work."},
+  {q:"Which metals are extruded with relative ease, and which with difficulty?",opts:["Easy: titanium and refractory metals; Difficult: aluminum and copper","Easy: aluminum, copper, magnesium, and steels; Difficult: titanium and refractory metals","Easy: only pure iron; Difficult: all alloys","Easy: brittle ceramics; Difficult: all metals"],ans:1,exp:"Aluminum, copper, magnesium and their alloys, steels and stainless steels are extruded easily. Titanium and refractory metals can be extruded but with difficulty and considerable die wear."},
+  {q:"What fundamentally distinguishes drawing from extrusion?",opts:["Drawing uses a rotating die; extrusion uses a stationary die","Drawing applies tensile (pulling) force; extrusion applies compressive (pushing) force","Drawing always produces hollow parts; extrusion always produces solid parts","Drawing is always performed hot; extrusion is always cold"],ans:1,exp:"Drawing pulls the workpiece through the die using tensile force. Extrusion pushes the billet through using compressive force. This is a fundamental distinction frequently tested."},
+  {q:"In wire drawing, what is the maximum recommended reduction in cross-sectional area per pass?",opts:["20%","40%","63%","85%"],ans:2,exp:"The maximum reduction per drawing pass is ideally 63%. Beyond this, the drawn product undergoes further uncontrolled deformation after leaving the die, which is unacceptable."},
+  {q:"Multistage wire-drawing machines are typically used for cross-sections smaller than:",opts:["3 mm","13 mm","25 mm","50 mm"],ans:1,exp:"Very long wire and rod with cross-sections typically less than 13 mm are drawn using multistage machines with rotating drums and progressively smaller dies. Classic use: copper electrical wire."},
+  {q:"What is 'springback' in sheet metal bending?",opts:["Fracture of the sheet on the outer tensile surface","Wrinkling of the flange in deep drawing","Elastic recovery of the bent sheet after the bending load is removed","The re-hardening of the sheet after bending"],ans:1,exp:"Springback is the elastic recovery that occurs when the bending force is removed — the sheet partially springs back toward its original flat shape. The die must overbend to compensate."},
+  {q:"In deep drawing, what happens when the blank-holder force is insufficient?",opts:["The cup wall tears","The sheet springbacks completely","The flange wrinkles due to unrestrained compressive hoop stress","The blank does not draw into the die at all"],ans:2,exp:"Too little blank-holder force allows the sheet flange to buckle under compressive hoop stresses as it is drawn inward, causing wrinkles. Too much force causes tearing of the cup wall."},
+  {q:"In shearing operations, the difference between blanking and piercing is:",opts:["Blanking uses tensile force; piercing uses compressive force","In blanking the cut-out piece is the product; in piercing the hole in the sheet is the product","Blanking is a hot process; piercing is cold","Blanking only cuts circles; piercing cuts any shape"],ans:1,exp:"In blanking, the stamped-out piece (disk or shape) IS the desired product. In piercing/punching, the hole remaining in the strip IS the product and the punched-out slug is scrap."},
+  {q:"Swaging is primarily used to:",opts:["Produce flat sheets by compressive rolling","Reduce the diameter of rods and tubes and form tapered shapes and internal tube profiles","Mint coins and medallions with fine surface detail","Produce I-beams and structural sections"],ans:1,exp:"Rotary swaging uses rapidly reciprocating dies to reduce rod/tube diameter, form tapered ends on shafts, and create internal profiles in tubes using shaped mandrels."},
 ];
 
 const fitbData=[
-  {sentence:"Metal forming involves mechanical ___ — no material is added or removed.",blanks:["deformation"],answers:["deformation"]},
+  {sentence:"Metal forming changes shape through ___ deformation — no material is added or removed.",blanks:["plastic"],answers:["plastic","permanent"]},
+  {sentence:"In metal forming, ___ is conserved — mass and volume do not change.",blanks:["volume"],answers:["volume","mass","mass and volume"]},
+  {sentence:"Raising forming temperature ___ the yield stress, making deformation easier.",blanks:["decreases"],answers:["decreases","reduces","lowers"]},
   {sentence:"Rolling accounts for ___% of all metals produced by metalworking.",blanks:["90"],answers:["90"]},
-  {sentence:"Plates have a thickness greater than ___ mm, while sheets have a thickness less than ___ mm.",blanks:["6","6"],answers:["6","6"]},
-  {sentence:"Hot rolling is performed at or above the ___ temperature, approximately 50% of the melting temperature.",blanks:["recrystallization"],answers:["recrystallization"]},
-  {sentence:"The reduction in thickness during flat rolling is called the ___.",blanks:["draft"],answers:["draft"]},
-  {sentence:"In flat rolling, the maximum possible draft is d_max = μ² × ___ / 2.",blanks:["D"],answers:["D","diameter"]},
-  {sentence:"___ rolling is used to manufacture seamless rings such as bearing rings and turbine disks.",blanks:["Ring"],answers:["ring"]},
-  {sentence:"Thread rolling provides ___ grain flow and improved strength compared to machined threads.",blanks:["favorable"],answers:["favorable"]},
-  {sentence:"Wavy edges in rolling result from roll ___, while alligatoring is due to ___ deformation.",blanks:["bending","nonuniform"],answers:["bending","nonuniform"]},
-  {sentence:"Forging is one of the oldest metalworking operations, dating back to approximately ___ B.C.",blanks:["8,000"],answers:["8,000","8000"]},
-  {sentence:"In open-die forging, ___ is caused by friction forces at the billet-die interfaces.",blanks:["barreling"],answers:["barreling"]},
-  {sentence:"The stages in closed-die forging of a connecting rod are: ___, Blocking, Finishing, and ___.",blanks:["Edging","Trimming"],answers:["edging","trimming"]},
-  {sentence:"In extrusion, material is forced through a ___ to produce a constant cross-section product.",blanks:["die"],answers:["die"]},
-  {sentence:"In ___ extrusion, the die moves toward the billet, requiring less extrusion force.",blanks:["indirect"],answers:["indirect","reverse","backward"]},
-  {sentence:"The maximum reduction in cross-sectional area per pass in wire drawing is ___%%.",blanks:["63"],answers:["63"]},
-  {sentence:"The extrusion ratio is defined as A₀ divided by ___.",blanks:["A_f"],answers:["a_f","af","a f"]},
-  {sentence:"___ extrusion uses a fluid-filled chamber and has no friction between billet and container walls.",blanks:["Hydrostatic"],answers:["hydrostatic"]},
-  {sentence:"Forgeability is defined as the capability of a material to undergo deformation without ___.",blanks:["cracking"],answers:["cracking","crack"]},
-  {sentence:"Cold forging requires ___ forces but produces better surface finish and dimensional accuracy than hot forging.",blanks:["greater"],answers:["greater","larger","more"]},
-  {sentence:"The key disadvantage of extrusion is that the part ___ must be uniform throughout the length.",blanks:["cross-section"],answers:["cross-section","cross section","crosssection"]},
+  {sentence:"A metal ___ is thicker than 6 mm; a metal ___ is thinner than 6 mm.",blanks:["plate","sheet"],answers:["plate","sheet"]},
+  {sentence:"Aircraft fuselage panels are typically ___ mm thick aluminum sheet.",blanks:["1"],answers:["1","one","1 mm"]},
+  {sentence:"___ rolling produces structural profiles such as I-beams and railroad rails.",blanks:["Shape"],answers:["shape","profile"]},
+  {sentence:"___ rolling is used to produce balls for ball-bearings.",blanks:["Skew"],answers:["skew"]},
+  {sentence:"Thread rolling produces ___ threads than cutting/machining because it preserves favorable grain flow.",blanks:["stronger"],answers:["stronger","better","stronger/better"]},
+  {sentence:"When compressive forces are applied radially to a solid round bar, ___ stresses develop at the center, enabling the rotary tube piercing process.",blanks:["tensile"],answers:["tensile","tension"]},
+  {sentence:"Hot rolling converts a cast workpiece into a ___ product with finer grains and greater ductility.",blanks:["wrought"],answers:["wrought"]},
+  {sentence:"The rolling defect where the workpiece splits along the mid-plane is called ___.",blanks:["alligatoring"],answers:["alligatoring","alligator cracking"]},
+  {sentence:"Rolls ground to a smaller diameter at the edges are called ___ rolls; they compensate for roll deflection.",blanks:["crowned"],answers:["crowned","crown"]},
+  {sentence:"Forging dates back to approximately ___ B.C., making it one of the oldest metalworking operations.",blanks:["8,000"],answers:["8,000","8000"]},
+  {sentence:"Forged parts have favorable ___ flow, which gives them superior strength and toughness.",blanks:["grain"],answers:["grain"]},
+  {sentence:"Friction during open-die forging of a cylinder causes the sides to bulge, a defect called ___.",blanks:["barreling"],answers:["barreling","barrelling"]},
+  {sentence:"The four stages of closed-die forging are: Edging, Blocking, Finishing, and ___.",blanks:["Trimming"],answers:["trimming","trim"]},
+  {sentence:"The excess metal squeezed out between the die halves in closed-die forging is called ___.",blanks:["flash"],answers:["flash"]},
+  {sentence:"___ forging uses a fully enclosed die, produces no flash, and creates near-net-shape parts.",blanks:["Flashless"],answers:["flashless","flashless (precision)","precision"]},
+  {sentence:"The most important rule in forging die design: material flows in the direction of ___ resistance.",blanks:["least"],answers:["least","minimum"]},
+  {sentence:"Forgeability is the capability of a material to undergo deformation without ___.",blanks:["cracking"],answers:["cracking","crack","fracturing"]},
+  {sentence:"___ is a closed-die forging process used to mint coins, medallions, and jewelry.",blanks:["Coining"],answers:["coining"]},
+  {sentence:"In extrusion, material is forced through a die — like squeezing ___ from a tube.",blanks:["toothpaste"],answers:["toothpaste"]},
+  {sentence:"All extruded products have a ___ cross-section throughout their length because the die does not change.",blanks:["constant"],answers:["constant","uniform"]},
+  {sentence:"In ___ extrusion, the die moves toward the billet; there is no friction between billet and container.",blanks:["indirect"],answers:["indirect","backward","reverse"]},
+  {sentence:"In ___ extrusion, pressurized fluid surrounds the billet and eliminates billet-container friction entirely.",blanks:["hydrostatic"],answers:["hydrostatic"]},
+  {sentence:"Extrusion ratios typically range from ___ to 100:1.",blanks:["10:1"],answers:["10:1","10","ten to one"]},
+  {sentence:"Drawing uses ___ force (pulling) to reduce the cross-section of wire or rod through a die.",blanks:["tensile"],answers:["tensile","tension","pulling"]},
+  {sentence:"The maximum recommended reduction in cross-sectional area per drawing pass is ___.",blanks:["63%"],answers:["63%","63","sixty-three percent"]},
+  {sentence:"In sheet metal bending, ___ is the elastic recovery that occurs after the bending load is removed.",blanks:["springback"],answers:["springback","spring back"]},
+  {sentence:"In deep drawing, insufficient blank-holder force causes ___ of the flange.",blanks:["wrinkling"],answers:["wrinkling","wrinkles","wrinkling/wrinkles"]},
+  {sentence:"In ___, the punched-out piece is the desired product; in piercing, the hole in the strip is the product.",blanks:["blanking"],answers:["blanking"]},
 ];
 
-// MOCK TEST DATA
-const mock1Qs = [0,1,2,3,4,5,6,7,8,19]; // MCQ indices
-const mock1Fitb = [0,1,2,3,4]; // FITB indices
-const mock2Qs = [9,10,11,16,17,18,20,21,22,23]; // MCQ
-const mock2Fitb = [9,10,11,12,13]; // FITB
-const mock3Qs = [0,3,5,9,10,12,14,16,18,20,22,24]; // MCQ
-const mock3Fitb = [1,4,7,13,15,17,19]; // FITB
+const mock1Qs  =[0,1,2,3,4,5,6,7,8,9];
+const mock1Fitb=[0,1,2,3,4];
+const mock2Qs  =[12,13,14,15,16,17,18,19,20,21];
+const mock2Fitb=[13,14,16,17,18];
+const mock3Qs  =[0,3,5,7,10,13,16,19,22,23,25,27];
+const mock3Fitb=[2,6,10,15,19,22,26,29];
 
-// ===== RENDER MCQ =====
-function renderMCQ(data, container, prefix='q'){
+function renderMCQ(data,container,prefix){
   let html='';
   data.forEach((q,i)=>{
-    html+=`<div class="q-card" id="${prefix}-${i}">
-      <div class="q-num">Question ${i+1}</div>
-      <div class="q-text">${q.q}</div>
-      <div class="options">`;
-    const letters=['A','B','C','D'];
-    q.opts.forEach((o,j)=>{
-      html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}">
-        <span class="opt-letter">${letters[j]}</span> ${o}
-      </div>`;
-    });
-    html+=`</div>
-      <div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div>
-    </div>`;
+    html+=`<div class="q-card"><div class="q-num">Question ${i+1}</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div><div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div></div>`;
   });
   document.getElementById(container).innerHTML=html;
 }
-
 function answerMCQ(prefix,qi,chosen,correct){
-  const allOpts=document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`);
-  allOpts.forEach(o=>o.style.pointerEvents='none');
+  document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`).forEach(o=>o.style.pointerEvents='none');
   const chosenEl=document.getElementById(`${prefix}-opt-${qi}-${chosen}`);
   const correctEl=document.getElementById(`${prefix}-opt-${qi}-${correct}`);
-  if(chosen===correct){
-    chosenEl.classList.add('correct');
-    const fb=document.getElementById(`${prefix}-fb-${qi}`);
-    fb.classList.add('show','correct');
-  } else {
-    chosenEl.classList.add('wrong');
-    correctEl.classList.add('reveal-correct');
-    const fb=document.getElementById(`${prefix}-fb-${qi}`);
-    fb.classList.add('show','wrong');
-  }
+  if(chosen===correct){chosenEl.classList.add('correct');}
+  else{chosenEl.classList.add('wrong');correctEl.classList.add('reveal-correct');}
+  document.getElementById(`${prefix}-fb-${qi}`).classList.add('show',chosen===correct?'correct':'wrong');
 }
-
-// ===== RENDER FITB =====
-function renderFITB(data, container, prefix='f'){
-  let html='';
-  data.forEach((q,i)=>{
-    let sentence=q.sentence;
-    let inputIdx=0;
-    sentence=sentence.replace(/___/g,()=>{
-      const idx=inputIdx++;
-      return `<input class="blank-input" id="${prefix}-b-${i}-${idx}" type="text" placeholder="...">`;
-    });
-    html+=`<div class="fitb-card">
-      <div class="q-num">Question ${i+1}</div>
-      <div class="fitb-sentence">${sentence}</div>
-      <button class="check-btn" onclick="checkFITB('${prefix}',${i})">Check Answer</button>
-      <div class="fitb-result" id="${prefix}-r-${i}"></div>
-    </div>`;
-  });
-  document.getElementById(container).innerHTML=html;
-}
-
-function checkFITB(prefix, qi){
-  const q=fitbData.find((_,i)=>true); // we'll track by actual data passed
-  // find the card
-  const card=document.querySelector(`#${prefix}-r-${qi}`).closest('.fitb-card');
-  const inputs=card.querySelectorAll('.blank-input');
-  let correct=true;
-  const dataItem=document.getElementById(`${prefix}-r-${qi}`).__dataref;
-  inputs.forEach((inp,idx)=>{
-    const userVal=inp.value.trim().toLowerCase();
-    const acceptable=dataItem.answers[idx] ? [dataItem.answers[idx].toLowerCase()] : [];
-    // also check blanks answers array for alternatives
-    const allAns=dataItem.answers.filter((_,i)=>i===idx);
-    let ok=false;
-    if(dataItem.blanks[idx]){
-      const bl=dataItem.blanks[idx].toLowerCase();
-      if(userVal===bl || userVal.includes(bl.split('-')[0])) ok=true;
-    }
-    if(!ok) correct=false;
-    inp.classList.toggle('correct-ans',ok);
-    inp.classList.toggle('wrong-ans',!ok);
-    inp.disabled=true;
-  });
-  const res=document.getElementById(`${prefix}-r-${qi}`);
-  res.classList.add('show');
-  if(correct){res.style.color='#155724';res.innerHTML='✅ Correct!';}
-  else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct answers: '+dataItem.blanks.join(' / ');}
-}
-
-// Better FITB implementation
-function renderFITB2(dataArr, containerId, prefix){
+function renderFITB2(dataArr,containerId,prefix){
   let html='';
   dataArr.forEach((q,i)=>{
-    let sentence=q.sentence;
-    let inputIdx=0;
-    sentence=sentence.replace(/___/g,()=>{
-      const idx=inputIdx++;
-      return `<input class="blank-input" data-idx="${idx}" type="text" placeholder="...">`;
-    });
-    html+=`<div class="fitb-card" data-qi="${i}" data-prefix="${prefix}">
-      <div class="q-num">Question ${i+1}</div>
-      <div class="fitb-sentence">${sentence}</div>
-      <button class="check-btn" onclick="checkFITB2(this,${i})">Check Answer</button>
-      <div class="fitb-result"></div>
-    </div>`;
+    let sentence=q.sentence;let idx=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" data-qi="${i}"><div class="q-num">Question ${i+1}</div><div class="fitb-sentence">${sentence}</div><button class="check-btn" onclick="checkFITB2(this)">Check Answer</button><div class="fitb-result"></div></div>`;
   });
   document.getElementById(containerId).innerHTML=html;
-  // store data refs
-  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{
-    card.__fitbData=dataArr[i];
-  });
+  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{card.__fitbData=dataArr[i];});
 }
-
-function checkFITB2(btn, qi){
-  const card=btn.closest('.fitb-card');
-  const data=card.__fitbData;
-  const inputs=card.querySelectorAll('.blank-input');
-  let allCorrect=true;
+function checkFITB2(btn){
+  const card=btn.closest('.fitb-card');const data=card.__fitbData;
+  const inputs=card.querySelectorAll('.blank-input');let allCorrect=true;
   inputs.forEach((inp,idx)=>{
     const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
     const correct=data.blanks[idx].toLowerCase().replace(/-/g,' ');
-    let ok=userVal===correct || (data.answers && data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
-    inp.classList.toggle('correct-ans',ok);
-    inp.classList.toggle('wrong-ans',!ok);
-    inp.disabled=true;
-    if(!ok) allCorrect=false;
+    const ok=userVal===correct||(data.answers&&data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+    inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+    if(!ok)allCorrect=false;
   });
-  const res=card.querySelector('.fitb-result');
-  res.classList.add('show');
-  btn.disabled=true;
+  const res=card.querySelector('.fitb-result');res.classList.add('show');btn.disabled=true;
   if(allCorrect){res.style.color='#155724';res.innerHTML='✅ Correct!';}
   else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct: <strong>'+data.blanks.join(' / ')+'</strong>';}
 }
-
-// Render mock MCQ (no immediate feedback, scored on submit)
-function renderMockMCQ(dataArr, containerId, prefix){
+function renderMockMCQ(dataArr,containerId,prefix){
   let html='';
   dataArr.forEach((q,i)=>{
-    html+=`<div class="q-card">
-      <div class="q-num">Q${i+1} — Multiple Choice</div>
-      <div class="q-text">${q.q}</div>
-      <div class="options" id="${prefix}-opts-${i}">`;
-    const letters=['A','B','C','D'];
-    q.opts.forEach((o,j)=>{
-      html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}">
-        <span class="opt-letter">${letters[j]}</span>${o}
-      </div>`;
-    });
+    html+=`<div class="q-card"><div class="q-num">Q${i+1} — Multiple Choice</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
     html+=`</div></div>`;
   });
-  document.getElementById(containerId).innerHTML += html;
+  document.getElementById(containerId).innerHTML+=html;
 }
-
 function selectMockMCQ(prefix,qi,chosen){
   const card=document.getElementById(`${prefix}-m-${qi}-${chosen}`).closest('.q-card');
-  card.querySelectorAll('.option').forEach(o=>o.style.background='');
-  const el=document.getElementById(`${prefix}-m-${qi}-${chosen}`);
-  el.style.background='var(--c1)';
-  el.style.borderColor='var(--accent)';
-  if(!window.mockAnswers) window.mockAnswers={};
-  if(!window.mockAnswers[prefix]) window.mockAnswers[prefix]={};
+  card.querySelectorAll('.option').forEach(o=>{o.style.background='';o.style.borderColor='';});
+  document.getElementById(`${prefix}-m-${qi}-${chosen}`).style.cssText='background:var(--c1);border-color:var(--accent);';
+  if(!window.mockAnswers)window.mockAnswers={};
+  if(!window.mockAnswers[prefix])window.mockAnswers[prefix]={};
   window.mockAnswers[prefix][`mcq-${qi}`]=chosen;
 }
-
-function renderMockFITB(dataArr, containerId, prefix, startNum){
+function renderMockFITB(dataArr,containerId,prefix,startNum){
   let html='';
   dataArr.forEach((q,i)=>{
-    let sentence=q.sentence;
-    let inputIdx=0;
-    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${inputIdx++}" type="text" placeholder="...">`);
-    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}" data-qi="${i}">
-      <div class="q-num">Q${startNum+i} — Fill in the Blank</div>
-      <div class="fitb-sentence">${sentence}</div>
-    </div>`;
+    let sentence=q.sentence;let idx2=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx2++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}"><div class="q-num">Q${startNum+i} — Fill in the Blank</div><div class="fitb-sentence">${sentence}</div></div>`;
   });
-  const container=document.getElementById(containerId);
-  const div=document.createElement('div');
-  div.innerHTML=html;
-  container.appendChild(div);
-  dataArr.forEach((q,i)=>{
-    document.getElementById(`${prefix}-fitb-${i}`).__fitbData=q;
-  });
+  const div=document.createElement('div');div.innerHTML=html;
+  document.getElementById(containerId).appendChild(div);
+  dataArr.forEach((q,i)=>{const c=document.getElementById(`${prefix}-fitb-${i}`);if(c)c.__fitbData=q;});
 }
-
 function submitMock(num){
   const prefix='m'+num;
-  const mcqD = num===1? mock1Qs.map(i=>mcqData[i]) : num===2? mock2Qs.map(i=>mcqData[i]) : mock3Qs.map(i=>mcqData[i]);
-  const fitbD = num===1? mock1Fitb.map(i=>fitbData[i]) : num===2? mock2Fitb.map(i=>fitbData[i]) : mock3Fitb.map(i=>fitbData[i]);
-  let score=0;
-  const total=mcqD.length+fitbD.length;
-
-  // score MCQ
+  const mcqD=num===1?mock1Qs.map(i=>mcqData[i]):num===2?mock2Qs.map(i=>mcqData[i]):mock3Qs.map(i=>mcqData[i]);
+  const fitbD=num===1?mock1Fitb.map(i=>fitbData[i]):num===2?mock2Fitb.map(i=>fitbData[i]):mock3Fitb.map(i=>fitbData[i]);
+  let score=0;const total=mcqD.length+fitbD.length;
   mcqD.forEach((q,i)=>{
     const chosen=(window.mockAnswers&&window.mockAnswers[prefix])?window.mockAnswers[prefix][`mcq-${i}`]:null;
     const correctEl=document.getElementById(`${prefix}-m-${i}-${q.ans}`);
     if(correctEl){correctEl.style.background='#d4edda';correctEl.style.borderColor='#28a745';}
     if(chosen!==null&&chosen!==undefined){
       const chosenEl=document.getElementById(`${prefix}-m-${i}-${chosen}`);
-      if(chosen===q.ans){score++;if(chosenEl)chosenEl.style.borderWidth='2.5px';}
-      else{if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}}
+      if(chosen===q.ans){score++;}else if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}
     }
     document.querySelectorAll(`[id^="${prefix}-m-${i}-"]`).forEach(o=>o.style.pointerEvents='none');
   });
-
-  // score FITB
   fitbD.forEach((q,i)=>{
-    const card=document.getElementById(`${prefix}-fitb-${i}`);
-    if(!card) return;
-    const inputs=card.querySelectorAll('.blank-input');
-    let allOk=true;
+    const card=document.getElementById(`${prefix}-fitb-${i}`);if(!card)return;
+    const inputs=card.querySelectorAll('.blank-input');let allOk=true;
     inputs.forEach((inp,idx)=>{
       const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
       const correct=q.blanks[idx].toLowerCase().replace(/-/g,' ');
       const ok=userVal===correct||(q.answers&&q.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
-      inp.classList.toggle('correct-ans',ok);
-      inp.classList.toggle('wrong-ans',!ok);
-      inp.disabled=true;
-      if(!ok) allOk=false;
+      inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+      if(!ok)allOk=false;
     });
-    if(allOk) score++;
-    const res=document.createElement('div');
-    res.className='fitb-result show';
-    if(allOk){res.style.color='#155724';res.innerHTML='✅ Correct!';}
-    else{res.style.color='#721c24';res.innerHTML='❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong>';}
+    if(allOk)score++;
+    const res=document.createElement('div');res.className='fitb-result show';
+    res.innerHTML=allOk?'<span style="color:#155724">✅ Correct!</span>':'<span style="color:#721c24">❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong></span>';
     card.appendChild(res);
   });
-
-  const scoreEl=document.getElementById('score'+num);
   document.getElementById('score'+num+'-num').textContent=`${score}/${total}`;
-  scoreEl.classList.add('show');
-  document.querySelector(`.panel:not([style="display:none;"]) .submit-btn, #panel-mock${num} .submit-btn`).style.display='none';
-  scoreEl.scrollIntoView({behavior:'smooth'});
+  document.getElementById('score'+num).classList.add('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='none';
+  document.getElementById('score'+num).scrollIntoView({behavior:'smooth'});
 }
-
 function retakeMock(num){
-  // re-render
-  window.mockAnswers={};
-  initMocks();
+  window.mockAnswers={};initMocks();
   document.getElementById('score'+num).classList.remove('show');
   document.querySelector(`#panel-mock${num} .submit-btn`).style.display='block';
 }
-
 function initMocks(){
-  // Mock 1
-  document.getElementById('mock1-container').innerHTML='';
-  renderMockMCQ(mock1Qs.map(i=>mcqData[i]), 'mock1-container', 'm1');
-  renderMockFITB(mock1Fitb.map(i=>fitbData[i]), 'mock1-container', 'm1', mock1Qs.length+1);
-  // Mock 2
-  document.getElementById('mock2-container').innerHTML='';
-  renderMockMCQ(mock2Qs.map(i=>mcqData[i]), 'mock2-container', 'm2');
-  renderMockFITB(mock2Fitb.map(i=>fitbData[i]), 'mock2-container', 'm2', mock2Qs.length+1);
-  // Mock 3
-  document.getElementById('mock3-container').innerHTML='';
-  renderMockMCQ(mock3Qs.map(i=>mcqData[i]), 'mock3-container', 'm3');
-  renderMockFITB(mock3Fitb.map(i=>fitbData[i]), 'mock3-container', 'm3', mock3Qs.length+1);
+  ['mock1-container','mock2-container','mock3-container'].forEach(id=>document.getElementById(id).innerHTML='');
+  renderMockMCQ(mock1Qs.map(i=>mcqData[i]),'mock1-container','m1');
+  renderMockFITB(mock1Fitb.map(i=>fitbData[i]),'mock1-container','m1',mock1Qs.length+1);
+  renderMockMCQ(mock2Qs.map(i=>mcqData[i]),'mock2-container','m2');
+  renderMockFITB(mock2Fitb.map(i=>fitbData[i]),'mock2-container','m2',mock2Qs.length+1);
+  renderMockMCQ(mock3Qs.map(i=>mcqData[i]),'mock3-container','m3');
+  renderMockFITB(mock3Fitb.map(i=>fitbData[i]),'mock3-container','m3',mock3Qs.length+1);
 }
-
-// INIT
 renderMCQ(mcqData,'mcq-container','q');
 renderFITB2(fitbData,'fitb-container','f');
 initMocks();
