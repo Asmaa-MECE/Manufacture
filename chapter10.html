@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.10 Additive Manufacturing – MECE350</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#F2C4CE;--c2:#E8A0AE;--c3:#B0A8BE;--c4:#fff;--text:#3a2a35;--text2:#6b5060;--card-bg:rgba(255,255,255,0.88);--shadow:rgba(176,168,190,0.22);--accent:#c47b8a;--nav-bg:rgba(242,196,206,0.96);}
+  .theme-hellokitty{--c1:#FFB7C5;--c2:#FF8FAB;--c3:#FFC8DD;--c4:#fff;--text:#8B1A4A;--text2:#c05478;--card-bg:rgba(255,255,255,0.92);--shadow:rgba(255,143,171,0.25);--accent:#FF6B9D;--nav-bg:rgba(255,183,197,0.97);}
+  .theme-hellokitty,body.theme-hellokitty{background:linear-gradient(135deg,#FFB7C5 0%,#fff 50%,#FFC8DD 100%)!important;}
+  .theme-skywars{--c1:#0a1628;--c2:#1e3a6e;--c3:#162444;--c4:#0d1f3c;--text:#e0f0ff;--text2:#8bb8e8;--card-bg:rgba(14,30,60,0.94);--shadow:rgba(0,150,255,0.22);--accent:#00cfff;--nav-bg:rgba(6,14,28,0.97);}
+  .theme-skywars,body.theme-skywars{background:linear-gradient(180deg,#020b18 0%,#0a1628 40%,#0d2040 100%)!important;}
+  .theme-skywars nav{border-bottom-color:rgba(0,207,255,0.25);}
+  .theme-skywars .summary-section,.theme-skywars .q-card,.theme-skywars .fitb-card,.theme-skywars .mock-header{border-color:rgba(0,207,255,0.2);}
+  .theme-skywars .chapter-hero h1{font-family:'Orbitron',sans-serif;letter-spacing:0.04em;text-transform:uppercase;}
+  .theme-skywars .nav-brand{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;}
+  .theme-skywars .tab.active{color:#00cfff;border-bottom-color:#00cfff;}
+  .theme-ppg{--c1:#4BC4E8;--c2:#2AA4CC;--c3:#6DD4F0;--c4:#B0ECFF;--text:#001829;--text2:#0a3a55;--card-bg:rgba(160,225,248,0.85);--shadow:rgba(0,140,200,0.22);--accent:#FF3399;--nav-bg:rgba(20,120,170,0.97);}
+  .theme-ppg,body.theme-ppg{background:linear-gradient(160deg,#1e9ed0 0%,#4BC4E8 45%,#2a8ab8 100%)!important;}
+  .theme-ppg nav{border-bottom-color:rgba(255,51,153,0.4);}
+  .theme-ppg .chapter-hero h1{font-family:'Bangers',cursive;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:0.05em;text-transform:uppercase;color:#fff;text-shadow:3px 3px 0 #001829;}
+  .theme-ppg .nav-brand{font-family:'Bangers',cursive;font-size:1.7rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;text-shadow:2px 2px 0 #001829;}
+  .theme-ppg .page-tag{background:rgba(255,51,153,0.2);color:#001829;border:2px solid #FF3399;font-weight:700;}
+  .theme-ppg .tab.active{color:#FF3399;border-bottom-color:#FF3399;}
+  .theme-ppg .nav-links a{color:#fff;}
+  .theme-ppg .theme-btn{background:#FF3399;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 50%,var(--c3) 100%);min-height:100vh;color:var(--text);transition:background 0.5s,color 0.3s;overflow-x:hidden;}
+  nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--c2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-brand{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);text-decoration:none;}
+  .nav-brand span{color:var(--accent);}
+  .nav-links{display:flex;gap:1rem;align-items:center;}
+  .nav-links a{text-decoration:none;color:var(--text2);font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .theme-btn{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;}
+  .tabs-wrap{position:sticky;top:64px;z-index:999;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--c2);overflow-x:auto;}
+  .tabs{display:flex;padding:0 1.5rem;gap:0;white-space:nowrap;}
+  .tab{padding:0.9rem 1.3rem;font-size:0.85rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab:hover{color:var(--accent);}
+  .content{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .summary-section{background:var(--card-bg);border-radius:20px;border:1.5px solid var(--c2);padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .summary-section h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--c1);}
+  .summary-section h3{font-size:1rem;font-weight:600;color:var(--accent);margin:1rem 0 0.4rem;}
+  .summary-section p,.summary-section li{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:0.4rem;}
+  .summary-section ul{padding-left:1.4rem;}
+  .comparison-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;}
+  .comparison-table th{background:var(--c2);color:var(--text);padding:0.6rem 0.9rem;text-align:left;}
+  .comparison-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--c1);}
+  .comparison-table tr:last-child td{border:none;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.8rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .highlight-box{background:linear-gradient(135deg,var(--c1),var(--c3));border-radius:12px;padding:1rem 1.2rem;margin:0.8rem 0;border-left:4px solid var(--accent);}
+  .highlight-box p{font-size:0.88rem;color:var(--text);font-weight:500;}
+  .q-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .q-num{font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .q-text{font-size:0.95rem;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.5;}
+  .options{display:grid;gap:0.6rem;}
+  .option{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid transparent;background:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;font-size:0.88rem;color:var(--text);}
+  .option:hover{border-color:var(--c2);background:var(--c1);}
+  .option.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .option.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .option.reveal-correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-letter{font-weight:700;min-width:1.2rem;}
+  .q-feedback{margin-top:0.8rem;padding:0.65rem 1rem;border-radius:10px;font-size:0.83rem;display:none;}
+  .q-feedback.show{display:block;}
+  .q-feedback.correct{background:#d4edda;color:#155724;}
+  .q-feedback.wrong{background:#f8d7da;color:#721c24;}
+  .fitb-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .fitb-sentence{font-size:0.95rem;line-height:2.4;color:var(--text);}
+  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:140px;color:var(--text);outline:none;transition:all 0.2s;}
+  .blank-input:focus{border-bottom-color:var(--c3);}
+  .blank-input.correct-ans{border-bottom-color:#28a745;color:#155724;}
+  .blank-input.wrong-ans{border-bottom-color:#dc3545;color:#dc3545;}
+  .check-btn{margin-top:1rem;background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:12px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .check-btn:hover{opacity:0.85;}
+  .fitb-result{margin-top:0.6rem;font-size:0.82rem;display:none;}
+  .fitb-result.show{display:block;}
+  .mock-header{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .mock-header h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);flex-wrap:wrap;}
+  .mock-meta span{background:var(--c1);padding:0.25rem 0.75rem;border-radius:12px;}
+  .submit-btn{background:var(--accent);color:#fff;border:none;padding:0.75rem 2rem;border-radius:14px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:all 0.2s;}
+  .submit-btn:hover{opacity:0.85;transform:scale(1.02);}
+  .score-box{background:var(--card-bg);border:2px solid var(--accent);border-radius:20px;padding:2rem;text-align:center;margin-top:1.5rem;display:none;}
+  .score-box.show{display:block;}
+  .score-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--accent);}
+  .score-label{font-size:0.9rem;color:var(--text2);margin-top:0.25rem;}
+  .retake-btn{background:transparent;border:2px solid var(--accent);color:var(--accent);padding:0.6rem 1.5rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-top:1rem;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .retake-btn:hover{background:var(--accent);color:#fff;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:2.5rem;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:90vh;overflow-y:auto;}
+  .modal h2{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:0.3rem;color:#3a2a35;}
+  .modal p{font-size:0.85rem;color:#6b5060;margin-bottom:1.5rem;}
+  .theme-options{display:grid;gap:0.85rem;}
+  .theme-option{border:2px solid #e8e0ec;border-radius:14px;padding:1rem 1.2rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem;}
+  .theme-option:hover,.theme-option.selected{border-color:#c47b8a;background:#fdf7f9;}
+  .theme-swatch{display:flex;gap:4px;}
+  .theme-swatch span{width:18px;height:18px;border-radius:50%;}
+  .theme-label{font-weight:600;font-size:0.88rem;}
+  .theme-label small{display:block;font-weight:400;color:#888;font-size:0.75rem;}
+  .color-picker-row{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem;}
+  .color-pick{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;}
+  .color-pick input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;}
+  .modal-actions{display:flex;gap:0.75rem;margin-top:1.5rem;}
+  .btn-apply{background:#c47b8a;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-cancel{background:transparent;color:#6b5060;border:1.5px solid #ddd;padding:0.6rem 1.2rem;border-radius:12px;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .page-tag{display:inline-block;background:var(--c2);color:var(--text);font-size:0.72rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:15px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
+  .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
+  .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
+  .hk-bg,.skywars-bg,.ppg-bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .theme-hellokitty .hk-bg{display:block;}
+  .theme-skywars .skywars-bg{display:block;}
+  .theme-ppg .ppg-bg{display:block;}
+  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,.theme-skywars .content,.theme-skywars .chapter-hero,.theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
+  .hk-icon{position:absolute;opacity:0.12;animation:hk-float 6s ease-in-out infinite;}
+  .hk-icon:nth-child(2n){animation-duration:8s;animation-delay:-2s;}
+  .hk-icon:nth-child(3n){animation-duration:7s;animation-delay:-4s;}
+  @keyframes hk-float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+  .sky-star{position:absolute;border-radius:50%;background:#00cfff;animation:sky-twinkle 3s ease-in-out infinite;}
+  @keyframes sky-twinkle{0%,100%{opacity:0.2;transform:scale(1)}50%{opacity:0.9;transform:scale(1.5)}}
+  .sky-player{position:absolute;opacity:0;animation:sky-fly linear infinite;}
+  @keyframes sky-fly{0%{transform:translateX(-140px);opacity:0}5%{opacity:0.8}95%{opacity:0.8}100%{transform:translateX(calc(100vw + 140px));opacity:0}}
+  .ppg-hero{position:absolute;opacity:0;animation:ppg-fly linear infinite;will-change:transform;}
+  @keyframes ppg-fly{0%{transform:translateX(-160px) translateY(0px);opacity:0}5%{opacity:1}50%{transform:translateX(50vw) translateY(var(--dy,0px));opacity:1}95%{opacity:1}100%{transform:translateX(calc(100vw + 160px)) translateY(var(--dy,0px));opacity:0}}
+  .ppg-cloud{position:absolute;animation:ppg-fly linear infinite;opacity:0.2;}
+  .ppg-city{position:absolute;bottom:0;left:0;right:0;height:180px;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="hk-bg" id="hkBg"></div>
+<div class="skywars-bg" id="skywarsBg"></div>
+<div class="ppg-bg" id="ppgBg"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">MECE<span>350</span></a>
+  <div class="nav-links">
+    <a href="index.html">← Home</a>
+    <a href="#" onclick="scrollTo(0,0)">Top</a>
+    <button class="theme-btn" onclick="openTheme()">🎨 Theme</button>
+  </div>
+</nav>
+
+<div class="chapter-hero">
+  <div class="page-tag">Chapter 10</div>
+  <h1>Additive Manufacturing</h1>
+  <p>Summary · MCQ Bank · Fill-in-the-Blank · 3 Mock Tests</p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('summary',this)">📖 Summary</div>
+    <div class="tab" onclick="showPanel('mcq',this)">❓ MCQ Bank</div>
+    <div class="tab" onclick="showPanel('fitb',this)">✏️ Fill in the Blank</div>
+    <div class="tab" onclick="showPanel('mock1',this)">🧪 Mock Test 1</div>
+    <div class="tab" onclick="showPanel('mock2',this)">🧪 Mock Test 2</div>
+    <div class="tab" onclick="showPanel('mock3',this)">🧪 Mock Test 3</div>
+  </div>
+</div>
+
+<div class="content">
+<!-- ═══════════════════ SUMMARY ═══════════════════ -->
+<div class="panel active" id="panel-summary">
+
+  <div class="summary-section">
+    <h2>1. What is Additive Manufacturing?</h2>
+    <p>Additive Manufacturing (AM) refers to a process by which <strong>digital 3D design data is used to build up a component in layers by depositing material</strong>. The term <strong>'3D printing'</strong> is increasingly used as a synonym, but AM is more precise — it describes a professional production technique clearly distinguished from conventional material removal.</p>
+    <div class="highlight-box">
+      <p>🔑 <strong>Core distinction:</strong> Machining is <em>top-down</em> (material removal). AM is <em>bottom-up</em> (material addition). No tooling is needed in AM — the digital file drives the process directly.</p>
+    </div>
+    <p>3D printing was first invented at MIT in the mid-1980s and patented in 1995. It involves building parts layer-by-layer from powder-based or filament material.</p>
+
+    <h3>Why is AM Such a Big Deal Now?</h3>
+    <ul>
+      <li>Wide availability of CAD/CAM software</li>
+      <li>Improved automation and component technologies</li>
+      <li>A growing library of printable materials</li>
+      <li>Major industry (GE, Airbus) and government investment (UK, USA, Germany, China)</li>
+      <li>Freedom to operate enabled by patent expirations</li>
+      <li>Momentum, confidence, and creative vision</li>
+    </ul>
+
+    <h3>Why Use AM?</h3>
+    <ul>
+      <li><strong>Fast / rapid prototyping</strong> — physical part from a CAD file in hours</li>
+      <li><strong>Complex geometries</strong> — internal channels, lattices, undercuts impossible to machine</li>
+      <li><strong>Multiple and new materials</strong> — including mixed/graded materials</li>
+      <li><strong>Enhanced performance</strong> — usually through weight reduction (topology optimisation)</li>
+      <li><strong>Low-volume personalised / customised manufacturing</strong> — cost-neutral regardless of batch size</li>
+    </ul>
+
+    <h3>AM Performance — The Four Attributes</h3>
+    <table class="comparison-table">
+      <tr><th>Attribute</th><th>AM Score</th><th>Details</th></tr>
+      <tr><td><strong>Rate</strong></td><td>Low</td><td>0.01–1 kg/hr (and improving)</td></tr>
+      <tr><td><strong>Quality</strong></td><td>Low–Medium</td><td>~0.1 mm resolution; rate–quality trade-off</td></tr>
+      <tr><td><strong>Cost</strong></td><td>High</td><td>$0.1–$10 per gram! (highly material- and process-dependent)</td></tr>
+      <tr><td><strong>Flexibility</strong></td><td>AMAZING</td><td>Complexity or customisation is effectively free — cost per part does not rise with part complexity</td></tr>
+    </table>
+
+    <h3>How AM Redefines Value</h3>
+    <p>In traditional manufacturing, cost per unit (C/N) = F/N + V, meaning high fixed cost F dominates at low volume. AM largely eliminates fixed tooling cost — investing in a 3D printer (a broad capability) allows different parts to be produced on demand in any quantity (1, 10, or 100) without a separate fixed investment per design. This flattens the cost-vs-complexity curve dramatically.</p>
+
+    <h3>How Are AM Parts Used? (Wohlers Report 2017)</h3>
+    <ul>
+      <li>Functional parts — 33.8% (largest category)</li>
+      <li>Fit and assembly — 16.0%</li>
+      <li>Education/research — 10.7%</li>
+      <li>Patterns for metal castings — 8.3%</li>
+      <li>Tooling components — 7.4%</li>
+      <li>Patterns for prototype tooling — 7.4%</li>
+      <li>Visual aids — 7.3%</li>
+      <li>Presentation models — 7.1%</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>2. Overview of AM Processes</h2>
+    <p>There are four main families of AM processes covered in the lecture:</p>
+    <table class="comparison-table">
+      <tr><th>Process Family</th><th>Common Name / Abbreviation</th><th>Mechanism</th><th>Material Forms</th></tr>
+      <tr><td><strong>Extrusion</strong></td><td>FDM / FFF</td><td>Thermoplastic filament melted and deposited layer-by-layer through a heated nozzle</td><td>Thermoplastic filament</td></tr>
+      <tr><td><strong>Photopolymerisation</strong></td><td>SLA (Stereolithography)</td><td>UV laser cures liquid photo-resin point-by-point in a vat</td><td>UV-curable liquid resin (photo-resin)</td></tr>
+      <tr><td><strong>Powder Bed Fusion</strong></td><td>SLS (plastics) / SLM (metals)</td><td>High-power laser sinters or fully melts powder particles in a bed, layer by layer</td><td>Plastic or metal powder (10–100 µm)</td></tr>
+      <tr><td><strong>Jetting</strong></td><td>Material Jetting / Binder Jetting</td><td>Inkjet technology deposits material or binder droplets locally; can be parallelised</td><td>Polymer droplets (material jet) or binder on powder (binder jet)</td></tr>
+    </table>
+  </div>
+
+  <div class="summary-section">
+    <h2>3. Fused Deposition Modelling (FDM / FFF)</h2>
+    <p>FDM (Fused Deposition Modelling) — also called FFF (Fused Filament Fabrication) — is the <strong>most common AM process</strong>, used in the majority of desktop 3D printers.</p>
+
+    <h3>How It Works</h3>
+    <ul>
+      <li>A thermoplastic filament is fed through a <strong>heated build head (extruder)</strong> that moves in the x–y plane</li>
+      <li>The table (build platform) moves downward in the <strong>z-direction</strong> after each layer</li>
+      <li>Successive layers of melted plastic are deposited and fuse together to build the part from the bottom up</li>
+      <li>A plastic model can be created in minutes</li>
+    </ul>
+
+    <h3>Fill Patterns</h3>
+    <p>Each layer is built in three stages: a <strong>perimeter trajectory</strong> outlines the boundary, then an <strong>in-fill trajectory</strong> fills the interior. Fill density can be varied (sparse/honeycomb interior saves material and time).</p>
+
+    <h3>The Extruder</h3>
+    <ul>
+      <li>Often FDM machines have a <strong>dual extruder</strong> — one for the build material, one for the support material</li>
+      <li>A <strong>pinch wheel (drive wheel)</strong> grips the filament and provides force to counter the viscous resistance in the nozzle</li>
+      <li>At high feed rates, the filament can <strong>fail by shear</strong> under the drive wheel — this limits maximum rate and quality</li>
+      <li>Force increases with feed rate and is greater at lower temperature</li>
+    </ul>
+
+    <h3>FDM — Support Structures, Anisotropy, and Surface Finish</h3>
+    <ul>
+      <li><strong>Support structures</strong> are required for overhanging features; they are removed post-build</li>
+      <li><strong>Anisotropy</strong> — FDM parts are stronger in the x–y (in-plane) direction than in z (build direction); fracture preferentially occurs between layers</li>
+      <li><strong>Surface finishing</strong> — the staircase (layer) effect requires post-processing (sanding, acetone vapour for ABS) for smooth surfaces</li>
+    </ul>
+
+    <h3>Machine Range</h3>
+    <table class="comparison-table">
+      <tr><th>Machine</th><th>Approx. Cost</th><th>Build Volume</th></tr>
+      <tr><td>Ultimaker 2 (desktop)</td><td>USD 2,500</td><td>25 × 23 × 20 cm</td></tr>
+      <tr><td>Stratasys Fortus (industrial)</td><td>USD 150,000–400,000</td><td>40×35×40 to 91×60×91 cm</td></tr>
+    </table>
+
+    <h3>Industrial Applications</h3>
+    <p>Every Boeing and Airbus aircraft has <strong>hundreds of parts made using FDM</strong>. GE, Airbus, and military programmes all rely on FDM for ducting, brackets, and housings.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>✔ Advantages of FDM</h3>
+        <ul>
+          <li>Most common and accessible AM process</li>
+          <li>Low-cost feedstock (filament spools)</li>
+          <li>Wide variety of thermoplastics (ABS, PLA, PETG, Nylon, PEEK)</li>
+          <li>Simple operating conditions</li>
+          <li>Dual material capability (build + support)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>✗ Limitations of FDM</h3>
+        <ul>
+          <li>Lowest resolution and surface quality of the three main AM processes</li>
+          <li>Anisotropic mechanical properties (weak in z-direction)</li>
+          <li>Support structures needed for overhangs</li>
+          <li>Staircase surface finish requires post-processing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2>4. Stereolithography (SLA)</h2>
+    <p>Stereolithography was the <strong>first AM process</strong> to be commercialised. It cures a liquid photo-resin using a UV laser — a process called <strong>light-activated polymerisation</strong>.</p>
+
+    <h3>How SLA Works</h3>
+    <ul>
+      <li>A UV laser beam is scanned across the surface of a vat of UV-curable liquid resin</li>
+      <li>Where the laser strikes, the resin cures (solidifies) to form each point and layer</li>
+      <li>The build platform moves <strong>down</strong> by one layer thickness after each layer is cured</li>
+      <li>SLA is a <strong>single-material process</strong> — only one resin per build</li>
+    </ul>
+
+    <h3>SLA vs FDM — Key Differences</h3>
+    <table class="comparison-table">
+      <tr><th>Attribute</th><th>SLA</th><th>FDM</th></tr>
+      <tr><td>Layer thickness</td><td>Smaller (finer)</td><td>Larger (coarser)</td></tr>
+      <tr><td>Surface quality</td><td>Higher — smoother finish</td><td>Lower — visible layer lines</td></tr>
+      <tr><td>Build speed</td><td>Slower (finer layers)</td><td>Faster (thicker layers)</td></tr>
+      <tr><td>Toolpath logic</td><td>Similar in-fill + perimeter approach</td><td>Similar in-fill + perimeter approach</td></tr>
+      <tr><td>Material</td><td>Photo-resin (thermoset)</td><td>Thermoplastic filament</td></tr>
+    </table>
+
+    <h3>Applications of SLA</h3>
+    <ul>
+      <li>High-detail presentation models for architects and automotive designers</li>
+      <li>Parts for customer visualisation and design reviews</li>
+      <li><strong>Hearing aids</strong> — one of the largest-volume SLA production applications; fully personalised shell</li>
+      <li><strong>Orthodontic braces / clear aligners</strong> — batch-personalised SLA masters used to thermoform aligner sheets</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>5. Selective Laser Sintering / Melting (SLS / SLM)</h2>
+    <p>SLS and SLM use a <strong>high-power laser</strong> to locally sinter (SLS — partial fusion, used for plastics) or fully melt (SLM — used for metals) powder particles in a bed, building the part layer by layer.</p>
+
+    <h3>How SLS / SLM Works</h3>
+    <ul>
+      <li>A thin layer of powder is spread over the build platform by a recoater blade</li>
+      <li>A laser scans the cross-section of the part, fusing the powder</li>
+      <li>The platform drops by one layer thickness; fresh powder is spread; process repeats</li>
+      <li>The unfused surrounding powder acts as a <strong>self-supporting medium</strong> — no separate support structures needed (a key advantage over FDM and SLA for metals)</li>
+    </ul>
+
+    <h3>Critical Process Parameters in SLM</h3>
+    <ul>
+      <li>Laser power</li>
+      <li>Laser scan speed</li>
+      <li>Laser scan pattern (hatch strategy)</li>
+      <li>Particle size and packing density (typically 10–100 µm diameter)</li>
+      <li>Layer uniformity and thickness</li>
+      <li>Bed (preheat) temperature</li>
+    </ul>
+
+    <h3>Mechanical Properties of SLM Parts</h3>
+    <ul>
+      <li><strong>Fine microstructure</strong> → high strength (higher UTS than wrought reference material in some cases)</li>
+      <li><strong>Small internal defects</strong> (porosity, lack-of-fusion) → <strong>lower ductility</strong> than standard wrought material</li>
+      <li>Properties highly dependent on process parameters and post-process annealing / HIP</li>
+    </ul>
+
+    <h3>Energy Comparison (Order of Magnitude)</h3>
+    <table class="comparison-table">
+      <tr><th>Process</th><th>Typical Energy</th><th>Scan Speed</th></tr>
+      <tr><td>SLA (photopolymerisation)</td><td>~0.1 W</td><td>~1 m/s</td></tr>
+      <tr><td>FDM (filament melting)</td><td>1–10 W</td><td>—</td></tr>
+      <tr><td>SLM (powder melting)</td><td>100–1,000 W</td><td>1–10 m/s</td></tr>
+    </table>
+
+    <h3>SLM Powder Handling Challenges</h3>
+    <ul>
+      <li>Powder can be <strong>flammable</strong> (especially aluminium and titanium)</li>
+      <li><strong>Inhalation risk</strong> — requires specialist handling and PPE</li>
+      <li>Metals <strong>oxidise easily</strong> — inert atmosphere (argon or nitrogen) required</li>
+      <li>Post-processing needed: powder removal, machining away metal supports, often HIP (Hot Isostatic Pressing)</li>
+    </ul>
+
+    <h3>Applications of SLM</h3>
+    <ul>
+      <li><strong>Aerospace</strong> — GE LEAP fuel nozzle (was 20 parts, now 1 printed part; 25% lighter, 5× more durable)</li>
+      <li><strong>Automotive</strong> — weight-optimised brackets and topology-optimised structural components</li>
+      <li><strong>Tooling for injection moulding</strong> — conformal cooling channels impossible to drill conventionally</li>
+      <li><strong>Medical implants</strong> — personalised titanium orthopaedic and craniofacial implants</li>
+      <li><strong>Titanium bicycle frames</strong> — 3D printed mountain bike: original 2,100 g → redesigned 1,400 g (33% weight saving)</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>6. Material and Binder Jetting</h2>
+    <p>Jetting processes use <strong>inkjet technology</strong> to deposit material locally. They are attractive because inkjet is a mature, parallelisable technology capable of depositing many droplets in a very short time.</p>
+    <ul>
+      <li><strong>Material Jetting</strong> — the part is built directly by jetting polymer droplets (usually UV-curable); produces multi-material, multi-colour parts with high accuracy</li>
+      <li><strong>Binder Jetting</strong> — a liquid binder is deposited to fuse plastic, metal, or ceramic powder together; the green part is then sintered in a furnace</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>7. Emerging AM Technologies</h2>
+    <ul>
+      <li><strong>Industrial Automation</strong> — creating automated production lines for 3D printing (e.g. MetalFAB1 by Additive Industries), removing human bottlenecks in powder handling, build, and post-processing</li>
+      <li><strong>Hybrid AM + Machining</strong> — combined machines (especially Japanese-made) deposit metal via AM then machine it to net-shape in the same setup; very high cost ($1–2 million) but produce finished parts with no secondary operations</li>
+      <li><strong>Large-scale FDM</strong> — organisations including ORNL have printed car bodies and military vehicle components using very large FDM systems</li>
+      <li><strong>Multi-material and embedded electronics</strong> — printing conductive traces directly into parts</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>8. AM Process Comparison — Quick Reference</h2>
+    <table class="comparison-table">
+      <tr><th>Process</th><th>Material</th><th>Resolution</th><th>Strength</th><th>Cost (machine)</th><th>Key Use</th></tr>
+      <tr><td><strong>FDM</strong></td><td>Thermoplastic filament</td><td>Low (~0.2 mm)</td><td>Anisotropic — weak in z</td><td>Low ($2k–$400k)</td><td>Prototypes, functional plastic parts, aerospace ducting</td></tr>
+      <tr><td><strong>SLA</strong></td><td>UV-curable liquid resin</td><td>High (~0.05 mm)</td><td>Brittle (thermoset)</td><td>Medium</td><td>High-detail models, hearing aids, dental aligners</td></tr>
+      <tr><td><strong>SLS</strong></td><td>Polymer powder</td><td>Medium</td><td>Isotropic, moderate</td><td>Medium–High</td><td>Functional polymer parts without supports</td></tr>
+      <tr><td><strong>SLM</strong></td><td>Metal powder</td><td>Medium (~0.1 mm)</td><td>High (can exceed wrought)</td><td>Very High ($500k–$2M)</td><td>Aerospace, medical, tooling — complex metal parts</td></tr>
+      <tr><td><strong>Binder Jetting</strong></td><td>Powder + binder</td><td>Medium</td><td>Moderate (post-sinter)</td><td>Medium–High</td><td>Metal/ceramic parts, full-colour sand casting patterns</td></tr>
+    </table>
+
+    <h3>The Verdict — Where AM Wins</h3>
+    <div class="highlight-box">
+      <p>🏆 For <strong>large-scale manufacturing</strong>, AM cannot compete with conventional processes on cost, rate, or quality. But for <strong>flexibility</strong> — especially complex geometries, custom parts, and low volumes — the opportunities are immense. Complexity and customisation are effectively FREE in AM, unlike in conventional tooling-based processes.</p>
+    </div>
+
+    <h3>Challenges to Accelerate AM Adoption</h3>
+    <ul>
+      <li>Design tools and data management to fully realise geometric freedom</li>
+      <li>Process control — higher quality at faster rates; part qualification standards</li>
+      <li>Standards (materials characterisation, process certification)</li>
+      <li>Education — from fundamentals to industrial practice</li>
+      <li>AM has potential to modify digital supply chains, shifting from global to local manufacturing</li>
+    </ul>
+  </div>
+
+</div><!-- end summary -->
+
+<!-- ═════════════════ MCQ BANK ═════════════════ -->
+<div class="panel" id="panel-mcq"><div id="mcq-container"></div></div>
+
+<!-- ═════════════════ FITB ═════════════════ -->
+<div class="panel" id="panel-fitb"><div id="fitb-container"></div></div>
+
+<!-- ═════════════════ MOCK 1 ═════════════════ -->
+<div class="panel" id="panel-mock1">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 1 — AM Fundamentals &amp; FDM</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock1-container"></div>
+  <button class="submit-btn" onclick="submitMock(1)">Submit Test 1</button>
+  <div class="score-box" id="score1">
+    <div class="score-num" id="score1-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(1)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ═════════════════ MOCK 2 ═════════════════ -->
+<div class="panel" id="panel-mock2">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 2 — SLA, SLS/SLM &amp; Jetting</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock2-container"></div>
+  <button class="submit-btn" onclick="submitMock(2)">Submit Test 2</button>
+  <div class="score-box" id="score2">
+    <div class="score-num" id="score2-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(2)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ═════════════════ MOCK 3 ═════════════════ -->
+<div class="panel" id="panel-mock3">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 3 — Comprehensive Additive Manufacturing</h2>
+    <div class="mock-meta"><span>📝 20 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock3-container"></div>
+  <button class="submit-btn" onclick="submitMock(3)">Submit Test 3</button>
+  <div class="score-box" id="score3">
+    <div class="score-num" id="score3-num">0/20</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(3)">🔄 Retake Test</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<!-- ═════════════════ THEME MODAL ═════════════════ -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <h2>🎨 Choose Your Theme</h2>
+    <p>Pick a predefined palette or build your own custom one.</p>
+    <div class="theme-options">
+      <div class="theme-option selected" id="opt-default" onclick="selectTheme('default')">
+        <div class="theme-swatch"><span style="background:#F2C4CE"></span><span style="background:#E8A0AE"></span><span style="background:#B0A8BE"></span></div>
+        <div class="theme-label">Default Blush <small>The original pink-mauve palette</small></div>
+      </div>
+      <div class="theme-option" id="opt-hellokitty" onclick="selectTheme('hellokitty')">
+        <div class="theme-swatch"><span style="background:#FFB7C5"></span><span style="background:#FF8FAB"></span><span style="background:#FFC8DD"></span></div>
+        <div class="theme-label">Hello Kitty 🎀 <small>Sanrio hot pink vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-skywars" onclick="selectTheme('skywars')">
+        <div class="theme-swatch"><span style="background:#0a1628"></span><span style="background:#1e3a6e"></span><span style="background:#00cfff"></span></div>
+        <div class="theme-label">Skywars 🚀 <small>Deep sky cosmic vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-ppg" onclick="selectTheme('ppg')">
+        <div class="theme-swatch"><span style="background:#4BC4E8"></span><span style="background:#FF3399"></span><span style="background:#33CC66"></span></div>
+        <div class="theme-label">Powerpuff Girls 💥 <small>Sugar, spice &amp; everything nice</small></div>
+      </div>
+      <div class="theme-option" id="opt-custom" onclick="selectTheme('custom')">
+        <div class="theme-swatch"><span id="sw1" style="background:#aaa"></span><span id="sw2" style="background:#bbb"></span><span id="sw3" style="background:#ccc"></span></div>
+        <div class="theme-label">Custom 🎨 <small>Pick your own colors</small></div>
+      </div>
+    </div>
+    <div id="colorPickers" style="display:none;margin-top:1rem;">
+      <div class="color-picker-row">
+        <div class="color-pick"><input type="color" id="cp1" value="#F2C4CE" oninput="previewCustom()"> Primary</div>
+        <div class="color-pick"><input type="color" id="cp2" value="#E8A0AE" oninput="previewCustom()"> Secondary</div>
+        <div class="color-pick"><input type="color" id="cp3" value="#B0A8BE" oninput="previewCustom()"> Accent Bg</div>
+        <div class="color-pick"><input type="color" id="cp4" value="#c47b8a" oninput="previewCustom()"> Accent</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-apply" onclick="applyTheme()">Apply</button>
+      <button class="btn-cancel" onclick="closeTheme()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════ THEME ENGINE ═══════ */
+const THEME_KEY='mece350-theme-v2';let selectedTheme='default';
+function openTheme(){document.getElementById('themeModal').classList.add('open');}
+function closeTheme(){document.getElementById('themeModal').classList.remove('open');}
+function selectTheme(t){selectedTheme=t;document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));const el=document.getElementById('opt-'+t);if(el)el.classList.add('selected');const p=document.getElementById('colorPickers');if(p)p.style.display=t==='custom'?'block':'none';}
+function previewCustom(){document.getElementById('sw1').style.background=document.getElementById('cp1').value;document.getElementById('sw2').style.background=document.getElementById('cp2').value;document.getElementById('sw3').style.background=document.getElementById('cp3').value;}
+function applyTheme(){let data={type:selectedTheme};if(selectedTheme==='custom'){data.c1=document.getElementById('cp1').value;data.c2=document.getElementById('cp2').value;data.c3=document.getElementById('cp3').value;data.c4=document.getElementById('cp4').value;}applyThemeData(data);localStorage.setItem(THEME_KEY,JSON.stringify(data));closeTheme();}
+function clearBgs(){['hkBg','skywarsBg','ppgBg'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});document.body.classList.remove('theme-hellokitty','theme-skywars','theme-ppg');const r=document.documentElement.style;['--c1','--c2','--c3','--accent','--nav-bg'].forEach(p=>r.removeProperty(p));}
+function applyThemeData(data){clearBgs();const t=data?data.type:'default';if(t==='hellokitty'){document.body.classList.add('theme-hellokitty');spawnHKIcons();}else if(t==='skywars'){document.body.classList.add('theme-skywars');spawnSkywars();}else if(t==='ppg'){document.body.classList.add('theme-ppg');spawnPPG();}else if(t==='custom'&&data.c1){const r=document.documentElement.style;r.setProperty('--c1',data.c1);r.setProperty('--c2',data.c2);r.setProperty('--c3',data.c3);r.setProperty('--accent',data.c4);r.setProperty('--nav-bg',data.c1+'f5');}selectTheme(t||'default');}
+function spawnHKIcons(){const bg=document.getElementById('hkBg');if(!bg)return;const icons=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 55"><path d="M30 50 C10 35 0 25 0 15 C0 5 8 0 15 0 C21 0 27 4 30 9 C33 4 39 0 45 0 C52 0 60 5 60 15 C60 25 50 35 30 50Z" fill="#FF3366"/></svg>','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,4 36,22 56,22 40,34 46,52 30,40 14,52 20,34 4,22 24,22" fill="#FF6B9D"/></svg>'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='hk-icon';const sz=35+Math.random()*55;d.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;width:${sz}px;height:${sz}px;--rot:${(Math.random()-0.5)*40}deg;animation-delay:${-Math.random()*8}s;`;d.innerHTML=icons[i%icons.length];bg.appendChild(d);}}
+function makeSkyShip(b,c){return`<svg xmlns="http://www.w3.org/2000/svg" width="88" height="48" viewBox="0 0 88 48"><polygon points="88,24 60,8 52,24 60,40" fill="${b}"/><ellipse cx="36" cy="24" rx="28" ry="10" fill="${b}"/><polygon points="8,24 0,42 18,30" fill="${b}" opacity="0.7"/><polygon points="8,24 0,6 18,18" fill="${b}" opacity="0.7"/><ellipse cx="42" cy="20" rx="10" ry="6" fill="${c}" opacity="0.9"/><ellipse cx="40" cy="19" rx="5" ry="3" fill="#cef8ff" opacity="0.75"/><ellipse cx="10" cy="24" rx="6" ry="3" fill="#ff7700" opacity="0.95"/><ellipse cx="7" cy="24" rx="8" ry="2.5" fill="#ffcc00" opacity="0.55"/></svg>`;}
+function spawnSkywars(){const bg=document.getElementById('skywarsBg');if(!bg)return;for(let i=0;i<150;i++){const s=document.createElement('div');s.className='sky-star';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${-Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;bg.appendChild(s);}['rgba(0,207,255,0.05)','rgba(60,0,200,0.04)','rgba(0,100,200,0.05)'].forEach(col=>{const o=document.createElement('div');const sz=180+Math.random()*280;o.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;top:${Math.random()*90}%;left:${Math.random()*90}%;background:${col};filter:blur(55px);`;bg.appendChild(o);});[{b:'#1a5fa0',c:'#00cfff',top:12,dur:20,d:0},{b:'#0c3560',c:'#55eeff',top:32,dur:27,d:-9},{b:'#1d3d7a',c:'#00cfff',top:55,dur:18,d:-5},{b:'#2a146e',c:'#8888ff',top:74,dur:24,d:-14},{b:'#0a2a50',c:'#00aaff',top:88,dur:31,d:-20}].forEach(sh=>{const el=document.createElement('div');el.className='sky-player';el.style.cssText=`top:${sh.top}%;animation-duration:${sh.dur}s;animation-delay:${sh.d}s;`;el.innerHTML=makeSkyShip(sh.b,sh.c);bg.appendChild(el);});}
+function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;[{top:25,col:'rgba(255,100,160,0.22)',dur:20,d:0,w:350},{top:42,col:'rgba(80,150,255,0.22)',dur:26,d:-8,w:280},{top:32,col:'rgba(50,200,100,0.22)',dur:17,d:-14,w:320}].forEach(tr=>{const el=document.createElement('div');el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.d}s infinite;`;bg.appendChild(el);});for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}const city=document.createElement('div');city.className='ppg-city';city.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none" style="width:100%;height:100%"><rect x="0" y="90" width="70" height="90" fill="#001829" opacity="0.35"/><rect x="65" y="55" width="48" height="125" fill="#001829" opacity="0.4"/><rect x="140" y="35" width="62" height="145" fill="#001829" opacity="0.45"/><rect x="245" y="42" width="45" height="138" fill="#001829" opacity="0.42"/><rect x="342" y="22" width="72" height="158" fill="#001829" opacity="0.45"/><rect x="490" y="38" width="58" height="142" fill="#001829" opacity="0.42"/><rect x="608" y="28" width="52" height="152" fill="#001829" opacity="0.45"/><rect x="788" y="32" width="65" height="148" fill="#001829" opacity="0.45"/><rect x="990" y="22" width="75" height="158" fill="#001829" opacity="0.45"/><rect x="1105" y="36" width="60" height="144" fill="#001829" opacity="0.42"/></svg>';bg.appendChild(city);}
+(function(){const saved=localStorage.getItem(THEME_KEY);if(saved){try{applyThemeData(JSON.parse(saved));}catch(e){}}})();
+function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+/* ═══════════════════════ DATA ═══════════════════════ */
+const mcqData=[
+  {q:"What is the official ASTM definition of Additive Manufacturing?",opts:["Removing material from a block using a computer-controlled cutter","Using digital 3D design data to build up a component in layers by depositing material","Casting molten metal into a mold from a digital model","Compressing powders into a net shape using high pressure"],ans:1,exp:"The ASTM International Committee F42 definition states: AM refers to a process by which digital 3D design data is used to build up a component in layers by depositing material. This distinguishes it from all subtractive (removal) and formative (compression/casting) processes."},
+  {q:"3D printing was first invented at MIT in the mid-1980s. When was it patented?",opts:["1975","1985","1995","2005"],ans:2,exp:"According to the lecture, 3D printing was first invented at MIT in the mid-1980s and patented in 1995. Patent expirations since then are one of the key reasons AM has become so widespread."},
+  {q:"Which of the Four Attributes is Additive Manufacturing rated as 'AMAZING' at?",opts:["Rate","Quality","Cost","Flexibility"],ans:3,exp:"AM's four attribute scores are: Rate = Low (0.01–1 kg/hr), Quality = Low (~0.1 mm resolution), Cost = High ($0.1–$10/g), Flexibility = AMAZING. Complexity and customisation are effectively free in AM, unlike tooling-based conventional processes."},
+  {q:"What is the approximate cost per gram for additive manufacturing?",opts:["$0.001–$0.01 per gram","$0.1–$10 per gram","$50–$100 per gram","$0 — AM is always cheaper than machining"],ans:1,exp:"The lecture states AM costs $0.1–$10 per gram, highly dependent on material and process. This is very expensive compared with machining or casting and is why AM is not cost-competitive with conventional processes at high volumes."},
+  {q:"In the manufacturing cost model C = F + V·N, how does AM change the economics compared with traditional manufacturing?",opts:["AM increases both fixed and variable cost","AM eliminates most of the fixed (tooling) cost F, making low-volume and customised production economical","AM reduces variable cost V to zero","AM reduces both fixed and variable costs to nearly zero"],ans:1,exp:"Traditional manufacturing has a large fixed tooling cost F that dominates at low volume. AM largely eliminates F (no mold, no die) — the printer itself is a broad-capability fixed investment shared across many designs. This is why complexity and customisation are free in AM."},
+  {q:"Which is the MOST COMMON additive manufacturing process?",opts:["Stereolithography (SLA)","Selective Laser Sintering (SLS)","Fused Deposition Modelling (FDM/FFF)","Selective Laser Melting (SLM)"],ans:2,exp:"FDM (Fused Filament Fabrication) is the most common AM process, used in the majority of desktop 3D printers. Its low cost, simple operating conditions, and wide variety of thermoplastics make it the most accessible AM process."},
+  {q:"In FDM, in which directions does the heated build head move, and which direction does the table move?",opts:["Head moves in z; table moves in x–y","Head moves in x–y; table moves in z (downward)","Both head and table move in x–y–z simultaneously","Head is stationary; table moves in all directions"],ans:1,exp:"In FDM, the heated build head moves in the x–y plane to trace each layer. After each layer is complete, the table (build platform) steps down in the z-direction by one layer thickness. This is the fundamental kinematic arrangement of most desktop FDM systems."},
+  {q:"What limits the maximum feed rate (deposition speed) in an FDM machine?",opts:["The laser cannot scan fast enough","At high feed rates, the filament may fail by shear under the drive wheel","The build platform cannot lower fast enough","The cooling fan cannot remove heat quickly enough"],ans:1,exp:"The pinch/drive wheel grips and pushes the filament into the heated nozzle. At high feed rates, the compressive and shear forces on the filament from the drive wheel exceed the filament's shear strength, causing it to fail and strip — this limits both rate and quality."},
+  {q:"FDM parts are described as 'anisotropic'. What does this mean for mechanical properties?",opts:["FDM parts are equally strong in all directions","FDM parts are stronger in the z (build) direction than in x–y","FDM parts are stronger in the x–y (in-plane) direction than in z (build direction); fracture occurs preferentially between layers","FDM parts have no directional preference as long as the correct material is used"],ans:2,exp:"Because layers are deposited sequentially and bonded by thermal fusion, the interface between layers is weaker than the material within a layer. FDM parts fracture preferentially between layers (z-direction), making them anisotropic — strongest in-plane, weakest through thickness."},
+  {q:"Why are dual extruders used in many FDM machines?",opts:["To double the deposition speed","To print two colours of the same material simultaneously","One extruder for the build material and one for the support material, so overhanging features can be supported and removed cleanly","To reduce anisotropy by alternating between two nozzle orientations"],ans:2,exp:"Dual extruders allow one nozzle to deposit the primary build material and a second to deposit a sacrificial support material (often soluble, like PVA) that supports overhanging features during printing and is dissolved or broken away after printing."},
+  {q:"In Stereolithography (SLA), what mechanism solidifies the material?",opts:["Thermal energy from a heated nozzle fuses powder","UV laser cures liquid photo-resin by light-activated polymerisation","A binder jetted onto powder granules glues them together","A high-power laser fully melts metal powder"],ans:1,exp:"SLA uses a UV laser scanned across the surface of a vat of UV-curable liquid photo-resin. Where the laser strikes, photopolymerisation occurs — the resin cures into a solid. The platform then descends by one layer thickness and the next layer is cured."},
+  {q:"Compared with FDM, SLA produces parts with:",opts:["Coarser layer thickness and lower surface quality","Finer layer thickness and higher surface quality, but slower build speed","The same surface quality but faster build speed","Better mechanical properties and lower cost"],ans:1,exp:"SLA uses a smaller layer thickness than FDM, producing significantly smoother, higher-resolution surfaces. The downside is that finer layers mean slower build speed for the same part volume. SLA resin parts are also typically more brittle than FDM thermoplastic parts."},
+  {q:"Which commercial application represents one of the largest-volume uses of SLA in production?",opts:["Car bumpers","Aircraft fuselage panels","Hearing aids and orthodontic clear aligners","Steel structural brackets"],ans:2,exp:"Hearing aids are a perfect AM use case — each one is customised to the individual ear canal geometry. SLA is used to print personalised shells in batch production. Clear dental aligners similarly use SLA-printed masters to thermoform the aligner sheets."},
+  {q:"In SLA, the build platform moves in which direction as the part grows?",opts:["Upward — the platform rises out of the resin bath","Downward — the platform descends into the bath, incrementing down by one layer after each cure","It moves laterally — the laser moves instead of the platform","The platform does not move — the resin level drops"],ans:1,exp:"In conventional SLA, the platform descends into the vat. Each newly cured layer forms at the top surface of the resin bath. After curing, the platform moves down by one layer thickness, fresh resin flows over the top, and the next layer is cured."},
+  {q:"What key difference distinguishes SLM from SLS?",opts:["SLM uses UV light; SLS uses a CO₂ laser","SLM fully melts the powder (used for metals); SLS partially sinters (fuses) the powder (used for polymers)","SLM uses a binder to join particles; SLS uses temperature alone","SLM is always slower than SLS"],ans:1,exp:"SLS (Selective Laser Sintering) uses partial melting/sintering to fuse polymer powder — particles bond without fully liquefying. SLM (Selective Laser Melting) uses a much higher-power laser to fully melt metal powder, producing fully dense metal parts. The process physics are similar but the energy level and materials differ fundamentally."},
+  {q:"Why is an inert atmosphere (argon or nitrogen) required for SLM of metals?",opts:["To cool the powder faster for better microstructure","Metals oxidise easily at the high temperatures reached during laser melting — inert gas prevents oxidation","To increase the laser power available","To reduce the cost of the process"],ans:1,exp:"At the temperatures reached during laser melting (often above 1600°C for steels and titanium), metals react rapidly with oxygen to form oxides. These oxides contaminate the melt pool and degrade mechanical properties. An inert atmosphere (Ar or N₂) prevents this oxidation."},
+  {q:"What are the typical powder particle sizes used in SLS/SLM?",opts:["1–5 µm (very fine)","10–100 µm","0.5–1 mm","1–5 mm (coarse pellets)"],ans:1,exp:"Powder bed fusion processes use particles typically in the range of 10–100 µm diameter with a wide size distribution. Finer particles improve resolution and surface quality but are harder to handle, more flammable, and harder to recoat uniformly."},
+  {q:"The GE LEAP fuel nozzle is a famous example of SLM. What were the key benefits of switching from conventional to AM production?",opts:["Lower material cost only","The nozzle went from 20 separate parts to 1 printed part — 25% lighter and 5× more durable","Faster production rate than casting","The nozzle could be made from a cheaper material"],ans:1,exp:"The GE LEAP fuel nozzle is the canonical industrial SLM success story. It consolidated 20 previously separate manufactured and welded parts into a single printed part with internal channels impossible to make conventionally, achieving 25% weight reduction and 5× durability improvement."},
+  {q:"In Binder Jetting, what holds the powder together immediately after printing?",opts:["Laser sintering before each layer","A liquid binder deposited by an inkjet printhead that glues powder particles together","High pressure compaction","Electron beam melting"],ans:1,exp:"In binder jetting, an inkjet printhead deposits a liquid adhesive (binder) selectively onto the powder bed. This creates a 'green' part. The green part must then be sintered in a furnace at high temperature to burn out the binder and achieve full density and strength."},
+  {q:"According to the Wohlers Report 2017 data in the lecture, what is the LARGEST category of industrial AM part use?",opts:["Presentation models (7.1%)","Education/research (10.7%)","Functional parts (33.8%)","Fit and assembly (16.0%)"],ans:2,exp:"Functional parts are the largest single category at 33.8% — meaning AM parts are increasingly being used as actual end-use components in assemblies, not just for show or testing. This reflects the maturation of AM from rapid prototyping to direct digital manufacturing."},
+  {q:"The 3D-printed titanium mountain bike frame reduced weight from 2,100 g to 1,400 g. What percentage weight saving does this represent?",opts:["10%","20%","33%","50%"],ans:2,exp:"Weight saving = (2100 - 1400) / 2100 = 700 / 2100 ≈ 33%. This is achieved through topology optimisation — the AM design removes material from regions of low stress while maintaining or increasing strength in load-bearing paths, something impossible to manufacture conventionally."},
+  {q:"What is the main mechanical weakness of SLM parts compared to wrought (conventionally processed) material of the same alloy?",opts:["Lower tensile strength","Lower fatigue resistance due to small internal defects (porosity, lack-of-fusion) giving lower ductility","They cannot be heat-treated","Higher density causing weight penalty"],ans:1,exp:"SLM parts tend to have higher tensile strength (due to fine microstructure from rapid solidification) but lower ductility and fatigue life than wrought material, primarily because of small internal defects such as gas porosity and lack-of-fusion voids. Post-process HIP (Hot Isostatic Pressing) can close these voids."},
+  {q:"Hybrid AM+Machining machines combine deposition with machining in a single setup. What is the key advantage?",opts:["They are very cheap ($10,000)","They produce net-shape parts requiring no secondary operations — combining AM's geometric freedom with machining's accuracy","They use no powder and are therefore safer","They are faster than stand-alone AM"],ans:1,exp:"Hybrid machines (particularly Japanese-made systems like DMG MORI LASERTEC) deposit metal via directed energy deposition or similar, then machine the deposit to achieve tight tolerances and smooth surfaces in the same setup. The result is net-shape parts with no secondary manufacturing steps required. Cost: $1–2M."},
+  {q:"What is meant by 'anisotropy' being a concern for FDM parts?",opts:["FDM parts change colour with temperature","Mechanical properties (strength, stiffness) depend on the direction of loading relative to the build orientation","FDM parts are only available in one material","FDM uses different materials in x vs y directions"],ans:1,exp:"Anisotropy means directional dependence of properties. In FDM, layers are deposited in x–y planes; the bond between layers (z-direction) is weaker than the material within a layer. A part loaded perpendicular to the layer direction fails at much lower stress than one loaded parallel to layers."},
+  {q:"What are the four main AM process families covered in the MECE350 lecture?",opts:["FDM, SLA, SLS/SLM, and Binder/Material Jetting","FDM, Casting, Forging, and Injection Moulding","SLA, Rolling, Extrusion, and Thermoforming","FDM, CNC Milling, Grinding, and Electroplating"],ans:0,exp:"The four AM process families in the lecture are: (1) Extrusion (FDM/FFF), (2) Photopolymerisation (SLA), (3) Powder Bed Fusion (SLS for polymers / SLM for metals), and (4) Material and Binder Jetting. These span the full range from desktop polymer printers to industrial metal AM machines."},
+  {q:"According to the lecture, what is the primary reason AM cannot compete with conventional manufacturing for large-scale production?",opts:["AM cannot produce complex geometries","AM is too slow and too expensive per part at high volumes — rate, cost, and quality all lag conventional methods","AM materials are always weaker","AM requires highly skilled operators unavailable at scale"],ans:1,exp:"The lecture explicitly states that for large-scale manufacturing, AM cannot compete with conventional processes in terms of cost, rate, and quality. However, for flexibility — particularly complexity, customisation, and low-volume personalised production — the opportunities are immense."},
+  {q:"SLM requires approximately how much laser power compared with SLA?",opts:["The same — both use ~0.1 W","SLM uses 10× more: about 1 W","SLM uses 1,000–10,000× more: 100–1,000 W vs ~0.1 W for SLA","SLA uses more power than SLM"],ans:2,exp:"SLA uses approximately 0.1 W to photopolymerise liquid resin at ~1 m/s scan. FDM uses 1–10 W to melt filament. SLM uses 100–1,000 W to fully melt metal powder at 1–10 m/s scan. This 1,000–10,000× energy difference reflects the vastly higher enthalpy needed to fully melt metal vs cure resin."},
+  {q:"What is the 'staircase effect' in FDM and how is it addressed?",opts:["The build platform sticks to the part; addressed by draft angles","Discrete layer steps create a rough approximation of curved surfaces; addressed by post-processing (sanding, acetone vapour smoothing for ABS, or painting)","The filament temperature steps down with each layer; addressed by increasing heater power","The part shrinks in stairs; addressed by scaling the file"],ans:1,exp:"Because FDM builds in discrete layers, curved surfaces appear as a series of steps (the staircase effect) rather than smooth curves. The severity depends on layer thickness and the angle of the curved surface. Post-processing — sanding, acetone vapour smoothing, chemical coating, or painting — is used to remove the staircase for aesthetic or functional applications."},
+  {q:"What is topology optimisation and why does it benefit from AM?",opts:["Optimising the printing speed to reduce staircase effects","Mathematically redistributing material to maximise structural performance per unit weight — the resulting organic, complex geometries can only be manufactured by AM","Choosing the optimal AM process for a given material","Optimising the layer thickness to balance speed and quality"],ans:1,exp:"Topology optimisation uses finite element analysis and mathematical optimisation to remove material from low-stress regions while maintaining load-bearing capacity. The resulting structures are organic, latticed, and internally complex — impossible to machine conventionally but ideally suited to AM, which builds any geometry regardless of complexity for the same cost."},
+  {q:"Which statement correctly describes the cost-complexity relationship in AM vs traditional manufacturing?",opts:["Both AM and traditional manufacturing cost more as complexity increases","In traditional manufacturing, complexity increases cost (more tooling, more setup); in AM, complexity is essentially free — cost depends on volume, not shape","In AM, complexity increases cost linearly; traditional manufacturing has constant cost","Traditional manufacturing is always cheaper regardless of complexity"],ans:1,exp:"This is the fundamental economic insight of AM. In traditional manufacturing, a more complex part requires more complex tooling, more machining steps, or more assembly — all increasing cost. In AM, the machine deposits any shape from the same digital process — adding complexity to the geometry costs nothing additional (except minor effects on build time). This is why the Conner et al. chart shows AM cost staying flat as complexity increases while traditional manufacturing cost rises sharply."},
+];
+
+const fitbData=[
+  {sentence:"AM stands for ___ Manufacturing — building components layer by layer from digital design data.",blanks:["Additive"],answers:["additive"]},
+  {sentence:"3D printing was first patented at MIT in ___.",blanks:["1995"],answers:["1995"]},
+  {sentence:"The four attributes of any manufacturing process are: Rate, Quality, Cost, and ___.",blanks:["Flexibility"],answers:["flexibility"]},
+  {sentence:"AM's approximate production rate is ___ to 1 kg per hour.",blanks:["0.01"],answers:["0.01"]},
+  {sentence:"AM costs approximately $___ to $10 per gram of material deposited.",blanks:["0.1"],answers:["0.1"]},
+  {sentence:"In traditional manufacturing, cost per unit = F/N + V; AM reduces the ___ cost F by eliminating dedicated tooling.",blanks:["fixed"],answers:["fixed"]},
+  {sentence:"In AM, complexity and customisation are effectively ___ — cost per part does not rise with geometric complexity.",blanks:["free"],answers:["free"]},
+  {sentence:"FDM stands for Fused ___ Modelling; it is also called Fused Filament Fabrication (FFF).",blanks:["Deposition"],answers:["deposition"]},
+  {sentence:"In FDM, the heated build head moves in the ___ plane and the table moves in the z-direction.",blanks:["x–y"],answers:["x-y","x–y","xy"]},
+  {sentence:"FDM machines often have a ___ extruder: one for the build material and one for the support material.",blanks:["dual"],answers:["dual","double"]},
+  {sentence:"At high feed rates in FDM, the filament can fail by ___ under the drive wheel, limiting maximum build speed.",blanks:["shear"],answers:["shear"]},
+  {sentence:"FDM parts are ___ — they are stronger in the x–y (in-plane) direction than in the z (build) direction.",blanks:["anisotropic"],answers:["anisotropic"]},
+  {sentence:"SLA stands for Stereolithography Apparatus and cures a ___ resin using a UV laser.",blanks:["photo"],answers:["photo","photopolymer","liquid photo","UV-curable"]},
+  {sentence:"SLA produces parts with ___ layer thickness and better surface quality than FDM, but builds more slowly.",blanks:["smaller"],answers:["smaller","finer","thinner"]},
+  {sentence:"SLA is a ___ material process — only one resin can be used per build.",blanks:["single"],answers:["single","one","single-material"]},
+  {sentence:"Commercial applications of SLA in production include ___ aids and orthodontic clear aligners.",blanks:["hearing"],answers:["hearing"]},
+  {sentence:"SLM stands for Selective Laser ___ and fully melts metal powder using a high-power laser.",blanks:["Melting"],answers:["melting"]},
+  {sentence:"SLS uses partial sintering for ___ (polymers); SLM uses full melting for ___ (metals).",blanks:["SLS","SLM"],answers:["sls","slm"]},
+  {sentence:"Powder particle sizes in SLS/SLM are typically ___ to 100 µm in diameter.",blanks:["10"],answers:["10","10 µm"]},
+  {sentence:"SLM of metals requires an ___ atmosphere (argon or nitrogen) to prevent oxidation of the metal powder.",blanks:["inert"],answers:["inert"]},
+  {sentence:"The GE LEAP fuel nozzle went from ___ separate parts to a single printed component.",blanks:["20"],answers:["20","twenty"]},
+  {sentence:"SLM parts often have higher tensile strength but lower ___ than wrought material due to small internal defects.",blanks:["ductility"],answers:["ductility","elongation","toughness"]},
+  {sentence:"In Binder Jetting, a liquid ___ is deposited onto powder to bond particles together; the green part is sintered afterwards.",blanks:["binder"],answers:["binder"]},
+  {sentence:"According to the Wohlers Report 2017, ___ parts are the largest use category of industrial AM at 33.8%.",blanks:["Functional"],answers:["functional"]},
+  {sentence:"The 3D-printed titanium mountain bike frame achieved a weight saving from 2,100 g to ___ g — a 33% reduction.",blanks:["1,400"],answers:["1,400","1400"]},
+  {sentence:"SLA uses approximately ___ W of laser power, while SLM uses 100–1,000 W.",blanks:["0.1"],answers:["0.1"]},
+  {sentence:"The discrete layer staircase visible on curved FDM surfaces is called the ___ effect.",blanks:["staircase"],answers:["staircase","staircasing","stair-case"]},
+  {sentence:"Hybrid AM + Machining machines combine deposition and machining in one setup to produce ___ parts requiring no secondary operations.",blanks:["net"],answers:["net","net-shape","net shape"]},
+  {sentence:"___ optimisation mathematically redistributes material to maximise structural performance per unit weight — only AM can manufacture the resulting complex organic shapes.",blanks:["Topology"],answers:["topology","topological"]},
+  {sentence:"For large-scale manufacturing AM cannot compete on cost, rate, or quality — but for ___ the opportunities are immense.",blanks:["flexibility"],answers:["flexibility","customisation","customization"]},
+];
+
+const mock1Qs  =[0,1,2,3,4,5,6,7,8,9];
+const mock1Fitb=[0,1,2,3,4];
+const mock2Qs  =[10,11,12,13,14,15,16,17,18,19];
+const mock2Fitb=[11,12,15,16,17];
+const mock3Qs  =[0,2,4,6,8,10,12,14,16,18,20,22];
+const mock3Fitb=[3,7,10,13,18,22,25,27];
+
+/* ═══════════════════ RENDER FUNCTIONS ═══════════════════ */
+function renderMCQ(data,container,prefix){
+  let html='';
+  data.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Question ${i+1}</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div><div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div></div>`;
+  });
+  document.getElementById(container).innerHTML=html;
+}
+function answerMCQ(prefix,qi,chosen,correct){
+  document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`).forEach(o=>o.style.pointerEvents='none');
+  const chosenEl=document.getElementById(`${prefix}-opt-${qi}-${chosen}`);
+  const correctEl=document.getElementById(`${prefix}-opt-${qi}-${correct}`);
+  if(chosen===correct){chosenEl.classList.add('correct');}
+  else{chosenEl.classList.add('wrong');correctEl.classList.add('reveal-correct');}
+  document.getElementById(`${prefix}-fb-${qi}`).classList.add('show',chosen===correct?'correct':'wrong');
+}
+function renderFITB2(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" data-qi="${i}"><div class="q-num">Question ${i+1}</div><div class="fitb-sentence">${sentence}</div><button class="check-btn" onclick="checkFITB2(this)">Check Answer</button><div class="fitb-result"></div></div>`;
+  });
+  document.getElementById(containerId).innerHTML=html;
+  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{card.__fitbData=dataArr[i];});
+}
+function checkFITB2(btn){
+  const card=btn.closest('.fitb-card');const data=card.__fitbData;
+  const inputs=card.querySelectorAll('.blank-input');let allCorrect=true;
+  inputs.forEach((inp,idx)=>{
+    const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ').replace(/–/g,' ');
+    const correct=data.blanks[idx].toLowerCase().replace(/-/g,' ').replace(/–/g,' ');
+    const ok=userVal===correct||(data.answers&&data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ').replace(/–/g,' ')));
+    inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+    if(!ok)allCorrect=false;
+  });
+  const res=card.querySelector('.fitb-result');res.classList.add('show');btn.disabled=true;
+  if(allCorrect){res.style.color='#155724';res.innerHTML='✅ Correct!';}
+  else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct: <strong>'+data.blanks.join(' / ')+'</strong>';}
+}
+function renderMockMCQ(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Q${i+1} — Multiple Choice</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div></div>`;
+  });
+  document.getElementById(containerId).innerHTML+=html;
+}
+function selectMockMCQ(prefix,qi,chosen){
+  const card=document.getElementById(`${prefix}-m-${qi}-${chosen}`).closest('.q-card');
+  card.querySelectorAll('.option').forEach(o=>{o.style.background='';o.style.borderColor='';});
+  document.getElementById(`${prefix}-m-${qi}-${chosen}`).style.cssText='background:var(--c1);border-color:var(--accent);';
+  if(!window.mockAnswers)window.mockAnswers={};
+  if(!window.mockAnswers[prefix])window.mockAnswers[prefix]={};
+  window.mockAnswers[prefix][`mcq-${qi}`]=chosen;
+}
+function renderMockFITB(dataArr,containerId,prefix,startNum){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx2=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx2++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}"><div class="q-num">Q${startNum+i} — Fill in the Blank</div><div class="fitb-sentence">${sentence}</div></div>`;
+  });
+  const div=document.createElement('div');div.innerHTML=html;
+  document.getElementById(containerId).appendChild(div);
+  dataArr.forEach((q,i)=>{const c=document.getElementById(`${prefix}-fitb-${i}`);if(c)c.__fitbData=q;});
+}
+function submitMock(num){
+  const prefix='m'+num;
+  const mcqD=num===1?mock1Qs.map(i=>mcqData[i]):num===2?mock2Qs.map(i=>mcqData[i]):mock3Qs.map(i=>mcqData[i]);
+  const fitbD=num===1?mock1Fitb.map(i=>fitbData[i]):num===2?mock2Fitb.map(i=>fitbData[i]):mock3Fitb.map(i=>fitbData[i]);
+  let score=0;const total=mcqD.length+fitbD.length;
+  mcqD.forEach((q,i)=>{
+    const chosen=(window.mockAnswers&&window.mockAnswers[prefix])?window.mockAnswers[prefix][`mcq-${i}`]:null;
+    const correctEl=document.getElementById(`${prefix}-m-${i}-${q.ans}`);
+    if(correctEl){correctEl.style.background='#d4edda';correctEl.style.borderColor='#28a745';}
+    if(chosen!==null&&chosen!==undefined){
+      const chosenEl=document.getElementById(`${prefix}-m-${i}-${chosen}`);
+      if(chosen===q.ans){score++;}else if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}
+    }
+    document.querySelectorAll(`[id^="${prefix}-m-${i}-"]`).forEach(o=>o.style.pointerEvents='none');
+  });
+  fitbD.forEach((q,i)=>{
+    const card=document.getElementById(`${prefix}-fitb-${i}`);if(!card)return;
+    const inputs=card.querySelectorAll('.blank-input');let allOk=true;
+    inputs.forEach((inp,idx)=>{
+      const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ').replace(/–/g,' ');
+      const correct=q.blanks[idx].toLowerCase().replace(/-/g,' ').replace(/–/g,' ');
+      const ok=userVal===correct||(q.answers&&q.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ').replace(/–/g,' ')));
+      inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+      if(!ok)allOk=false;
+    });
+    if(allOk)score++;
+    const res=document.createElement('div');res.className='fitb-result show';
+    res.innerHTML=allOk?'<span style="color:#155724">✅ Correct!</span>':'<span style="color:#721c24">❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong></span>';
+    card.appendChild(res);
+  });
+  document.getElementById('score'+num+'-num').textContent=`${score}/${total}`;
+  document.getElementById('score'+num).classList.add('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='none';
+  document.getElementById('score'+num).scrollIntoView({behavior:'smooth'});
+}
+function retakeMock(num){
+  window.mockAnswers={};initMocks();
+  document.getElementById('score'+num).classList.remove('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='block';
+}
+function initMocks(){
+  ['mock1-container','mock2-container','mock3-container'].forEach(id=>document.getElementById(id).innerHTML='');
+  renderMockMCQ(mock1Qs.map(i=>mcqData[i]),'mock1-container','m1');
+  renderMockFITB(mock1Fitb.map(i=>fitbData[i]),'mock1-container','m1',mock1Qs.length+1);
+  renderMockMCQ(mock2Qs.map(i=>mcqData[i]),'mock2-container','m2');
+  renderMockFITB(mock2Fitb.map(i=>fitbData[i]),'mock2-container','m2',mock2Qs.length+1);
+  renderMockMCQ(mock3Qs.map(i=>mcqData[i]),'mock3-container','m3');
+  renderMockFITB(mock3Fitb.map(i=>fitbData[i]),'mock3-container','m3',mock3Qs.length+1);
+}
+renderMCQ(mcqData,'mcq-container','q');
+renderFITB2(fitbData,'fitb-container','f');
+initMocks();
+</script>
+</body>
+</html>
