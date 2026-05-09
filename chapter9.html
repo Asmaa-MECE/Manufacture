@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.9 Thermoforming – MECE350</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#F2C4CE;--c2:#E8A0AE;--c3:#B0A8BE;--c4:#fff;--text:#3a2a35;--text2:#6b5060;--card-bg:rgba(255,255,255,0.88);--shadow:rgba(176,168,190,0.22);--accent:#c47b8a;--nav-bg:rgba(242,196,206,0.96);}
+  .theme-hellokitty{--c1:#FFB7C5;--c2:#FF8FAB;--c3:#FFC8DD;--c4:#fff;--text:#8B1A4A;--text2:#c05478;--card-bg:rgba(255,255,255,0.92);--shadow:rgba(255,143,171,0.25);--accent:#FF6B9D;--nav-bg:rgba(255,183,197,0.97);}
+  .theme-hellokitty,body.theme-hellokitty{background:linear-gradient(135deg,#FFB7C5 0%,#fff 50%,#FFC8DD 100%)!important;}
+  .theme-skywars{--c1:#0a1628;--c2:#1e3a6e;--c3:#162444;--c4:#0d1f3c;--text:#e0f0ff;--text2:#8bb8e8;--card-bg:rgba(14,30,60,0.94);--shadow:rgba(0,150,255,0.22);--accent:#00cfff;--nav-bg:rgba(6,14,28,0.97);}
+  .theme-skywars,body.theme-skywars{background:linear-gradient(180deg,#020b18 0%,#0a1628 40%,#0d2040 100%)!important;}
+  .theme-skywars nav{border-bottom-color:rgba(0,207,255,0.25);}
+  .theme-skywars .summary-section,.theme-skywars .q-card,.theme-skywars .fitb-card,.theme-skywars .mock-header{border-color:rgba(0,207,255,0.2);}
+  .theme-skywars .chapter-hero h1{font-family:'Orbitron',sans-serif;letter-spacing:0.04em;text-transform:uppercase;}
+  .theme-skywars .nav-brand{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;}
+  .theme-skywars .tab.active{color:#00cfff;border-bottom-color:#00cfff;}
+  .theme-ppg{--c1:#4BC4E8;--c2:#2AA4CC;--c3:#6DD4F0;--c4:#B0ECFF;--text:#001829;--text2:#0a3a55;--card-bg:rgba(160,225,248,0.85);--shadow:rgba(0,140,200,0.22);--accent:#FF3399;--nav-bg:rgba(20,120,170,0.97);}
+  .theme-ppg,body.theme-ppg{background:linear-gradient(160deg,#1e9ed0 0%,#4BC4E8 45%,#2a8ab8 100%)!important;}
+  .theme-ppg nav{border-bottom-color:rgba(255,51,153,0.4);}
+  .theme-ppg .chapter-hero h1{font-family:'Bangers',cursive;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:0.05em;text-transform:uppercase;color:#fff;text-shadow:3px 3px 0 #001829;}
+  .theme-ppg .nav-brand{font-family:'Bangers',cursive;font-size:1.7rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;text-shadow:2px 2px 0 #001829;}
+  .theme-ppg .page-tag{background:rgba(255,51,153,0.2);color:#001829;border:2px solid #FF3399;font-weight:700;}
+  .theme-ppg .tab.active{color:#FF3399;border-bottom-color:#FF3399;}
+  .theme-ppg .nav-links a{color:#fff;}
+  .theme-ppg .theme-btn{background:#FF3399;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 50%,var(--c3) 100%);min-height:100vh;color:var(--text);transition:background 0.5s,color 0.3s;overflow-x:hidden;}
+  nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--c2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-brand{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);text-decoration:none;}
+  .nav-brand span{color:var(--accent);}
+  .nav-links{display:flex;gap:1rem;align-items:center;}
+  .nav-links a{text-decoration:none;color:var(--text2);font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .theme-btn{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;}
+  .tabs-wrap{position:sticky;top:64px;z-index:999;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--c2);overflow-x:auto;}
+  .tabs{display:flex;padding:0 1.5rem;gap:0;white-space:nowrap;}
+  .tab{padding:0.9rem 1.3rem;font-size:0.85rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab:hover{color:var(--accent);}
+  .content{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .summary-section{background:var(--card-bg);border-radius:20px;border:1.5px solid var(--c2);padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .summary-section h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--c1);}
+  .summary-section h3{font-size:1rem;font-weight:600;color:var(--accent);margin:1rem 0 0.4rem;}
+  .summary-section p,.summary-section li{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:0.4rem;}
+  .summary-section ul{padding-left:1.4rem;}
+  .comparison-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;}
+  .comparison-table th{background:var(--c2);color:var(--text);padding:0.6rem 0.9rem;text-align:left;}
+  .comparison-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--c1);}
+  .comparison-table tr:last-child td{border:none;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.8rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .highlight-box{background:linear-gradient(135deg,var(--c1),var(--c3));border-radius:12px;padding:1rem 1.2rem;margin:0.8rem 0;border-left:4px solid var(--accent);}
+  .highlight-box p{font-size:0.88rem;color:var(--text);font-weight:500;}
+  .q-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .q-num{font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .q-text{font-size:0.95rem;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.5;}
+  .options{display:grid;gap:0.6rem;}
+  .option{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid transparent;background:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;font-size:0.88rem;color:var(--text);}
+  .option:hover{border-color:var(--c2);background:var(--c1);}
+  .option.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .option.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .option.reveal-correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-letter{font-weight:700;min-width:1.2rem;}
+  .q-feedback{margin-top:0.8rem;padding:0.65rem 1rem;border-radius:10px;font-size:0.83rem;display:none;}
+  .q-feedback.show{display:block;}
+  .q-feedback.correct{background:#d4edda;color:#155724;}
+  .q-feedback.wrong{background:#f8d7da;color:#721c24;}
+  .fitb-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .fitb-sentence{font-size:0.95rem;line-height:2.4;color:var(--text);}
+  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:140px;color:var(--text);outline:none;transition:all 0.2s;}
+  .blank-input:focus{border-bottom-color:var(--c3);}
+  .blank-input.correct-ans{border-bottom-color:#28a745;color:#155724;}
+  .blank-input.wrong-ans{border-bottom-color:#dc3545;color:#dc3545;}
+  .check-btn{margin-top:1rem;background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:12px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .check-btn:hover{opacity:0.85;}
+  .fitb-result{margin-top:0.6rem;font-size:0.82rem;display:none;}
+  .fitb-result.show{display:block;}
+  .mock-header{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .mock-header h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);flex-wrap:wrap;}
+  .mock-meta span{background:var(--c1);padding:0.25rem 0.75rem;border-radius:12px;}
+  .submit-btn{background:var(--accent);color:#fff;border:none;padding:0.75rem 2rem;border-radius:14px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:all 0.2s;}
+  .submit-btn:hover{opacity:0.85;transform:scale(1.02);}
+  .score-box{background:var(--card-bg);border:2px solid var(--accent);border-radius:20px;padding:2rem;text-align:center;margin-top:1.5rem;display:none;}
+  .score-box.show{display:block;}
+  .score-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--accent);}
+  .score-label{font-size:0.9rem;color:var(--text2);margin-top:0.25rem;}
+  .retake-btn{background:transparent;border:2px solid var(--accent);color:var(--accent);padding:0.6rem 1.5rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-top:1rem;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .retake-btn:hover{background:var(--accent);color:#fff;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:2.5rem;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:90vh;overflow-y:auto;}
+  .modal h2{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:0.3rem;color:#3a2a35;}
+  .modal p{font-size:0.85rem;color:#6b5060;margin-bottom:1.5rem;}
+  .theme-options{display:grid;gap:0.85rem;}
+  .theme-option{border:2px solid #e8e0ec;border-radius:14px;padding:1rem 1.2rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem;}
+  .theme-option:hover,.theme-option.selected{border-color:#c47b8a;background:#fdf7f9;}
+  .theme-swatch{display:flex;gap:4px;}
+  .theme-swatch span{width:18px;height:18px;border-radius:50%;}
+  .theme-label{font-weight:600;font-size:0.88rem;}
+  .theme-label small{display:block;font-weight:400;color:#888;font-size:0.75rem;}
+  .color-picker-row{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem;}
+  .color-pick{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;}
+  .color-pick input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;}
+  .modal-actions{display:flex;gap:0.75rem;margin-top:1.5rem;}
+  .btn-apply{background:#c47b8a;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-cancel{background:transparent;color:#6b5060;border:1.5px solid #ddd;padding:0.6rem 1.2rem;border-radius:12px;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .section-img{width:100%;max-width:680px;display:block;margin:1rem auto;border-radius:14px;border:1.5px solid var(--c2);box-shadow:0 4px 18px var(--shadow);}
+  .section-img-sm{width:100%;max-width:440px;display:block;margin:1rem auto;border-radius:14px;border:1.5px solid var(--c2);box-shadow:0 4px 18px var(--shadow);}
+  .img-caption{text-align:center;font-size:0.76rem;color:var(--text2);margin-top:0.3rem;margin-bottom:0.8rem;font-style:italic;}
+  .img-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  @media(max-width:600px){.img-pair{grid-template-columns:1fr;}}
+  .page-tag{display:inline-block;background:var(--c2);color:var(--text);font-size:0.72rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:15px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
+  .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
+  .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
+  .hk-bg,.skywars-bg,.ppg-bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .theme-hellokitty .hk-bg{display:block;}
+  .theme-skywars .skywars-bg{display:block;}
+  .theme-ppg .ppg-bg{display:block;}
+  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,.theme-skywars .content,.theme-skywars .chapter-hero,.theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
+  .hk-icon{position:absolute;opacity:0.12;animation:hk-float 6s ease-in-out infinite;}
+  .hk-icon:nth-child(2n){animation-duration:8s;animation-delay:-2s;}
+  .hk-icon:nth-child(3n){animation-duration:7s;animation-delay:-4s;}
+  @keyframes hk-float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+  .sky-star{position:absolute;border-radius:50%;background:#00cfff;animation:sky-twinkle 3s ease-in-out infinite;}
+  @keyframes sky-twinkle{0%,100%{opacity:0.2;transform:scale(1)}50%{opacity:0.9;transform:scale(1.5)}}
+  .sky-player{position:absolute;opacity:0;animation:sky-fly linear infinite;}
+  @keyframes sky-fly{0%{transform:translateX(-140px);opacity:0}5%{opacity:0.8}95%{opacity:0.8}100%{transform:translateX(calc(100vw + 140px));opacity:0}}
+  .ppg-hero{position:absolute;opacity:0;animation:ppg-fly linear infinite;will-change:transform;}
+  @keyframes ppg-fly{0%{transform:translateX(-160px) translateY(0px);opacity:0}5%{opacity:1}50%{transform:translateX(50vw) translateY(var(--dy,0px));opacity:1}95%{opacity:1}100%{transform:translateX(calc(100vw + 160px)) translateY(var(--dy,0px));opacity:0}}
+  .ppg-cloud{position:absolute;animation:ppg-fly linear infinite;opacity:0.2;}
+  .ppg-city{position:absolute;bottom:0;left:0;right:0;height:180px;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="hk-bg" id="hkBg"></div>
+<div class="skywars-bg" id="skywarsBg"></div>
+<div class="ppg-bg" id="ppgBg"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">MECE<span>350</span></a>
+  <div class="nav-links">
+    <a href="index.html">← Home</a>
+    <a href="#" onclick="scrollTo(0,0)">Top</a>
+    <button class="theme-btn" onclick="openTheme()">🎨 Theme</button>
+  </div>
+</nav>
+
+<div class="chapter-hero">
+  <div class="page-tag">Chapter 9</div>
+  <h1>Thermoforming</h1>
+  <p>Summary · MCQ Bank · Fill-in-the-Blank · 3 Mock Tests</p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('summary',this)">📖 Summary</div>
+    <div class="tab" onclick="showPanel('mcq',this)">❓ MCQ Bank</div>
+    <div class="tab" onclick="showPanel('fitb',this)">✏️ Fill in the Blank</div>
+    <div class="tab" onclick="showPanel('mock1',this)">🧪 Mock Test 1</div>
+    <div class="tab" onclick="showPanel('mock2',this)">🧪 Mock Test 2</div>
+    <div class="tab" onclick="showPanel('mock3',this)">🧪 Mock Test 3</div>
+  </div>
+</div>
+
+<div class="content">
+<!-- ═══════════════════════════ SUMMARY ═══════════════════════════ -->
+<div class="panel active" id="panel-summary">
+
+  <div class="summary-section">
+    <h2>1. What is Thermoforming?</h2>
+    <p>Thermoforming is the process of forming a thermoplastic sheet by applying <strong>heat</strong> to soften it, then <strong>pressure</strong> (vacuum, mechanical, or air) to press it against a mold until it takes the mold's shape and cools solid. Common products include plastic cups, fridge bodies, and fruit containers.</p>
+    <div class="highlight-box">
+      <p>🔑 <strong>Core idea:</strong> A flat thermoplastic sheet is heated until rubbery, then stretched and formed against a mold using vacuum or pressure. It is fundamentally a <em>sheet stretching</em> process — unlike injection molding which fills a cavity with melt.</p>
+    </div>
+
+    <h3>Similarities and Differences vs Injection Molding</h3>
+    <table class="comparison-table">
+      <tr><th>Attribute</th><th>Thermoforming</th><th>Injection Molding</th></tr>
+      <tr><td>Material form</td><td>Pre-made thermoplastic sheet</td><td>Polymer pellets/granules melted in-machine</td></tr>
+      <tr><td>Part thickness</td><td>Usually thinner</td><td>Can be thicker, more uniform</td></tr>
+      <tr><td>Wall thickness uniformity</td><td>Non-uniform (thins at corners)</td><td>More uniform</td></tr>
+      <tr><td>Part complexity</td><td>Less complex (open shapes)</td><td>More complex 3D shapes</td></tr>
+      <tr><td>Dimensional quality</td><td>Lower</td><td>Higher (closer tolerances)</td></tr>
+      <tr><td>Production rate</td><td>Greater (parts per hour)</td><td>High but cycle-limited</td></tr>
+      <tr><td>Cost per part (high volume)</td><td>Less (lower tooling cost)</td><td>Low (at very high volume)</td></tr>
+      <tr><td>Tooling flexibility</td><td>Greater (simpler, cheaper molds)</td><td>Less (expensive steel molds)</td></tr>
+    </table>
+
+    <!-- Fig 1.1: Vacuum thermoforming process diagram -->
+    <!-- <img src="img/tf-vacuum-process.png" alt="Vacuum thermoforming process: (left) heated thermoplastic sheet clamped above a positive mold; (right) vacuum drawn from below pulls the softened sheet down and around the mold to form the part shape. Labels show: heated plastic sheet, positive mold, vacuum drawn direction." class="section-img">
+    <p class="img-caption">Fig 1.1 — Vacuum thermoforming (vacuforming): heated sheet is drawn down over a positive mold by vacuum. Left: sheet above mold before forming. Right: vacuum applied, sheet conforms to mold.</p> -->
+
+    <!-- Fig 1.2: LEGO injection molded vs thermoformed comparison -->
+    <!-- <img src="img/tf-im-vs-tf-lego.png" alt="Cross-section comparison of LEGO baseplates: top (injection molded) shows sharp corners and very uniform wall thickness throughout; bottom (thermoformed) shows rounded corners and non-uniform wall thickness — thicker at flat regions, thinner at drawn corners and studs." class="section-img">
+    <p class="img-caption">Fig 1.2 — Injection molded (top) vs thermoformed (bottom) LEGO baseplates: injection molding gives sharper corners and uniform thickness; thermoforming produces non-uniform wall thickness due to differential stretching.</p> -->
+  </div>
+
+  <div class="summary-section">
+    <h2>2. The Thermoforming Process &amp; Machine</h2>
+    <p>In thermoforming, a continuous roll of thermoplastic sheet feeds through three sequential zones in the machine: the <strong>heating zone</strong>, the <strong>forming zone</strong>, and the <strong>cooling/trimming zone</strong>.</p>
+
+    <h3>Three Rate-Limiting Steps</h3>
+    <p>The production rate of thermoforming is governed by whichever of these three steps is slowest:</p>
+    <ul>
+      <li><strong>1. Heating</strong> — radiative heat transfer from infrared lamps to the plastic sheet (most commonly the bottleneck in continuous thermoforming)</li>
+      <li><strong>2. Stretching</strong> — viscoelastic deformation of the sheet as it is formed against the mold</li>
+      <li><strong>3. Cooling</strong> — conductive heat transfer from the hot formed part to the cold mold surface</li>
+    </ul>
+    <div class="highlight-box">
+      <p>⚠️ <strong>Heating is usually the rate-limiting step</strong> in continuous thermoforming. Choosing the correct lamp wavelength to match the plastic's absorption spectrum is critical to maximizing heating efficiency and throughput.</p>
+    </div>
+
+    <!-- Fig 2.1: Continuous thermoforming machine layout -->
+    <!-- <img src="img/tf-continuous-machine.png" alt="Continuous thermoforming machine layout: a roll of plastic sheet feeds from right to left through: (1) heating zone with infrared lamps above and below the sheet; (2) forming station with mold and vacuum/pressure; (3) cooling station; (4) trimming station where finished parts are cut from the web. The skeleton web scrap is rewound or granulated." class="section-img">
+    <p class="img-caption">Fig 2.1 — Continuous thermoforming machine: sheet unrolls, passes through IR heating, forming, cooling, and trim stations in sequence.</p> -->
+  </div>
+
+  <div class="summary-section">
+    <h2>3. Radiative Heating — The Physics</h2>
+    <p>The plastic sheet is heated by <strong>infrared (IR) radiation</strong> from lamps above (and sometimes below) the sheet. The key principle is: <strong>the lamp's emission spectrum must match the plastic's absorption spectrum</strong> for efficient heating.</p>
+
+    <h3>Heating Time Formula</h3>
+    <div class="highlight-box">
+      <p>📐 <strong>t<sub>heat</sub> = (ρ h c<sub>P</sub> ΔT) / (a P<sub>lamp</sub>)</strong><br>
+      where: h = sheet thickness [m], ρ = density [kg/m³], c<sub>P</sub> = specific heat [J/kg·K], a = absorption coefficient (dimensionless, 0–1), P<sub>lamp</sub> = lamp power density [W/m²], ΔT = required temperature rise [K]</p>
+    </div>
+    <p>Heating time scales <strong>linearly</strong> with sheet thickness (unlike injection molding cooling, which scales with thickness squared). Doubling the sheet thickness doubles the heating time.</p>
+
+    <h3>Lamp Types and Their Spectra</h3>
+    <table class="comparison-table">
+      <tr><th>Lamp Type</th><th>Filament Temperature</th><th>Peak Wavelength</th><th>Max Power</th></tr>
+      <tr><td>Halogen / NIR</td><td>~2600 °C</td><td>~1 µm</td><td>High</td></tr>
+      <tr><td>Short wave</td><td>~2200 °C</td><td>~1.2 µm</td><td>High</td></tr>
+      <tr><td>Fast response medium wave</td><td>~1600 °C</td><td>~1.5 µm</td><td>Medium</td></tr>
+      <tr><td>Carbon</td><td>~1200 °C</td><td>~2 µm</td><td>Medium</td></tr>
+      <tr><td>Medium wave</td><td>~900 °C</td><td>~2.5–3 µm</td><td>Lower</td></tr>
+    </table>
+
+    <!-- Fig 3.1: Radiation power vs wavelength for different lamp types -->
+    <!-- <img src="img/tf-lamp-spectra.png" alt="Graph of radiation power (relative units) vs wavelength (µm) for five lamp types: Halogen/NIR at 2600°C peaks near 1 µm with highest power ~250 units; short wave at 2200°C peaks near 1.2 µm; fast response medium wave at 1600°C peaks near 1.5 µm; carbon at 1200°C peaks near 2 µm; medium wave at 900°C peaks near 2.5 µm with lowest power. X-axis 0–3 µm, Y-axis 0–250 relative units." class="section-img">
+    <p class="img-caption">Fig 3.1 — Radiation power vs wavelength for commercial IR lamp types. Higher filament temperature → shorter peak wavelength → higher power density.</p> -->
+
+    <h3>Polymer Absorption Spectra</h3>
+    <p>Polypropylene (PP) has high absorption between 3 and 4 µm. To heat PP efficiently, a lamp with peak emission in that range (e.g., medium wave or carbon) should be chosen. If the lamp emits at wavelengths the plastic transmits rather than absorbs, the radiation passes through the sheet and heats the mold instead.</p>
+
+    <!-- Fig 3.2: Polymer absorption vs wavelength for PP, PA, PVC -->
+    <!-- <img src="img/tf-polymer-absorption.png" alt="Graph of absorption percentage (0–100%) vs wavelength (0–5 µm) for three polymers at 0.2 mm thickness: PA (polyamide) shown in red has a sharp absorption peak near 3 µm reaching almost 100%; PP (polypropylene) shown in blue has its main absorption band between 3 and 4 µm; PVC shown in green has absorption peaks across 2.5–4 µm. Inset diagram shows IR radiation hitting the polymer sheet with some reflected, some transmitted, and some absorbed." class="section-img">
+    <p class="img-caption">Fig 3.2 — Absorption spectra of PP, PA, and PVC (0.2 mm thickness). PP absorbs strongly between 3–4 µm; match lamp emission to this band for efficient heating.</p> -->
+
+    <!-- Fig 3.3: Commercial Short Wave Twin Tube IR Emitter -->
+    <!-- <img src="img/tf-ir-lamp.png" alt="Short Wave Twin Tube IR Emitter: three photographs showing the lamp assembly — a twin-tube quartz glass enclosure with a coiled tungsten filament inside, available in gold-reflector versions. Specifications table lists: power density ≤200 W/cm, max heated length 6400/2400 mm, cross-section 34×14/23×11 cm, filament temperature 1800–1400°C, peak wavelength 1–1.4 µm, max power 200 kW/m², response time 1 s." class="section-img-sm">
+    <p class="img-caption">Fig 3.3 — Short Wave Twin Tube IR Emitter (Heraeus): peak wavelength 1–1.4 µm, max power 200 kW/m², response time 1 s. Used for fast heating of thinner sheets.</p> -->
+  </div>
+
+  <div class="summary-section">
+    <h2>4. The Thermoforming Process Window</h2>
+    <p>The thermoforming process window defines the range of temperature and forming pressure (vacuum level) within which good parts can be made. It is plotted on a <strong>stress–strain</strong> diagram at different temperatures, with the vacuum-induced stress and the maximum allowable elongation as the boundaries.</p>
+
+    <!-- Fig 4.1: Thermoforming process window (stress-strain) -->
+    <!-- <img src="img/tf-process-window.png" alt="Thermoforming process window diagram: Stress (y-axis) vs Elongational strain (x-axis). A family of dashed stress-strain curves is shown, each for an increasing temperature (increasing temperature arrow points upper-right). A horizontal dashed line labelled 'Vacuum' marks the stress that the vacuum can apply. A vertical dashed line labelled 'Maximum design elongation' marks the maximum allowable stretch. The crosshatched region bounded by the vacuum stress line (above), the maximum elongation line (right), and the temperature-dependent material curves (upper-left) is labelled 'Forming window'. The forming window is the region where the vacuum stress exceeds the material's flow stress (so the sheet deforms) but the elongation does not exceed the maximum (so the sheet does not tear)." class="section-img">
+    <p class="img-caption">Fig 4.1 — Thermoforming process window: the crosshatched region is where the vacuum stress is sufficient to deform the sheet (above material yield) but stretch does not exceed the maximum design elongation (part tears or thins too much).</p> -->
+
+    <h3>How the Process Window Works</h3>
+    <ul>
+      <li><strong>Too cold</strong> — the material's yield stress exceeds the vacuum stress → the sheet does not deform → incomplete forming</li>
+      <li><strong>Too hot</strong> — the material is too fluid / weak → uncontrolled thinning and potential tears before the mold is fully filled</li>
+      <li><strong>Too much stretch</strong> (beyond maximum design elongation) → tearing or catastrophic thinning at corners</li>
+      <li><strong>Within the window</strong> → controlled, reproducible deformation</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>5. Areal Draw Ratio (ADR)</h2>
+    <p>The <strong>Areal Draw Ratio (ADR)</strong> is the ratio of the surface area of the formed part to the original flat sheet area. It quantifies how much the sheet has been stretched.</p>
+    <div class="highlight-box">
+      <p>📐 <strong>ADR = Surface area of formed part / Area of original flat sheet</strong><br>
+      A flat sheet has ADR = 1. Deeper, more complex shapes have higher ADR values. Exceeding the maximum ADR causes excessive thinning and tearing.</p>
+    </div>
+
+    <h3>Maximum Areal Draw Ratios by Polymer</h3>
+    <table class="comparison-table">
+      <tr><th>Polymer</th><th>Maximum ADR</th><th>Forming Temperature (°C)</th></tr>
+      <tr><td>Polystyrene (PS)</td><td>8</td><td>125</td></tr>
+      <tr><td>ABS</td><td>5.5</td><td>165</td></tr>
+      <tr><td>PMMA (acrylic)</td><td>3.4</td><td>155</td></tr>
+      <tr><td>Rigid PVC</td><td>4.3</td><td>125</td></tr>
+      <tr><td>Flexible PVC</td><td>4.2</td><td>110</td></tr>
+      <tr><td>LDPE</td><td>6</td><td>140</td></tr>
+      <tr><td>Polypropylene (PP)</td><td>7.5</td><td>175</td></tr>
+    </table>
+    <p>ABS thermoforms at 165 °C — approximately halfway between its glass transition temperature (100 °C) and melt temperature (250 °C). This midpoint rule of thumb applies broadly.</p>
+  </div>
+
+  <div class="summary-section">
+    <h2>6. Design Rules for Thermoforming</h2>
+    <ul>
+      <li><strong>Avoid sharp corners</strong> in the mold — use a corner radius of at least <strong>2 × sheet thickness</strong> or greater to prevent excessive thinning and tearing at corners</li>
+      <li><strong>Draft angles mandatory</strong> — minimum 0.25° to allow part release from the mold; deeper parts need more draft</li>
+      <li><strong>No undercuts</strong> unless multi-part tooling (split molds) is used — undercuts prevent part removal</li>
+      <li><strong>Areal draw ratio &gt; 2 requires careful optimization</strong> — non-uniformity of wall thickness increases rapidly with ADR</li>
+      <li><strong>Material: thermoplastics only</strong> — thermosets cannot be thermoformed (they do not soften reversibly)</li>
+    </ul>
+    <div class="highlight-box">
+      <p>⚠️ <strong>Key consequence of thermoforming geometry:</strong> Wall thickness is inherently <em>non-uniform</em> — flat regions retain near-original thickness; corners and deep features thin significantly. This is the fundamental limitation vs injection molding.</p>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2>7. Other Polymer Processes — Context</h2>
+    <p>Thermoforming is one branch of a much wider polymer processing family. The process route depends on the starting material form (pellets vs sheet vs liquid) and the polymer type (thermoplastic TP, thermoset TS, or elastomer E).</p>
+
+    <!-- Fig 7.1: Polymer processing overall map -->
+    <!-- <img src="img/tf-polymer-processing-map.png" alt="Polymer processing overall map (flowchart): Starting materials split into three categories: (1) Pellets/Granules/Powder → Extrusion (TP, E) → extruded products and sheet (sheet goes to Thermoforming, tube goes to Blow molding and Blown Film); Injection molding (TP, TS, E) → parts; Rotational molding (TP, TS); Structural foam molding (TP, TS); Compression molding (TS, TP, E) → Fiber-reinforced sheet → Laminated sheet; Transfer molding (TS, E); Casting/Foam molding (TP, TS). (2) Fibers → Vacuum-bag, Pressure-bag, Hand layup, Spray layup; Filament winding; Pultrusion. (3) Liquid/Paste → Reaction-injection molding (TS); Stereolithography. Thermoforming and Injection Molding boxes are highlighted. Annotation: Blow molding and Blown Film produce plastic bottles and plastic bags — similar physics but different machine and product form." class="section-img">
+    <p class="img-caption">Fig 7.1 — Polymer processing map: thermoforming takes sheet from extrusion; injection molding takes pellets. Blow molding and blown film share similar stretching physics with thermoforming.</p> -->
+
+    <h3>Blow Molding — Related Process</h3>
+    <p>Blow molding produces hollow parts (bottles, containers) by first injection-molding a preform (parison), then inflating it with air inside a blow mold. Production rates can reach 7,500–30,000 bottles per hour using a multi-mold wheel system. It shares the physics of biaxial stretching of a thermoplastic with thermoforming.</p>
+
+    <!-- Fig 7.2: Blow molding of plastic bottles -->
+    <!-- <img src="img/tf-blow-molding.png" alt="Blow molding of plastic bottles — four-stage process diagram: Stage 1 (leftmost): injection unit forces polymer into the injection mold around a blowing rod to form the preform (parison); Stage 2: parison transferred into blow mold (two-part clamshell); Stage 3: air injected through blowing rod inflates the parison to fill the blow mold cavity; Stage 4: blow mold opens, blow-molded bottle ejected. Labels show: injection unit, blowing rod, injection mold, blow mold, one-way air valve, air in, blow-molded part. Below: photos of preforms (unblown) and a multi-cavity blow mold tool." class="section-img">
+    <p class="img-caption">Fig 7.2 — Blow molding: preform injection-molded, then inflated with air in the blow mold. Same biaxial stretching physics as thermoforming.</p> -->
+  </div>
+
+  <div class="summary-section">
+    <h2>8. What's New in Thermoforming?</h2>
+    <ul>
+      <li><strong>Bio-derived and biodegradable plastics</strong> — replacing conventional polymers for sustainability (e.g., PLA-based cups and packaging)</li>
+      <li><strong>Paper thermoforming</strong> — complex paper-based packaging formed using heat and pressure (Vegware lids, coffee cup lids)</li>
+      <li><strong>Carbon fiber thermoforming</strong> — a growing research area for automotive body panels; high ADR with carbon fiber-reinforced thermoplastic sheets remains challenging</li>
+    </ul>
+  </div>
+
+  <div class="summary-section">
+    <h2>9. Quick Reference — The Big Four Comparison</h2>
+    <table class="comparison-table">
+      <tr><th>Attribute</th><th>Injection Molding</th><th>Thermoforming</th></tr>
+      <tr><td><strong>Rate</strong></td><td>High</td><td>Greater (parts/hour, continuous)</td></tr>
+      <tr><td><strong>Quality</strong></td><td>Good</td><td>Less (non-uniform thickness, lower tolerances)</td></tr>
+      <tr><td><strong>Cost</strong></td><td>Low at high volume</td><td>Less per part, especially at lower volume</td></tr>
+      <tr><td><strong>Flexibility</strong></td><td>Low (high tooling cost, hard to change)</td><td>Greater (simpler/cheaper molds; fewer material restrictions)</td></tr>
+    </table>
+    <div class="two-col">
+      <div>
+        <h3>✔ Advantages of Thermoforming</h3>
+        <ul>
+          <li>Very high production rates (continuous process)</li>
+          <li>Lower tooling cost than injection molding</li>
+          <li>Large parts feasible (fridge liners, vehicle dashboards)</li>
+          <li>Short lead times for new products</li>
+        </ul>
+      </div>
+      <div>
+        <h3>✗ Limitations</h3>
+        <ul>
+          <li>Non-uniform wall thickness</li>
+          <li>Less complex shapes than injection molding</li>
+          <li>Lower dimensional accuracy</li>
+          <li>Thermoplastics only</li>
+          <li>Significant trim scrap (skeleton waste)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end summary -->
+
+<!-- ═══════════════════════ MCQ BANK ═══════════════════════ -->
+<div class="panel" id="panel-mcq"><div id="mcq-container"></div></div>
+
+<!-- ═══════════════════════ FITB ═══════════════════════ -->
+<div class="panel" id="panel-fitb"><div id="fitb-container"></div></div>
+
+<!-- ═══════════════════════ MOCK 1 ═══════════════════════ -->
+<div class="panel" id="panel-mock1">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 1 — Introduction, Process &amp; Rate Limits</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock1-container"></div>
+  <button class="submit-btn" onclick="submitMock(1)">Submit Test 1</button>
+  <div class="score-box" id="score1">
+    <div class="score-num" id="score1-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(1)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MOCK 2 ═══════════════════════ -->
+<div class="panel" id="panel-mock2">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 2 — Heating, Process Window &amp; ADR</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock2-container"></div>
+  <button class="submit-btn" onclick="submitMock(2)">Submit Test 2</button>
+  <div class="score-box" id="score2">
+    <div class="score-num" id="score2-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(2)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MOCK 3 ═══════════════════════ -->
+<div class="panel" id="panel-mock3">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 3 — Comprehensive Thermoforming</h2>
+    <div class="mock-meta"><span>📝 20 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock3-container"></div>
+  <button class="submit-btn" onclick="submitMock(3)">Submit Test 3</button>
+  <div class="score-box" id="score3">
+    <div class="score-num" id="score3-num">0/20</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(3)">🔄 Retake Test</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<!-- ═══════════════════════ THEME MODAL ═══════════════════════ -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <h2>🎨 Choose Your Theme</h2>
+    <p>Pick a predefined palette or build your own custom one.</p>
+    <div class="theme-options">
+      <div class="theme-option selected" id="opt-default" onclick="selectTheme('default')">
+        <div class="theme-swatch"><span style="background:#F2C4CE"></span><span style="background:#E8A0AE"></span><span style="background:#B0A8BE"></span></div>
+        <div class="theme-label">Default Blush <small>The original pink-mauve palette</small></div>
+      </div>
+      <div class="theme-option" id="opt-hellokitty" onclick="selectTheme('hellokitty')">
+        <div class="theme-swatch"><span style="background:#FFB7C5"></span><span style="background:#FF8FAB"></span><span style="background:#FFC8DD"></span></div>
+        <div class="theme-label">Hello Kitty 🎀 <small>Sanrio hot pink vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-skywars" onclick="selectTheme('skywars')">
+        <div class="theme-swatch"><span style="background:#0a1628"></span><span style="background:#1e3a6e"></span><span style="background:#00cfff"></span></div>
+        <div class="theme-label">Skywars 🚀 <small>Deep sky cosmic vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-ppg" onclick="selectTheme('ppg')">
+        <div class="theme-swatch"><span style="background:#4BC4E8"></span><span style="background:#FF3399"></span><span style="background:#33CC66"></span></div>
+        <div class="theme-label">Powerpuff Girls 💥 <small>Sugar, spice &amp; everything nice</small></div>
+      </div>
+      <div class="theme-option" id="opt-custom" onclick="selectTheme('custom')">
+        <div class="theme-swatch"><span id="sw1" style="background:#aaa"></span><span id="sw2" style="background:#bbb"></span><span id="sw3" style="background:#ccc"></span></div>
+        <div class="theme-label">Custom 🎨 <small>Pick your own colors</small></div>
+      </div>
+    </div>
+    <div id="colorPickers" style="display:none;margin-top:1rem;">
+      <div class="color-picker-row">
+        <div class="color-pick"><input type="color" id="cp1" value="#F2C4CE" oninput="previewCustom()"> Primary</div>
+        <div class="color-pick"><input type="color" id="cp2" value="#E8A0AE" oninput="previewCustom()"> Secondary</div>
+        <div class="color-pick"><input type="color" id="cp3" value="#B0A8BE" oninput="previewCustom()"> Accent Bg</div>
+        <div class="color-pick"><input type="color" id="cp4" value="#c47b8a" oninput="previewCustom()"> Accent</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-apply" onclick="applyTheme()">Apply</button>
+      <button class="btn-cancel" onclick="closeTheme()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════ THEME ENGINE ══════════════════ */
+const THEME_KEY='mece350-theme-v2';let selectedTheme='default';
+function openTheme(){document.getElementById('themeModal').classList.add('open');}
+function closeTheme(){document.getElementById('themeModal').classList.remove('open');}
+function selectTheme(t){selectedTheme=t;document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));const el=document.getElementById('opt-'+t);if(el)el.classList.add('selected');const p=document.getElementById('colorPickers');if(p)p.style.display=t==='custom'?'block':'none';}
+function previewCustom(){document.getElementById('sw1').style.background=document.getElementById('cp1').value;document.getElementById('sw2').style.background=document.getElementById('cp2').value;document.getElementById('sw3').style.background=document.getElementById('cp3').value;}
+function applyTheme(){let data={type:selectedTheme};if(selectedTheme==='custom'){data.c1=document.getElementById('cp1').value;data.c2=document.getElementById('cp2').value;data.c3=document.getElementById('cp3').value;data.c4=document.getElementById('cp4').value;}applyThemeData(data);localStorage.setItem(THEME_KEY,JSON.stringify(data));closeTheme();}
+function clearBgs(){['hkBg','skywarsBg','ppgBg'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});document.body.classList.remove('theme-hellokitty','theme-skywars','theme-ppg');const r=document.documentElement.style;['--c1','--c2','--c3','--accent','--nav-bg'].forEach(p=>r.removeProperty(p));}
+function applyThemeData(data){clearBgs();const t=data?data.type:'default';if(t==='hellokitty'){document.body.classList.add('theme-hellokitty');spawnHKIcons();}else if(t==='skywars'){document.body.classList.add('theme-skywars');spawnSkywars();}else if(t==='ppg'){document.body.classList.add('theme-ppg');spawnPPG();}else if(t==='custom'&&data.c1){const r=document.documentElement.style;r.setProperty('--c1',data.c1);r.setProperty('--c2',data.c2);r.setProperty('--c3',data.c3);r.setProperty('--accent',data.c4);r.setProperty('--nav-bg',data.c1+'f5');}selectTheme(t||'default');}
+function spawnHKIcons(){const bg=document.getElementById('hkBg');if(!bg)return;const icons=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 55"><path d="M30 50 C10 35 0 25 0 15 C0 5 8 0 15 0 C21 0 27 4 30 9 C33 4 39 0 45 0 C52 0 60 5 60 15 C60 25 50 35 30 50Z" fill="#FF3366"/></svg>','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,4 36,22 56,22 40,34 46,52 30,40 14,52 20,34 4,22 24,22" fill="#FF6B9D"/></svg>'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='hk-icon';const sz=35+Math.random()*55;d.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;width:${sz}px;height:${sz}px;--rot:${(Math.random()-0.5)*40}deg;animation-delay:${-Math.random()*8}s;`;d.innerHTML=icons[i%icons.length];bg.appendChild(d);}}
+function makeSkyShip(b,c){return`<svg xmlns="http://www.w3.org/2000/svg" width="88" height="48" viewBox="0 0 88 48"><polygon points="88,24 60,8 52,24 60,40" fill="${b}"/><ellipse cx="36" cy="24" rx="28" ry="10" fill="${b}"/><polygon points="8,24 0,42 18,30" fill="${b}" opacity="0.7"/><polygon points="8,24 0,6 18,18" fill="${b}" opacity="0.7"/><ellipse cx="42" cy="20" rx="10" ry="6" fill="${c}" opacity="0.9"/><ellipse cx="40" cy="19" rx="5" ry="3" fill="#cef8ff" opacity="0.75"/><ellipse cx="10" cy="24" rx="6" ry="3" fill="#ff7700" opacity="0.95"/><ellipse cx="7" cy="24" rx="8" ry="2.5" fill="#ffcc00" opacity="0.55"/></svg>`;}
+function spawnSkywars(){const bg=document.getElementById('skywarsBg');if(!bg)return;for(let i=0;i<150;i++){const s=document.createElement('div');s.className='sky-star';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${-Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;bg.appendChild(s);}['rgba(0,207,255,0.05)','rgba(60,0,200,0.04)','rgba(0,100,200,0.05)'].forEach(col=>{const o=document.createElement('div');const sz=180+Math.random()*280;o.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;top:${Math.random()*90}%;left:${Math.random()*90}%;background:${col};filter:blur(55px);`;bg.appendChild(o);});[{b:'#1a5fa0',c:'#00cfff',top:12,dur:20,d:0},{b:'#0c3560',c:'#55eeff',top:32,dur:27,d:-9},{b:'#1d3d7a',c:'#00cfff',top:55,dur:18,d:-5},{b:'#2a146e',c:'#8888ff',top:74,dur:24,d:-14},{b:'#0a2a50',c:'#00aaff',top:88,dur:31,d:-20}].forEach(sh=>{const el=document.createElement('div');el.className='sky-player';el.style.cssText=`top:${sh.top}%;animation-duration:${sh.dur}s;animation-delay:${sh.d}s;`;el.innerHTML=makeSkyShip(sh.b,sh.c);bg.appendChild(el);});}
+function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;[{top:25,col:'rgba(255,100,160,0.22)',dur:20,d:0,w:350},{top:42,col:'rgba(80,150,255,0.22)',dur:26,d:-8,w:280},{top:32,col:'rgba(50,200,100,0.22)',dur:17,d:-14,w:320}].forEach(tr=>{const el=document.createElement('div');el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.d}s infinite;`;bg.appendChild(el);});[{src:'img/powerR.png',top:18,dur:20,d:0,dy:-25},{src:'img/powerB.png',top:38,dur:26,d:-9,dy:18},{src:'img/powerG.png',top:26,dur:17,d:-14,dy:-12}].forEach(ch=>{const el=document.createElement('div');el.className='ppg-hero';el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.d}s;`;const img=document.createElement('img');img.src=ch.src;img.style.cssText='width:120px;height:auto;display:block;';el.appendChild(img);bg.appendChild(el);});for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}const city=document.createElement('div');city.className='ppg-city';city.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none" style="width:100%;height:100%"><rect x="0" y="90" width="70" height="90" fill="#001829" opacity="0.35"/><rect x="65" y="55" width="48" height="125" fill="#001829" opacity="0.4"/><rect x="140" y="35" width="62" height="145" fill="#001829" opacity="0.45"/><rect x="245" y="42" width="45" height="138" fill="#001829" opacity="0.42"/><rect x="342" y="22" width="72" height="158" fill="#001829" opacity="0.45"/><rect x="490" y="38" width="58" height="142" fill="#001829" opacity="0.42"/><rect x="608" y="28" width="52" height="152" fill="#001829" opacity="0.45"/><rect x="788" y="32" width="65" height="148" fill="#001829" opacity="0.45"/><rect x="990" y="22" width="75" height="158" fill="#001829" opacity="0.45"/><rect x="1105" y="36" width="60" height="144" fill="#001829" opacity="0.42"/></svg>';bg.appendChild(city);}
+(function(){const saved=localStorage.getItem(THEME_KEY);if(saved){try{applyThemeData(JSON.parse(saved));}catch(e){}}})();
+function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+/* ══════════════════════ DATA ══════════════════════ */
+const mcqData=[
+  {q:"What is thermoforming?",opts:["Melting polymer pellets and injecting them into a closed mold under high pressure","Heating a thermoplastic sheet and pressing it against a mold using vacuum or pressure","Mixing thermosetting resins into a mold and curing them with heat","Extruding a polymer melt through a die to form a constant cross-section"],ans:1,exp:"Thermoforming heats a pre-made thermoplastic sheet until it is rubbery, then uses vacuum or air pressure to stretch and form it against a mold. It starts from sheet, not pellets, which is the key distinction from injection molding."},
+  {q:"Which of the following is NOT a typical thermoformed product?",opts:["Plastic cups","Fridge body liners","Fruit containers","Gears and mechanical linkages"],ans:3,exp:"Thermoforming is suited to thin, relatively simple open shapes such as cups, fridge bodies, and packaging. Precision mechanical components like gears require injection molding for dimensional accuracy and thickness uniformity."},
+  {q:"Compared with injection molded parts, thermoformed parts have:",opts:["More uniform wall thickness and sharper corners","Less uniform wall thickness and more rounded corners","The same wall thickness distribution","Higher dimensional accuracy"],ans:1,exp:"In thermoforming the sheet stretches differentially: flat areas retain near-original thickness while corners thin significantly. Injection molding fills from a gate under pressure, giving more uniform thickness and sharper corner fidelity."},
+  {q:"The three rate-limiting steps in thermoforming are, in order of typical importance:",opts:["Cooling, heating, and stretching","Heating (radiative), stretching (viscoelastic), and cooling (contact)","Stretching, trimming, and cooling","Granulating, heating, and mold closing"],ans:1,exp:"The three steps that limit production rate are: (1) radiative heating of the sheet — usually the bottleneck in continuous production; (2) viscoelastic stretching of the sheet onto the mold; (3) conductive cooling against the cold mold."},
+  {q:"Why is heating typically the rate-limiting step in continuous thermoforming?",opts:["Cooling takes longer because the mold is always hot","Stretching is limited by the low yield stress of the polymer","Radiative heat transfer to the thick plastic sheet is relatively slow, and the line moves at the speed of the slowest station","Trimming the skeleton web takes the most time"],ans:2,exp:"Radiative heat transfer is less efficient than conduction. The sheet must heat uniformly through its full thickness before forming can proceed, and increasing lamp power beyond a limit can cause surface burning before the core reaches temperature."},
+  {q:"The thermoforming heating time formula is t = (ρ h c_P ΔT) / (a P_lamp). How does heating time scale with sheet thickness h?",opts:["t ∝ h² — doubling thickness quadruples heating time","t ∝ h — doubling thickness doubles heating time","t ∝ √h — doubling thickness increases time by √2","t is independent of thickness if lamp power is high enough"],ans:1,exp:"Unlike injection molding cooling (which scales with h²), thermoforming heating time scales linearly with thickness h. This is because the sheet is heated radiatively from the surface, not conductively from within."},
+  {q:"When selecting an infrared heating lamp for thermoforming PP (absorption peak 3–4 µm), which lamp type is BEST matched?",opts:["Halogen/NIR lamp (peak ~1 µm, 2600 °C filament)","Short wave lamp (peak ~1.2 µm, 2200 °C filament)","Medium wave lamp (peak ~2.5–3 µm, 900 °C filament)","Response time is the only selection criterion"],ans:2,exp:"PP has its highest absorption band between 3 and 4 µm. The medium wave lamp at ~900 °C has its peak emission closest to this range. Using a halogen lamp (peak ~1 µm) would waste most of the lamp energy, as PP transmits rather than absorbs near-IR."},
+  {q:"In the thermoforming process window diagram (stress vs elongational strain), what bounds the 'forming window' region?",opts:["The melt temperature limit at the top and the glass transition temperature at the bottom","The vacuum-induced stress line (horizontal) and the maximum design elongation line (vertical), with material yield curves from temperature variation","The shrinkage limit and the minimum wall thickness","The ADR limit and the cooling time limit"],ans:1,exp:"The forming window is bounded by: (lower bound) the vacuum stress level — the polymer must be warm enough that its yield stress is below the vacuum stress so the sheet deforms; (right bound) the maximum design elongation — beyond this, tearing or severe thinning occurs."},
+  {q:"What happens if the thermoforming temperature is too low (below the forming window)?",opts:["The sheet tears due to too much stretching","The sheet sags under gravity before vacuum is applied","The material's yield stress exceeds the vacuum stress and the sheet does not deform — incomplete forming","The sheet is too fluid and flows out of the mold"],ans:2,exp:"If the sheet is too cold, it is too stiff. The vacuum cannot generate enough stress to exceed the material's yield stress, so the sheet barely deforms. The result is an incompletely formed part — a thermoforming equivalent of a short shot."},
+  {q:"The Areal Draw Ratio (ADR) is defined as:",opts:["The ratio of the mold volume to the sheet volume","The ratio of the formed part surface area to the original flat sheet area","The ratio of formed wall thickness to original sheet thickness","The ratio of heating time to cooling time"],ans:1,exp:"ADR = (surface area of formed part) / (area of original flat sheet). A flat, unformed sheet has ADR = 1. As parts become deeper and more complex, ADR increases. Exceeding the maximum ADR causes tearing or excessive thinning."},
+  {q:"Which polymer has the highest maximum Areal Draw Ratio among those in the lecture table?",opts:["ABS (5.5)","PMMA (3.4)","Polystyrene PS (8)","Rigid PVC (4.3)"],ans:2,exp:"According to the ADR table, PS (polystyrene) has the highest maximum ADR at 8, followed by PP at 7.5. ABS is 5.5, LDPE is 6, rigid PVC is 4.3, and PMMA is the lowest at 3.4."},
+  {q:"ABS thermoforms at approximately 165 °C. Where does this sit relative to its Tg and Tm?",opts:["At its glass transition temperature (Tg = 165 °C)","At its melt temperature (Tm = 165 °C)","Roughly halfway between Tg (~100 °C) and Tm (~250 °C)","Well above its melt temperature"],ans:2,exp:"The lecture explicitly states that 165 °C for ABS is nearly halfway between its glass transition temperature (100 °C) and melt temperature (250 °C). This midpoint rule of thumb applies broadly — too close to Tg the material is too stiff; too close to Tm it is too fluid."},
+  {q:"The minimum recommended corner radius in a thermoforming mold is:",opts:["Zero — sharp corners are preferred to maximise definition","Equal to the sheet thickness","At least 2 × the sheet thickness","At least 10 × the sheet thickness"],ans:2,exp:"Sharp corners cause severe local thinning and potential tearing because the sheet stretches preferentially at the corner. A corner radius of at least 2 × sheet thickness (or greater) distributes the strain more evenly."},
+  {q:"Thermoforming is limited to which class of polymers?",opts:["Thermosets only","Elastomers only","Thermoplastics only","Both thermoplastics and thermosets"],ans:2,exp:"Thermoforming works exclusively with thermoplastics, which soften reversibly on heating. Thermosets cure irreversibly and cannot be re-softened, so they cannot be formed from a pre-made sheet using this process."},
+  {q:"What is 'skeleton waste' in thermoforming?",opts:["The flash produced when vacuum pressure is too high","The web of sheet material remaining after parts have been punched/trimmed out — sent for recycling or granulation","The polymer scraped from the mold surface after each cycle","The runner system equivalent in thermoforming"],ans:1,exp:"In continuous thermoforming, parts are cut from a large formed sheet. The leftover interconnected sheet network (the 'skeleton') is a significant source of scrap. It is usually granulated and recycled back into sheet extrusion."},
+  {q:"In the 'Big Four' attribute comparison, thermoforming outperforms injection molding in which attribute?",opts:["Quality (dimensional accuracy)","Rate (parts per hour, especially in continuous operation)","Part complexity","Wall thickness uniformity"],ans:1,exp:"Thermoforming can produce very high part counts per hour, especially in continuous multi-cavity operations. Injection molding wins on quality, complexity, and thickness uniformity, but thermoforming wins on rate and lower tooling cost."},
+  {q:"Blow molding is related to thermoforming because:",opts:["Both start from polymer pellets and inject into a closed mold","Both involve biaxial stretching of a thermoplastic to form thin-walled hollow parts","Both use the same lamp technology for heating","Both are limited to the same set of polymers"],ans:1,exp:"Both blow molding and thermoforming involve stretching a thermoplastic biaxially against a mold using air pressure (or vacuum). The physics of stretching viscoelastic polymer sheets is common to both. Blow molding starts with an injection-molded preform rather than a flat sheet."},
+  {q:"What does the absorption coefficient 'a' represent in the thermoforming heating formula?",opts:["The angle of incidence of the lamp radiation","A dimensionless value (0–1) representing the fraction of lamp radiation absorbed by the plastic sheet","The thermal conductivity of the plastic","The lamp power in W/m²"],ans:1,exp:"The absorption coefficient a is dimensionless and ranges from 0 (no absorption — the sheet is transparent to that wavelength) to 1 (full absorption). Matching the lamp spectrum to the polymer's absorption band maximises a, which minimises heating time."},
+  {q:"Undercuts in thermoformed parts:",opts:["Can be easily formed using the vacuum alone","Are not possible in thermoforming — the sheet cannot conform to a re-entrant feature and be removed without multi-part tooling","Are the most common design feature in thermoformed products","Are easier to produce than in injection molding"],ans:1,exp:"Undercuts prevent the formed part from being pulled straight off the mold. In thermoforming this is even more problematic than injection molding because the sheet wraps tightly against the mold. Multi-part (split) tooling is needed if undercuts are unavoidable."},
+  {q:"According to the polymer processing map, thermoforming receives its sheet material from which process?",opts:["Injection molding","Blow molding","Extrusion","Rotational molding"],ans:2,exp:"The polymer processing map shows that extrusion produces extruded sheet (TP), which feeds directly into thermoforming. Injection molding produces a preform for blow molding. Thermoforming does not start from pellets directly — it uses already-extruded sheet."},
+  {q:"For thin plastic sheets, Areal Draw Ratios greater than ___ require careful design optimization and suffer significant non-uniformity.",opts:["1","2","5","10"],ans:1,exp:"The design guidelines state that for thin plastic, ADR > 2 requires careful optimization and will exhibit significant wall thickness non-uniformity. Beyond this threshold, local thinning at corners and features becomes a serious quality concern."},
+  {q:"A commercially available Short Wave Twin Tube IR emitter has which approximate peak wavelength?",opts:["0.5–0.8 µm (visible)","1–1.4 µm (short wave NIR)","3–4 µm (mid-IR)","10–12 µm (far-IR)"],ans:1,exp:"The Short Wave Twin Tube IR Emitter described in the lecture has a filament temperature of 1400–1800 °C and a peak wavelength of 1–1.4 µm. This is in the short-wave near-infrared region. Its maximum power density is 200 kW/m² with a 1 s response time."},
+  {q:"What is the recommended minimum draft angle in thermoforming mold design?",opts:["0°","0.25°","5°","15°"],ans:1,exp:"The minimum draft angle for thermoforming is 0.25°. Deeper parts and textured surfaces may require more, but some positive draft is always necessary to allow the formed part to release from the mold without tearing or distortion."},
+  {q:"Polypropylene (PP) has its highest infrared absorption band between:",opts:["0.5–1 µm","1–2 µm","3–4 µm","8–10 µm"],ans:2,exp:"As shown in the absorption spectra slide, PP has high absorption between 3 and 4 µm. This means medium-wave infrared lamps (filament temperature ~900–1200 °C, peak ~2.5–3 µm) are most appropriate for heating PP sheets efficiently."},
+  {q:"Which emerging material is being explored for thermoforming in automotive applications?",opts:["Aluminium foil","Carbon fiber reinforced thermoplastic sheet","Glass-filled thermosets","Silicone rubber"],ans:1,exp:"The 'What's New' section identifies carbon fiber reinforced thermoplastic sheet forming as a growing research area, particularly for the auto industry seeking lightweight structural body panels. It remains technically challenging due to limited ADR with fiber reinforcement."},
+  {q:"How does the quality of thermoformed parts compare to injection-molded parts according to the Big Four comparison?",opts:["Thermoformed parts have higher quality due to lower residual stress","Thermoformed parts have lower quality — less dimensional accuracy and non-uniform thickness","Both processes produce identical quality","Thermoforming quality is higher only for thick-walled parts"],ans:1,exp:"In the Big Four comparison table, injection molding rates 'Good' for quality while thermoforming rates 'Less'. The primary quality disadvantages of thermoforming are non-uniform wall thickness and lower dimensional tolerances compared to injection molding."},
+  {q:"In continuous thermoforming, after parts are formed and trimmed, what happens to the sheet skeleton?",opts:["It is discarded as landfill","It is granulated and recycled — usually fed back into sheet extrusion","It is re-formed into additional parts","It is used as packaging material"],ans:1,exp:"The skeleton web is granulated (shredded into small particles) and fed back into the sheet extrusion process, closing the material loop. This is important for economics and sustainability since skeleton waste can be 30–50% of the sheet area."},
+  {q:"What is the key reason thermoforming tooling costs less than injection molding tooling?",opts:["Thermoforming uses smaller molds","Thermoforming molds only need to be a single shape (no closed cavity, no clamping force), and can be made from aluminium or even composite instead of hardened steel","Thermoforming does not require cooling channels","Thermoforming molds last only 100 cycles versus millions for injection molds"],ans:1,exp:"Thermoforming molds are open-face shapes (not closed cavities), do not need to withstand the very high injection pressures (100–200 MPa), and can be machined from aluminium, epoxy, or even wood for prototyping. This dramatically reduces tooling cost vs hardened steel injection molds."},
+  {q:"The thermoforming process window is defined on which type of diagram?",opts:["Temperature vs time (T-t) diagram","Pressure vs temperature (P-T) diagram","Stress vs elongational strain diagram at multiple temperatures","Viscosity vs shear rate diagram"],ans:2,exp:"The thermoforming process window is plotted on a stress vs elongational strain diagram. Temperature-dependent stress-strain curves are shown for multiple temperatures; the vacuum-induced stress and maximum design elongation define the boundaries of the forming window."},
+  {q:"What does a higher filament temperature in an IR lamp produce?",opts:["Lower power and longer peak wavelength","Higher power and shorter peak wavelength","Same peak wavelength but slower response","Lower power and shorter peak wavelength"],ans:1,exp:"Wien's displacement law: as filament temperature increases, the peak emission wavelength shifts to shorter wavelengths (bluer) and power density increases. Hence halogen/NIR lamps at 2600 °C have the shortest peak wavelength (~1 µm) and highest power, while medium-wave lamps at 900 °C have longer wavelengths (~3 µm) and lower power."},
+];
+
+const fitbData=[
+  {sentence:"Thermoforming is forming a ___ (typically a thermoplastic) by applying heat then pressure against a mold.",blanks:["sheet"],answers:["sheet","plastic sheet","thermoplastic sheet"]},
+  {sentence:"The three rate-limiting steps of thermoforming are: ___, stretching, and cooling.",blanks:["heating"],answers:["heating","radiative heating"]},
+  {sentence:"___ is usually the rate-limiting step in continuous thermoforming.",blanks:["Heating"],answers:["heating","radiative heating"]},
+  {sentence:"The thermoforming heating time formula is: t = (ρ h c_P ΔT) / (a × ___), where the denominator includes the lamp's power density.",blanks:["P_lamp"],answers:["p_lamp","plamp","lamp power","P lamp"]},
+  {sentence:"Heating time in thermoforming scales ___ with sheet thickness — doubling thickness doubles heating time.",blanks:["linearly"],answers:["linearly","linear","proportionally"]},
+  {sentence:"PP polypropylene has its highest IR absorption band between ___ and 4 µm.",blanks:["3"],answers:["3","3 µm","3 micrometers"]},
+  {sentence:"To heat a plastic efficiently, the lamp's ___ spectrum must match the plastic's absorption spectrum.",blanks:["emission"],answers:["emission","radiation","spectral"]},
+  {sentence:"The absorption coefficient 'a' in the heating formula is dimensionless and ranges from ___ (no absorption) to 1 (full absorption).",blanks:["0"],answers:["0","zero"]},
+  {sentence:"The Areal Draw Ratio is the ratio of the ___ area of the formed part to the area of the original flat sheet.",blanks:["surface"],answers:["surface"]},
+  {sentence:"Polystyrene (PS) has the highest maximum ADR of ___ among common thermoforming polymers.",blanks:["8"],answers:["8","8.0"]},
+  {sentence:"ABS thermoforms at approximately 165 °C, which is roughly halfway between its Tg of ___ °C and Tm of ~250 °C.",blanks:["100"],answers:["100"]},
+  {sentence:"The thermoforming process window is plotted on a ___ vs elongational strain diagram.",blanks:["stress"],answers:["stress"]},
+  {sentence:"If the temperature is too low, the material's yield stress exceeds the ___ stress and the sheet does not deform.",blanks:["vacuum"],answers:["vacuum","forming"]},
+  {sentence:"The minimum corner radius in a thermoforming mold should be at least ___ × the sheet thickness.",blanks:["2"],answers:["2","two","2x","2 times"]},
+  {sentence:"The minimum draft angle recommended in thermoforming is ___°.",blanks:["0.25"],answers:["0.25"]},
+  {sentence:"___ are not possible in single-part thermoforming tooling — they prevent part removal from the mold.",blanks:["Undercuts"],answers:["undercuts","undercut"]},
+  {sentence:"Thermoforming is limited to ___ — materials that soften reversibly on heating.",blanks:["thermoplastics"],answers:["thermoplastics","thermoplastic"]},
+  {sentence:"The leftover sheet web after parts are trimmed from it in continuous thermoforming is called the ___ waste.",blanks:["skeleton"],answers:["skeleton","web"]},
+  {sentence:"Thermoforming sheet is produced by ___, which is upstream in the polymer processing map.",blanks:["extrusion"],answers:["extrusion"]},
+  {sentence:"Blow molding produces hollow parts by inflating a thermoplastic preform with ___ inside a blow mold.",blanks:["air"],answers:["air","compressed air"]},
+  {sentence:"A multi-mold wheel blow molding system can produce ___ to 30,000 bottles per hour.",blanks:["7,500"],answers:["7,500","7500","7,500–30,000"]},
+  {sentence:"In the Big Four comparison, thermoforming has a ___ production rate than injection molding.",blanks:["greater"],answers:["greater","higher","faster"]},
+  {sentence:"For thin plastic, areal draw ratios greater than ___ require careful optimization and suffer non-uniformity.",blanks:["2"],answers:["2","two"]},
+  {sentence:"The Short Wave Twin Tube IR Emitter has a peak wavelength of ___ to 1.4 µm and maximum power of 200 kW/m².",blanks:["1"],answers:["1","1 µm","1 micrometer"]},
+  {sentence:"___ carbon fiber reinforced thermoplastic sheet thermoforming is an emerging application for the automotive industry.",blanks:["Carbon fiber"],answers:["carbon fiber","carbon fibre","cfrtp"]},
+  {sentence:"Bio-derived and ___ plastics are emerging as sustainable thermoforming materials to replace conventional polymers.",blanks:["biodegradable"],answers:["biodegradable","bio-degradable"]},
+  {sentence:"The 'forming window' in thermoforming is the crosshatched region bounded above by the ___ stress and to the right by the maximum design elongation.",blanks:["vacuum"],answers:["vacuum","forming","applied"]},
+  {sentence:"Unlike injection molding cooling (which scales with h²), thermoforming heating time scales ___ with sheet thickness.",blanks:["linearly"],answers:["linearly","linear","proportionally","with h"]},
+  {sentence:"Thermoforming molds can be made from aluminium or even composite instead of hardened steel because they do not need to withstand high ___ pressures.",blanks:["injection"],answers:["injection","clamping","forming"]},
+  {sentence:"The process of making plastic bottles by inflating a pre-molded preform inside a two-part clamshell mold is called ___ molding.",blanks:["blow"],answers:["blow"]},
+];
+
+const mock1Qs  =[0,1,2,3,4,5,6,7,8,9];
+const mock1Fitb=[0,1,2,3,4];
+const mock2Qs  =[10,11,12,13,14,15,16,17,18,19];
+const mock2Fitb=[8,9,10,11,12];
+const mock3Qs  =[0,2,4,6,8,10,12,14,16,18,20,22];
+const mock3Fitb=[3,7,11,15,17,19,23,26];
+
+/* ══════════════════ RENDER FUNCTIONS ══════════════════ */
+function renderMCQ(data,container,prefix){
+  let html='';
+  data.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Question ${i+1}</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div><div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div></div>`;
+  });
+  document.getElementById(container).innerHTML=html;
+}
+function answerMCQ(prefix,qi,chosen,correct){
+  document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`).forEach(o=>o.style.pointerEvents='none');
+  const chosenEl=document.getElementById(`${prefix}-opt-${qi}-${chosen}`);
+  const correctEl=document.getElementById(`${prefix}-opt-${qi}-${correct}`);
+  if(chosen===correct){chosenEl.classList.add('correct');}
+  else{chosenEl.classList.add('wrong');correctEl.classList.add('reveal-correct');}
+  document.getElementById(`${prefix}-fb-${qi}`).classList.add('show',chosen===correct?'correct':'wrong');
+}
+function renderFITB2(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" data-qi="${i}"><div class="q-num">Question ${i+1}</div><div class="fitb-sentence">${sentence}</div><button class="check-btn" onclick="checkFITB2(this)">Check Answer</button><div class="fitb-result"></div></div>`;
+  });
+  document.getElementById(containerId).innerHTML=html;
+  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{card.__fitbData=dataArr[i];});
+}
+function checkFITB2(btn){
+  const card=btn.closest('.fitb-card');const data=card.__fitbData;
+  const inputs=card.querySelectorAll('.blank-input');let allCorrect=true;
+  inputs.forEach((inp,idx)=>{
+    const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+    const correct=data.blanks[idx].toLowerCase().replace(/-/g,' ');
+    const ok=userVal===correct||(data.answers&&data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+    inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+    if(!ok)allCorrect=false;
+  });
+  const res=card.querySelector('.fitb-result');res.classList.add('show');btn.disabled=true;
+  if(allCorrect){res.style.color='#155724';res.innerHTML='✅ Correct!';}
+  else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct: <strong>'+data.blanks.join(' / ')+'</strong>';}
+}
+function renderMockMCQ(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Q${i+1} — Multiple Choice</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div></div>`;
+  });
+  document.getElementById(containerId).innerHTML+=html;
+}
+function selectMockMCQ(prefix,qi,chosen){
+  const card=document.getElementById(`${prefix}-m-${qi}-${chosen}`).closest('.q-card');
+  card.querySelectorAll('.option').forEach(o=>{o.style.background='';o.style.borderColor='';});
+  document.getElementById(`${prefix}-m-${qi}-${chosen}`).style.cssText='background:var(--c1);border-color:var(--accent);';
+  if(!window.mockAnswers)window.mockAnswers={};
+  if(!window.mockAnswers[prefix])window.mockAnswers[prefix]={};
+  window.mockAnswers[prefix][`mcq-${qi}`]=chosen;
+}
+function renderMockFITB(dataArr,containerId,prefix,startNum){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx2=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx2++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}"><div class="q-num">Q${startNum+i} — Fill in the Blank</div><div class="fitb-sentence">${sentence}</div></div>`;
+  });
+  const div=document.createElement('div');div.innerHTML=html;
+  document.getElementById(containerId).appendChild(div);
+  dataArr.forEach((q,i)=>{const c=document.getElementById(`${prefix}-fitb-${i}`);if(c)c.__fitbData=q;});
+}
+function submitMock(num){
+  const prefix='m'+num;
+  const mcqD=num===1?mock1Qs.map(i=>mcqData[i]):num===2?mock2Qs.map(i=>mcqData[i]):mock3Qs.map(i=>mcqData[i]);
+  const fitbD=num===1?mock1Fitb.map(i=>fitbData[i]):num===2?mock2Fitb.map(i=>fitbData[i]):mock3Fitb.map(i=>fitbData[i]);
+  let score=0;const total=mcqD.length+fitbD.length;
+  mcqD.forEach((q,i)=>{
+    const chosen=(window.mockAnswers&&window.mockAnswers[prefix])?window.mockAnswers[prefix][`mcq-${i}`]:null;
+    const correctEl=document.getElementById(`${prefix}-m-${i}-${q.ans}`);
+    if(correctEl){correctEl.style.background='#d4edda';correctEl.style.borderColor='#28a745';}
+    if(chosen!==null&&chosen!==undefined){
+      const chosenEl=document.getElementById(`${prefix}-m-${i}-${chosen}`);
+      if(chosen===q.ans){score++;}else if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}
+    }
+    document.querySelectorAll(`[id^="${prefix}-m-${i}-"]`).forEach(o=>o.style.pointerEvents='none');
+  });
+  fitbD.forEach((q,i)=>{
+    const card=document.getElementById(`${prefix}-fitb-${i}`);if(!card)return;
+    const inputs=card.querySelectorAll('.blank-input');let allOk=true;
+    inputs.forEach((inp,idx)=>{
+      const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+      const correct=q.blanks[idx].toLowerCase().replace(/-/g,' ');
+      const ok=userVal===correct||(q.answers&&q.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+      inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+      if(!ok)allOk=false;
+    });
+    if(allOk)score++;
+    const res=document.createElement('div');res.className='fitb-result show';
+    res.innerHTML=allOk?'<span style="color:#155724">✅ Correct!</span>':'<span style="color:#721c24">❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong></span>';
+    card.appendChild(res);
+  });
+  document.getElementById('score'+num+'-num').textContent=`${score}/${total}`;
+  document.getElementById('score'+num).classList.add('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='none';
+  document.getElementById('score'+num).scrollIntoView({behavior:'smooth'});
+}
+function retakeMock(num){
+  window.mockAnswers={};initMocks();
+  document.getElementById('score'+num).classList.remove('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='block';
+}
+function initMocks(){
+  ['mock1-container','mock2-container','mock3-container'].forEach(id=>document.getElementById(id).innerHTML='');
+  renderMockMCQ(mock1Qs.map(i=>mcqData[i]),'mock1-container','m1');
+  renderMockFITB(mock1Fitb.map(i=>fitbData[i]),'mock1-container','m1',mock1Qs.length+1);
+  renderMockMCQ(mock2Qs.map(i=>mcqData[i]),'mock2-container','m2');
+  renderMockFITB(mock2Fitb.map(i=>fitbData[i]),'mock2-container','m2',mock2Qs.length+1);
+  renderMockMCQ(mock3Qs.map(i=>mcqData[i]),'mock3-container','m3');
+  renderMockFITB(mock3Fitb.map(i=>fitbData[i]),'mock3-container','m3',mock3Qs.length+1);
+}
+renderMCQ(mcqData,'mcq-container','q');
+renderFITB2(fitbData,'fitb-container','f');
+initMocks();
+</script>
+</body>
+</html>
