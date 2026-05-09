@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.8 Injection Molding – MECE350</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#F2C4CE;--c2:#E8A0AE;--c3:#B0A8BE;--c4:#fff;--text:#3a2a35;--text2:#6b5060;--card-bg:rgba(255,255,255,0.88);--shadow:rgba(176,168,190,0.22);--accent:#c47b8a;--nav-bg:rgba(242,196,206,0.96);}
+  .theme-hellokitty{--c1:#FFB7C5;--c2:#FF8FAB;--c3:#FFC8DD;--c4:#fff;--text:#8B1A4A;--text2:#c05478;--card-bg:rgba(255,255,255,0.92);--shadow:rgba(255,143,171,0.25);--accent:#FF6B9D;--nav-bg:rgba(255,183,197,0.97);}
+  .theme-hellokitty,body.theme-hellokitty{background:linear-gradient(135deg,#FFB7C5 0%,#fff 50%,#FFC8DD 100%)!important;}
+  .theme-skywars{--c1:#0a1628;--c2:#1e3a6e;--c3:#162444;--c4:#0d1f3c;--text:#e0f0ff;--text2:#8bb8e8;--card-bg:rgba(14,30,60,0.94);--shadow:rgba(0,150,255,0.22);--accent:#00cfff;--nav-bg:rgba(6,14,28,0.97);}
+  .theme-skywars,body.theme-skywars{background:linear-gradient(180deg,#020b18 0%,#0a1628 40%,#0d2040 100%)!important;}
+  .theme-skywars nav{border-bottom-color:rgba(0,207,255,0.25);}
+  .theme-skywars .summary-section,.theme-skywars .q-card,.theme-skywars .fitb-card,.theme-skywars .mock-header{border-color:rgba(0,207,255,0.2);}
+  .theme-skywars .chapter-hero h1{font-family:'Orbitron',sans-serif;letter-spacing:0.04em;text-transform:uppercase;}
+  .theme-skywars .nav-brand{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;}
+  .theme-skywars .tab.active{color:#00cfff;border-bottom-color:#00cfff;}
+  .theme-ppg{--c1:#4BC4E8;--c2:#2AA4CC;--c3:#6DD4F0;--c4:#B0ECFF;--text:#001829;--text2:#0a3a55;--card-bg:rgba(160,225,248,0.85);--shadow:rgba(0,140,200,0.22);--accent:#FF3399;--nav-bg:rgba(20,120,170,0.97);}
+  .theme-ppg,body.theme-ppg{background:linear-gradient(160deg,#1e9ed0 0%,#4BC4E8 45%,#2a8ab8 100%)!important;}
+  .theme-ppg nav{border-bottom-color:rgba(255,51,153,0.4);}
+  .theme-ppg .chapter-hero h1{font-family:'Bangers',cursive;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:0.05em;text-transform:uppercase;color:#fff;text-shadow:3px 3px 0 #001829;}
+  .theme-ppg .nav-brand{font-family:'Bangers',cursive;font-size:1.7rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;text-shadow:2px 2px 0 #001829;}
+  .theme-ppg .page-tag{background:rgba(255,51,153,0.2);color:#001829;border:2px solid #FF3399;font-weight:700;}
+  .theme-ppg .tab.active{color:#FF3399;border-bottom-color:#FF3399;}
+  .theme-ppg .nav-links a{color:#fff;}
+  .theme-ppg .theme-btn{background:#FF3399;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 50%,var(--c3) 100%);min-height:100vh;color:var(--text);transition:background 0.5s,color 0.3s;overflow-x:hidden;}
+  nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--c2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-brand{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);text-decoration:none;}
+  .nav-brand span{color:var(--accent);}
+  .nav-links{display:flex;gap:1rem;align-items:center;}
+  .nav-links a{text-decoration:none;color:var(--text2);font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .theme-btn{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;}
+  .tabs-wrap{position:sticky;top:64px;z-index:999;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--c2);overflow-x:auto;}
+  .tabs{display:flex;padding:0 1.5rem;gap:0;white-space:nowrap;}
+  .tab{padding:0.9rem 1.3rem;font-size:0.85rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab:hover{color:var(--accent);}
+  .content{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .summary-section{background:var(--card-bg);border-radius:20px;border:1.5px solid var(--c2);padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .summary-section h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--c1);}
+  .summary-section h3{font-size:1rem;font-weight:600;color:var(--accent);margin:1rem 0 0.4rem;}
+  .summary-section p,.summary-section li{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:0.4rem;}
+  .summary-section ul{padding-left:1.4rem;}
+  .comparison-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;}
+  .comparison-table th{background:var(--c2);color:var(--text);padding:0.6rem 0.9rem;text-align:left;}
+  .comparison-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--c1);}
+  .comparison-table tr:last-child td{border:none;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.8rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .highlight-box{background:linear-gradient(135deg,var(--c1),var(--c3));border-radius:12px;padding:1rem 1.2rem;margin:0.8rem 0;border-left:4px solid var(--accent);}
+  .highlight-box p{font-size:0.88rem;color:var(--text);font-weight:500;}
+  .q-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .q-num{font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .q-text{font-size:0.95rem;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.5;}
+  .options{display:grid;gap:0.6rem;}
+  .option{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid transparent;background:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;font-size:0.88rem;color:var(--text);}
+  .option:hover{border-color:var(--c2);background:var(--c1);}
+  .option.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .option.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .option.reveal-correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-letter{font-weight:700;min-width:1.2rem;}
+  .q-feedback{margin-top:0.8rem;padding:0.65rem 1rem;border-radius:10px;font-size:0.83rem;display:none;}
+  .q-feedback.show{display:block;}
+  .q-feedback.correct{background:#d4edda;color:#155724;}
+  .q-feedback.wrong{background:#f8d7da;color:#721c24;}
+  .fitb-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .fitb-sentence{font-size:0.95rem;line-height:2.4;color:var(--text);}
+  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:140px;color:var(--text);outline:none;transition:all 0.2s;}
+  .blank-input:focus{border-bottom-color:var(--c3);}
+  .blank-input.correct-ans{border-bottom-color:#28a745;color:#155724;}
+  .blank-input.wrong-ans{border-bottom-color:#dc3545;color:#dc3545;}
+  .check-btn{margin-top:1rem;background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:12px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .check-btn:hover{opacity:0.85;}
+  .fitb-result{margin-top:0.6rem;font-size:0.82rem;display:none;}
+  .fitb-result.show{display:block;}
+  .mock-header{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .mock-header h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);flex-wrap:wrap;}
+  .mock-meta span{background:var(--c1);padding:0.25rem 0.75rem;border-radius:12px;}
+  .submit-btn{background:var(--accent);color:#fff;border:none;padding:0.75rem 2rem;border-radius:14px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:all 0.2s;}
+  .submit-btn:hover{opacity:0.85;transform:scale(1.02);}
+  .score-box{background:var(--card-bg);border:2px solid var(--accent);border-radius:20px;padding:2rem;text-align:center;margin-top:1.5rem;display:none;}
+  .score-box.show{display:block;}
+  .score-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--accent);}
+  .score-label{font-size:0.9rem;color:var(--text2);margin-top:0.25rem;}
+  .retake-btn{background:transparent;border:2px solid var(--accent);color:var(--accent);padding:0.6rem 1.5rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-top:1rem;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .retake-btn:hover{background:var(--accent);color:#fff;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:2.5rem;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:90vh;overflow-y:auto;}
+  .modal h2{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:0.3rem;color:#3a2a35;}
+  .modal p{font-size:0.85rem;color:#6b5060;margin-bottom:1.5rem;}
+  .theme-options{display:grid;gap:0.85rem;}
+  .theme-option{border:2px solid #e8e0ec;border-radius:14px;padding:1rem 1.2rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem;}
+  .theme-option:hover,.theme-option.selected{border-color:#c47b8a;background:#fdf7f9;}
+  .theme-swatch{display:flex;gap:4px;}
+  .theme-swatch span{width:18px;height:18px;border-radius:50%;}
+  .theme-label{font-weight:600;font-size:0.88rem;}
+  .theme-label small{display:block;font-weight:400;color:#888;font-size:0.75rem;}
+  .color-picker-row{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem;}
+  .color-pick{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;}
+  .color-pick input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;}
+  .modal-actions{display:flex;gap:0.75rem;margin-top:1.5rem;}
+  .btn-apply{background:#c47b8a;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-cancel{background:transparent;color:#6b5060;border:1.5px solid #ddd;padding:0.6rem 1.2rem;border-radius:12px;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+  /* ── Image diagram styles ── */
+  .diagram-box{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:14px;padding:1.2rem;margin:1rem 0;overflow:hidden;}
+  .diagram-box img{display:block;margin:0 auto;max-width:100%;height:auto;border-radius:8px;}
+  .img-caption{text-align:center;font-size:0.76rem;color:var(--text2);margin-top:0.5rem;margin-bottom:0.8rem;font-style:italic;}
+
+  /* ── 3-column defects grid ── */
+  .defects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0;}
+  @media(max-width:640px){.defects-grid{grid-template-columns:1fr;}}
+  .defect-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:14px;overflow:hidden;box-shadow:0 3px 12px var(--shadow);}
+  .defect-card img{width:100%;height:160px;object-fit:cover;display:block;}
+  .defect-label{padding:0.6rem 0.8rem;font-size:0.82rem;font-weight:600;color:var(--text);text-align:center;background:var(--c1);}
+  .defect-desc{padding:0.5rem 0.8rem 0.8rem;font-size:0.78rem;color:var(--text2);line-height:1.5;text-align:center;}
+
+  .page-tag{display:inline-block;background:var(--c2);color:var(--text);font-size:0.72rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:15px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
+  .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
+  .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
+  .hk-bg,.skywars-bg,.ppg-bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .theme-hellokitty .hk-bg{display:block;}
+  .theme-skywars .skywars-bg{display:block;}
+  .theme-ppg .ppg-bg{display:block;}
+  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,.theme-skywars .content,.theme-skywars .chapter-hero,.theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
+  .hk-icon{position:absolute;opacity:0.12;animation:hk-float 6s ease-in-out infinite;}
+  .hk-icon:nth-child(2n){animation-duration:8s;animation-delay:-2s;}
+  .hk-icon:nth-child(3n){animation-duration:7s;animation-delay:-4s;}
+  @keyframes hk-float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+  .sky-star{position:absolute;border-radius:50%;background:#00cfff;animation:sky-twinkle 3s ease-in-out infinite;}
+  @keyframes sky-twinkle{0%,100%{opacity:0.2;transform:scale(1)}50%{opacity:0.9;transform:scale(1.5)}}
+  .sky-player{position:absolute;opacity:0;animation:sky-fly linear infinite;}
+  @keyframes sky-fly{0%{transform:translateX(-140px);opacity:0}5%{opacity:0.8}95%{opacity:0.8}100%{transform:translateX(calc(100vw + 140px));opacity:0}}
+  .ppg-cloud{position:absolute;animation:ppg-fly linear infinite;opacity:0.2;}
+  @keyframes ppg-fly{0%{transform:translateX(-160px) translateY(0px);opacity:0}5%{opacity:1}50%{transform:translateX(50vw) translateY(var(--dy,0px));opacity:1}95%{opacity:1}100%{transform:translateX(calc(100vw + 160px)) translateY(var(--dy,0px));opacity:0}}
+</style>
+</head>
+<body>
+<div class="hk-bg" id="hkBg"></div>
+<div class="skywars-bg" id="skywarsBg"></div>
+<div class="ppg-bg" id="ppgBg"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">MECE<span>350</span></a>
+  <div class="nav-links">
+    <a href="index.html">← Home</a>
+    <a href="#" onclick="scrollTo(0,0)">Top</a>
+    <button class="theme-btn" onclick="openTheme()">🎨 Theme</button>
+  </div>
+</nav>
+
+<div class="chapter-hero">
+  <div class="page-tag">Chapter 8</div>
+  <h1>Injection Molding</h1>
+  <p>Summary · MCQ Bank · Fill-in-the-Blank · 3 Mock Tests</p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('summary',this)">📖 Summary</div>
+    <div class="tab" onclick="showPanel('mcq',this)">❓ MCQ Bank</div>
+    <div class="tab" onclick="showPanel('fitb',this)">✏️ Fill in the Blank</div>
+    <div class="tab" onclick="showPanel('mock1',this)">🧪 Mock Test 1</div>
+    <div class="tab" onclick="showPanel('mock2',this)">🧪 Mock Test 2</div>
+    <div class="tab" onclick="showPanel('mock3',this)">🧪 Mock Test 3</div>
+  </div>
+</div>
+
+<div class="content">
+<!-- ═══════════════════════════ SUMMARY ═══════════════════════════ -->
+<div class="panel active" id="panel-summary">
+
+  <div class="summary-section">
+    <h2>1. Introduction to Injection Molding</h2>
+    <p>Injection molding is one of the most important and versatile manufacturing processes in the world, used to mass-produce plastic parts of complex shape. The highest-volume injection-molded part ever made is the <strong>LEGO brick</strong>. Global plastic production grows at 3–5% annually and now exceeds 350 million metric tonnes per year.</p>
+    <div class="highlight-box">
+      <p>🔑 <strong>Core idea:</strong> Polymer pellets are melted by heat and pressure, forced under high pressure into a closed mold cavity, allowed to cool and solidify, then ejected as a finished part.</p>
+    </div>
+    <h3>Why Injection Molding?</h3>
+    <ul>
+      <li>Produces complex three-dimensional shapes in a single operation</li>
+      <li>High production rate — cycle times as short as a few seconds</li>
+      <li>Low cost per part at high volume</li>
+      <li>Wide range of polymers, colors, and surface textures achievable</li>
+      <li>Little to no post-processing required</li>
+    </ul>
+    <h3>Comparison with Machining</h3>
+    <table class="comparison-table">
+      <tr><th>Attribute</th><th>Injection Molding</th><th>Machining</th></tr>
+      <tr><td>Production Rate</td><td>High</td><td>Low–Medium</td></tr>
+      <tr><td>Quality</td><td>Good</td><td>As good or better</td></tr>
+      <tr><td>Cost (high volume)</td><td>Low</td><td>Almost always greater</td></tr>
+      <tr><td>Flexibility</td><td>Low (tooling cost is high)</td><td>High (within machine constraints)</td></tr>
+    </table>
+  </div>
+
+  <div class="summary-section">
+    <h2>2. Fundamentals of Polymers</h2>
+    <p>The word <strong>polymer</strong> comes from Greek: <em>poly</em> (many) + <em>mer</em> (structural unit). Polyethylene, for example, is made by linking many ethylene monomers together using heat, pressure, and a catalyst. The chemistry of the individual units and how they are connected determines both the processability and the mechanical properties of the material.</p>
+
+    <h3>Polymer Network Architectures</h3>
+    <table class="comparison-table">
+      <tr><th>Architecture</th><th>Description</th><th>Examples</th></tr>
+      <tr><td><strong>Linear</strong></td><td>Chains arranged end-to-end; can melt and re-solidify</td><td>Acrylics, Nylons — thermoplastics</td></tr>
+      <tr><td><strong>Branched</strong></td><td>Side chains off the main backbone</td><td>Low-density polyethylene (LDPE)</td></tr>
+      <tr><td><strong>Cross-linked</strong></td><td>Chains linked laterally — cannot fully melt</td><td>Rubbers, elastomers</td></tr>
+      <tr><td><strong>Network</strong></td><td>Highly cross-linked 3D network — rigid and infusible</td><td>Epoxies, phenolics — thermosets</td></tr>
+    </table>
+    <div class="highlight-box">
+      <p>⚠️ <strong>Key distinction:</strong> <strong>Thermoplastics</strong> (linear/branched) soften on heating and re-harden on cooling — they are injection-moldable. <strong>Thermosets</strong> (network) cure irreversibly and cannot be re-melted.</p>
+    </div>
+
+    <h3>Crystallinity</h3>
+    <p>Polymers can have both amorphous regions (randomly tangled chains) and crystalline regions (crystallites — ordered, folded chains). The higher the degree of crystallinity, the <strong>harder, stiffer, and less ductile</strong> the polymer. Rapid cooling during injection molding tends to produce more amorphous structure; slow cooling promotes crystallinity.</p>
+
+    <h3>Mechanical Behaviour</h3>
+    <ul>
+      <li><strong>Rigid and brittle</strong> — melamine, phenolic (thermosets)</li>
+      <li><strong>Tough and ductile</strong> — ABS, nylon (engineering thermoplastics used in LEGO, gears, etc.)</li>
+      <li><strong>Soft and flexible</strong> — polyethylene, PTFE (used in packaging, coatings)</li>
+    </ul>
+
+    <h3>Glass Transition Temperature (T<sub>g</sub>) and Melt Temperature (T<sub>m</sub>)</h3>
+    <p>Below T<sub>g</sub> the polymer is glassy and rigid. Between T<sub>g</sub> and T<sub>m</sub> it is rubbery/leathery. Above T<sub>m</sub> it becomes viscous and flowable — this is the injection-molding processing zone.</p>
+
+    <h3>Viscosity</h3>
+    <p>Liquid thermoplastics have a viscosity <strong>100,000 to 1,000,000 times that of water</strong>. Polymer viscosity is <strong>shear-thinning</strong> (pseudoplastic): the faster the material is injected, the lower its apparent viscosity — making injection molding feasible.</p>
+    <table class="comparison-table">
+      <tr><th>Material</th><th>Dynamic Viscosity (Pa·s)</th></tr>
+      <tr><td>Water (room temperature)</td><td>10⁻³</td></tr>
+      <tr><td>Honey</td><td>10</td></tr>
+      <tr><td>Liquid thermoplastic (processing)</td><td>10² – 10³</td></tr>
+      <tr><td>Molten aluminium at 600 °C</td><td>3 × 10⁻²</td></tr>
+    </table>
+
+    <!-- IMAGE: Elastic Modulus vs Elasticity -->
+    <div class="diagram-box">
+      <img
+        src="img/Elastic-Modulus-vs-Elasticity.png"
+        alt="Elastic Modulus vs Elasticity">
+    </div>
+    <!-- IMAGE: Mechanical Properties -->
+    <div class="diagram-box">
+      <img
+        src="img/Mechanical-Properties.png"
+        alt="Mechanical Properties">
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2>3. The Injection Molding Machine</h2>
+    <p>An injection molding machine has two main sub-systems: the <strong>injection unit</strong> (melts and injects the polymer) and the <strong>clamping unit</strong> (holds the mold closed against injection pressure).</p>
+
+    <!-- IMAGE: injection molding machine schematic -->
+    <div class="diagram-box">
+      <img
+        src="img/injection-molding-machine.png"
+        alt="Schematic of an injection molding machine: injection unit on the left with hopper, barrel, heaters, reciprocating screw and nozzle; clamping unit on the right with stationary platen, two mold halves, movable platen, tie rods and clamping cylinder">
+    </div>
+    <p class="img-caption">Fig 3.1 — Schematic of an injection molding machine: injection unit (left) and clamping unit (right)</p>
+
+    <h3>How to Choose a Machine — Key Parameters</h3>
+    <ul>
+      <li><strong>Clamping force</strong> — force available to hold the mold halves closed against injection pressure (rated in kN or tons)</li>
+      <li><strong>Injection pressure</strong> — maximum pressure to force molten plastic into the cavity (typically 100–200 MPa)</li>
+      <li><strong>Shot size</strong> — total volume of material transferred per cycle (part + runners + sprue)</li>
+    </ul>
+    <p>The machine must provide enough clamping force to prevent the mold from opening under injection pressure. Insufficient clamping → <strong>flash</strong> defect.</p>
+  </div>
+
+  <div class="summary-section">
+    <h2>4. Mold Tooling and Features</h2>
+    <p>The mold is the heart of the injection molding process and determines part geometry, surface finish, and cycle time. Molds are expensive (often $10,000–$100,000+) but can produce millions of cycles.</p>
+
+    <!-- IMAGE: injection mold features -->
+    <div class="diagram-box">
+      <img
+        src="img/injection-mold-features.png"
+        alt="Injection mold cross-section labelling the sprue, main runner, branch runner, gate, cavity (part shape), cold slug well, ejector pins, cooling channels, guide pins, and the parting line between the two mold halves">
+    </div>
+    <p class="img-caption">Fig 4.1 — Injection mold features: sprue, runner system, gate, cavity, ejector pins, cooling channels, and cold slug well</p>
+
+    <h3>Key Mold Components</h3>
+    <table class="comparison-table">
+      <tr><th>Component</th><th>Function</th></tr>
+      <tr><td><strong>Sprue</strong></td><td>Entry point through which molten plastic first enters the mold from the nozzle</td></tr>
+      <tr><td><strong>Runner</strong></td><td>Channel system that distributes plastic from sprue to individual cavities</td></tr>
+      <tr><td><strong>Gate</strong></td><td>Narrow restriction between runner and cavity; controls flow and solidifies first</td></tr>
+      <tr><td><strong>Cavity</strong></td><td>The negative of the finished part shape; determines geometry and surface finish</td></tr>
+      <tr><td><strong>Cold slug well</strong></td><td>Traps the first (cooled) slug of plastic from the nozzle, preventing it entering the cavity</td></tr>
+      <tr><td><strong>Ejector pins</strong></td><td>Push the solidified part out of the mold when it opens</td></tr>
+      <tr><td><strong>Cooling channels</strong></td><td>Water-cooled passages that remove heat and control cycle time &amp; part quality</td></tr>
+      <tr><td><strong>Guide pins</strong></td><td>Align the two mold halves precisely when closing</td></tr>
+    </table>
+
+    <h3>Types of Molds</h3>
+
+    <!-- IMAGE: types of molds comparison -->
+    <div class="diagram-box">
+      <img
+        src="img/types-of-molds.png"
+        alt="Side-by-side diagram comparing three mold types: two-plate mold (single parting plane, runner ejected with part), three-plate mold (separate runner plate, automatic degating), and hot runner mold (heated manifold, no runner solidifies)">
+    </div>
+    <p class="img-caption">Fig 4.2 — Mold types: two-plate, three-plate, and hot runner compared</p>
+
+    <ul>
+      <li><strong>Two-plate mold</strong> — simplest type; sprue, runners, and parts all on the same parting plane; runner must be manually separated</li>
+      <li><strong>Three-plate mold</strong> — adds an extra plate so the runner system is automatically separated from the parts; no manual sorting needed</li>
+      <li><strong>Hot runner mold</strong> — used by LEGO; a heated manifold keeps the runner plastic molten between shots; only the finished part solidifies and is ejected; reduces material waste and cycle time</li>
+    </ul>
+
+    <h3>Hot Runner Mold — Detail</h3>
+
+    <!-- IMAGE: hot runner mold detail -->
+    <div class="diagram-box">
+      <img
+        src="img/hot-runner-mold.png"
+        alt="Hot runner mold detail: heated manifold block with individual heated nozzles feeding directly into each cavity. No solidified runner is produced — only the finished part is ejected each cycle.">
+    </div>
+    <p class="img-caption">Fig 4.3 — Hot runner mold: the heated manifold keeps plastic permanently molten — zero runner scrap</p>
+
+    <div class="highlight-box">
+      <p>🔑 <strong>Hot runner advantage:</strong> No runner scrap — the plastic in the heated manifold stays molten and feeds the next shot directly. This is crucial for LEGO's precision and zero-waste manufacturing.</p>
+    </div>
+
+    <h3>Draft Angles</h3>
+    <p>Draft angles (typically 1°–3°) are tapered surfaces on part walls that allow the solidified part to be ejected without sticking or dragging against the mold walls. <strong>No draft angle = part sticks in mold = damage to part and tooling.</strong></p>
+  </div>
+
+  <div class="summary-section">
+    <h2>5. Process Parameters &amp; the Injection Molding Cycle</h2>
+    <p>Injection molding is a cyclic process. Each cycle consists of four stages that repeat for every shot.</p>
+    <div class="highlight-box">
+      <p>📋 <strong>The four stages:</strong> (1) Mold Closing → (2) Injection &amp; Packing → (3) Cooling <em>(longest stage)</em> → (4) Ejection &amp; Reset → repeat</p>
+    </div>
+
+    <h3>Stage Details</h3>
+    <ul>
+      <li><strong>Stage 1 — Mold closing:</strong> The two mold halves are clamped shut with full clamping force</li>
+      <li><strong>Stage 2 — Injection &amp; packing:</strong> The screw acts as a ram and forces molten plastic into the cavity at high pressure. "Packing" pressure is then held to compensate for shrinkage</li>
+      <li><strong>Stage 3 — Cooling:</strong> The longest stage; water circulating through cooling channels removes heat. The screw simultaneously rotates to plasticize the next shot</li>
+      <li><strong>Stage 4 — Ejection:</strong> The mold opens; ejector pins push the solid part out; the mold closes for the next cycle</li>
+    </ul>
+
+    <h3>Shrinkage</h3>
+    <p>All polymers shrink as they cool from melt temperature to room temperature (typical 0.5–5%). Mold cavities must be designed <strong>larger than the target part size</strong> by the shrinkage factor. Semi-crystalline polymers shrink more than amorphous ones.</p>
+
+    <h3>Cooling Time — Key Formula</h3>
+    <div class="highlight-box">
+      <p>📐 <strong>t<sub>cool</sub> ∝ s²</strong> — doubling wall thickness <em>quadruples</em> cooling time. Keeping wall thickness uniform and thin is the single most important design rule.</p>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2>6. The Process Window &amp; Defects</h2>
+    <p>The <strong>process window</strong> is the operating region of temperature and pressure within which good parts are produced. Outside this window, one of four defect categories appears.</p>
+
+    <!-- IMAGE: process window chart -->
+    <div class="diagram-box">
+      <img
+        src="img/process-window.png"
+        alt="Injection molding process window: a pressure vs temperature chart with a central good-part polygon. The four surrounding defect zones are labelled: short shot at low temperature and pressure (bottom-left), flash at high pressure (right), thermal degradation at high temperature (top), and melt-only zone at high temperature and low pressure (top-left).">
+    </div>
+    <p class="img-caption">Fig 6.1 — Injection molding process window: the good-part region is bounded by four defect zones</p>
+
+    <h3>The Four Defects</h3>
+    <table class="comparison-table">
+      <tr><th>Defect</th><th>Cause</th><th>Fix</th></tr>
+      <tr><td><strong>Short Shot</strong></td><td>Insufficient pressure or temperature → melt freezes before filling the cavity</td><td>Increase melt temperature, injection pressure, or shot size; add vents</td></tr>
+      <tr><td><strong>Flash</strong></td><td>Excess pressure forces melt into the parting line gap → thin fin of plastic</td><td>Increase clamping force; reduce injection pressure; check mold fit</td></tr>
+      <tr><td><strong>Thermal Degradation</strong></td><td>Temperature too high → trapped air compresses and burns (diesel effect) → black/burned spot</td><td>Add vents; reduce temperature; move gate location</td></tr>
+      <tr><td><strong>Sink Marks &amp; Voids</strong></td><td>Thick sections cool slower → core shrinks away from surface</td><td>Uniform wall thickness; increase packing pressure; use ribs</td></tr>
+    </table>
+
+    <!-- 3-image defects row -->
+    <h3>Defects — Visual Reference</h3>
+    <div class="defects-grid">
+      <div class="defect-card">
+        <img src="img/defect-flash.png" alt="Flash defect: a thin fin of excess plastic protruding along the parting line of an injection molded part, caused by excessive injection pressure overcoming the clamping force">
+        <div class="defect-label">⚡ Flash</div>
+        <div class="defect-desc">Thin plastic fin along the parting line — excess injection pressure or insufficient clamping force</div>
+      </div>
+      <div class="defect-card">
+        <img src="img/defect-short-shot.png" alt="Short shot defect: an injection molded part with an incomplete, unfilled region where the melt front froze before reaching the end of the cavity">
+        <div class="defect-label">🔻 Short Shot</div>
+        <div class="defect-desc">Cavity not completely filled — melt froze before reaching the end due to low temperature or pressure</div>
+      </div>
+      <div class="defect-card">
+        <img src="img/defect-thermal-degradation.png" alt="Thermal degradation burn mark: a dark scorched discoloration on an injection molded part caused by the diesel effect where trapped air is rapidly compressed and burns the plastic">
+        <div class="defect-label">🔥 Thermal Degradation</div>
+        <div class="defect-desc">Black / scorched burn mark — trapped air compressed at the flow front (diesel effect) burns the plastic</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p>⚠️ <strong>Important exam point:</strong> Even staying inside the process window is not sufficient — temperature and pressure are NOT uniform throughout the part. The gate region is at high T and P; the far end of the flow is at lower T and P. Design for maximum uniformity to keep the entire part inside the window simultaneously.</p>
+    </div>
+
+    <h3>Weld Lines</h3>
+    <p>When two flow fronts meet inside the mold (e.g., around a hole), they fuse to create a <strong>weld line</strong> — a potential weak point. Reduce by optimising gate position or increasing melt temperature.</p>
+
+    <h3>Warpage</h3>
+    <p>Non-uniform cooling or asymmetric shrinkage causes the part to distort after ejection. Avoid with uniform wall thickness, symmetric cooling, and balanced runner systems.</p>
+  </div>
+
+  <div class="summary-section">
+    <h2>7. Design for Injection Molding</h2>
+    <h3>Golden Rules</h3>
+    <ul>
+      <li><strong>Uniform wall thickness</strong> — the most important rule; reduces sink marks, warpage, and residual stress</li>
+      <li><strong>Add draft angles</strong> — typically 1°–3° on all vertical walls to allow clean ejection</li>
+      <li><strong>Use fillets and radii</strong> — avoid sharp internal corners; they concentrate stress and hinder flow</li>
+      <li><strong>Avoid undercuts</strong> where possible; if required, use side-action cores or collapsible cores</li>
+      <li><strong>Minimise wall thickness</strong> — thinner walls = shorter cooling time = faster cycle = lower cost</li>
+      <li><strong>Place gate at thickest section</strong> — plastic flows from thick to thin, reducing short shots and voids</li>
+    </ul>
+
+    <h3>Advanced Techniques</h3>
+    <table class="comparison-table">
+      <tr><th>Technique</th><th>Description</th><th>Application</th></tr>
+      <tr><td><strong>Side Action / Lifters</strong></td><td>Moving cores that retract during mold opening to create undercuts</td><td>Threads, holes perpendicular to pull direction</td></tr>
+      <tr><td><strong>Insert Molding</strong></td><td>A metal insert is placed in the mold before injection; plastic flows around it</td><td>USB connectors, threaded bushings, electrical contacts</td></tr>
+      <tr><td><strong>Over-molding</strong></td><td>Two materials molded sequentially: rigid base first, then elastomer layer on top</td><td>Tool handles, toothbrush grips, razor handles</td></tr>
+      <tr><td><strong>Gas-assist Molding</strong></td><td>Nitrogen gas injected after fill, pushing plastic to walls; creates hollow sections</td><td>Thick structural handles, tubes</td></tr>
+    </table>
+  </div>
+
+  <div class="summary-section">
+    <h2>8. Quick Reference — Process Summary</h2>
+    <table class="comparison-table">
+      <tr><th>Parameter</th><th>Typical Range / Rule</th></tr>
+      <tr><td>Injection pressure</td><td>70–200 MPa</td></tr>
+      <tr><td>Melt temperature</td><td>150–370 °C depending on polymer</td></tr>
+      <tr><td>Mold (coolant) temperature</td><td>20–120 °C</td></tr>
+      <tr><td>Cycle time</td><td>10 s – several minutes</td></tr>
+      <tr><td>Cooling fraction of cycle</td><td>~50–80% of total cycle time</td></tr>
+      <tr><td>Shrinkage</td><td>0.5–5% (amorphous &lt; semi-crystalline)</td></tr>
+      <tr><td>Draft angle (smooth surface)</td><td>0.5°–1°</td></tr>
+      <tr><td>Draft angle (textured surface)</td><td>3°–5° or more</td></tr>
+      <tr><td>Recommended wall-thickness ratio (adjacent walls)</td><td>&lt; 2:1 (max)</td></tr>
+    </table>
+    <div class="two-col">
+      <div>
+        <h3>✔ Advantages</h3>
+        <ul>
+          <li>Complex 3D shapes in one shot</li>
+          <li>High production rate</li>
+          <li>Low cost per part at volume</li>
+          <li>Good surface finish directly from mold</li>
+          <li>Multiple materials / colors possible (over-molding)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>✗ Limitations</h3>
+        <ul>
+          <li>High initial tooling cost</li>
+          <li>Low flexibility — changing part shape requires new mold</li>
+          <li>Thin-wall and uniform-thickness constraints</li>
+          <li>Shrinkage must be accounted for in mold design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end summary -->
+
+<!-- ═══════════════════════ MCQ BANK ═══════════════════════ -->
+<div class="panel" id="panel-mcq"><div id="mcq-container"></div></div>
+
+<!-- ═══════════════════════ FITB ═══════════════════════ -->
+<div class="panel" id="panel-fitb"><div id="fitb-container"></div></div>
+
+<!-- ═══════════════════════ MOCK 1 ═══════════════════════ -->
+<div class="panel" id="panel-mock1">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 1 — Polymers &amp; Machine Fundamentals</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock1-container"></div>
+  <button class="submit-btn" onclick="submitMock(1)">Submit Test 1</button>
+  <div class="score-box" id="score1">
+    <div class="score-num" id="score1-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(1)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MOCK 2 ═══════════════════════ -->
+<div class="panel" id="panel-mock2">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 2 — Mold Tooling &amp; Process Parameters</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock2-container"></div>
+  <button class="submit-btn" onclick="submitMock(2)">Submit Test 2</button>
+  <div class="score-box" id="score2">
+    <div class="score-num" id="score2-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(2)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MOCK 3 ═══════════════════════ -->
+<div class="panel" id="panel-mock3">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 3 — Comprehensive Injection Molding</h2>
+    <div class="mock-meta"><span>📝 20 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock3-container"></div>
+  <button class="submit-btn" onclick="submitMock(3)">Submit Test 3</button>
+  <div class="score-box" id="score3">
+    <div class="score-num" id="score3-num">0/20</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(3)">🔄 Retake Test</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<!-- ═══════════════════════ THEME MODAL ═══════════════════════ -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <h2>🎨 Choose Your Theme</h2>
+    <p>Pick a predefined palette or build your own custom one.</p>
+    <div class="theme-options">
+      <div class="theme-option selected" id="opt-default" onclick="selectTheme('default')">
+        <div class="theme-swatch"><span style="background:#F2C4CE"></span><span style="background:#E8A0AE"></span><span style="background:#B0A8BE"></span></div>
+        <div class="theme-label">Default Blush <small>The original pink-mauve palette</small></div>
+      </div>
+      <div class="theme-option" id="opt-hellokitty" onclick="selectTheme('hellokitty')">
+        <div class="theme-swatch"><span style="background:#FFB7C5"></span><span style="background:#FF8FAB"></span><span style="background:#FFC8DD"></span></div>
+        <div class="theme-label">Hello Kitty 🎀 <small>Sanrio hot pink vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-skywars" onclick="selectTheme('skywars')">
+        <div class="theme-swatch"><span style="background:#0a1628"></span><span style="background:#1e3a6e"></span><span style="background:#00cfff"></span></div>
+        <div class="theme-label">Skywars 🚀 <small>Deep sky cosmic vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-ppg" onclick="selectTheme('ppg')">
+        <div class="theme-swatch"><span style="background:#4BC4E8"></span><span style="background:#FF3399"></span><span style="background:#33CC66"></span></div>
+        <div class="theme-label">Powerpuff Girls 💥 <small>Sugar, spice &amp; everything nice</small></div>
+      </div>
+      <div class="theme-option" id="opt-custom" onclick="selectTheme('custom')">
+        <div class="theme-swatch"><span id="sw1" style="background:#aaa"></span><span id="sw2" style="background:#bbb"></span><span id="sw3" style="background:#ccc"></span></div>
+        <div class="theme-label">Custom 🎨 <small>Pick your own colors</small></div>
+      </div>
+    </div>
+    <div id="colorPickers" style="display:none;margin-top:1rem;">
+      <div class="color-picker-row">
+        <div class="color-pick"><input type="color" id="cp1" value="#F2C4CE" oninput="previewCustom()"> Primary</div>
+        <div class="color-pick"><input type="color" id="cp2" value="#E8A0AE" oninput="previewCustom()"> Secondary</div>
+        <div class="color-pick"><input type="color" id="cp3" value="#B0A8BE" oninput="previewCustom()"> Accent Bg</div>
+        <div class="color-pick"><input type="color" id="cp4" value="#c47b8a" oninput="previewCustom()"> Accent</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-apply" onclick="applyTheme()">Apply</button>
+      <button class="btn-cancel" onclick="closeTheme()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════ THEME ENGINE ══════════════════ */
+const THEME_KEY='mece350-theme-v2';let selectedTheme='default';
+function openTheme(){document.getElementById('themeModal').classList.add('open');}
+function closeTheme(){document.getElementById('themeModal').classList.remove('open');}
+function selectTheme(t){selectedTheme=t;document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));const el=document.getElementById('opt-'+t);if(el)el.classList.add('selected');const p=document.getElementById('colorPickers');if(p)p.style.display=t==='custom'?'block':'none';}
+function previewCustom(){document.getElementById('sw1').style.background=document.getElementById('cp1').value;document.getElementById('sw2').style.background=document.getElementById('cp2').value;document.getElementById('sw3').style.background=document.getElementById('cp3').value;}
+function applyTheme(){let data={type:selectedTheme};if(selectedTheme==='custom'){data.c1=document.getElementById('cp1').value;data.c2=document.getElementById('cp2').value;data.c3=document.getElementById('cp3').value;data.c4=document.getElementById('cp4').value;}applyThemeData(data);localStorage.setItem(THEME_KEY,JSON.stringify(data));closeTheme();}
+function clearBgs(){['hkBg','skywarsBg','ppgBg'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});document.body.classList.remove('theme-hellokitty','theme-skywars','theme-ppg');const r=document.documentElement.style;['--c1','--c2','--c3','--accent','--nav-bg'].forEach(p=>r.removeProperty(p));}
+function applyThemeData(data){clearBgs();const t=data?data.type:'default';if(t==='hellokitty'){document.body.classList.add('theme-hellokitty');spawnHKIcons();}else if(t==='skywars'){document.body.classList.add('theme-skywars');spawnSkywars();}else if(t==='ppg'){document.body.classList.add('theme-ppg');spawnPPG();}else if(t==='custom'&&data.c1){const r=document.documentElement.style;r.setProperty('--c1',data.c1);r.setProperty('--c2',data.c2);r.setProperty('--c3',data.c3);r.setProperty('--accent',data.c4);r.setProperty('--nav-bg',data.c1+'f5');}selectTheme(t||'default');}
+function spawnHKIcons(){const bg=document.getElementById('hkBg');if(!bg)return;const icons=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 55"><path d="M30 50 C10 35 0 25 0 15 C0 5 8 0 15 0 C21 0 27 4 30 9 C33 4 39 0 45 0 C52 0 60 5 60 15 C60 25 50 35 30 50Z" fill="#FF3366"/></svg>','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,4 36,22 56,22 40,34 46,52 30,40 14,52 20,34 4,22 24,22" fill="#FF6B9D"/></svg>'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='hk-icon';const sz=35+Math.random()*55;d.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;width:${sz}px;height:${sz}px;--rot:${(Math.random()-0.5)*40}deg;animation-delay:${-Math.random()*8}s;`;d.innerHTML=icons[i%icons.length];bg.appendChild(d);}}
+function makeSkyShip(b,c){return`<svg xmlns="http://www.w3.org/2000/svg" width="88" height="48" viewBox="0 0 88 48"><polygon points="88,24 60,8 52,24 60,40" fill="${b}"/><ellipse cx="36" cy="24" rx="28" ry="10" fill="${b}"/><ellipse cx="42" cy="20" rx="10" ry="6" fill="${c}" opacity="0.9"/><ellipse cx="10" cy="24" rx="6" ry="3" fill="#ff7700" opacity="0.95"/></svg>`;}
+function spawnSkywars(){const bg=document.getElementById('skywarsBg');if(!bg)return;for(let i=0;i<150;i++){const s=document.createElement('div');s.className='sky-star';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${-Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;bg.appendChild(s);}[{b:'#1a5fa0',c:'#00cfff',top:12,dur:20,d:0},{b:'#0c3560',c:'#55eeff',top:35,dur:27,d:-9},{b:'#1d3d7a',c:'#00cfff',top:60,dur:18,d:-5}].forEach(sh=>{const el=document.createElement('div');el.className='sky-player';el.style.cssText=`top:${sh.top}%;animation-duration:${sh.dur}s;animation-delay:${sh.d}s;`;el.innerHTML=makeSkyShip(sh.b,sh.c);bg.appendChild(el);});}
+function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}}
+(function(){const saved=localStorage.getItem(THEME_KEY);if(saved){try{applyThemeData(JSON.parse(saved));}catch(e){}}})();
+function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+/* ══════════════════════ DATA ══════════════════════ */
+const mcqData=[
+  {q:"What is the highest-volume injection-molded part ever produced?",opts:["Disposable cups","LEGO bricks","Car bumpers","Bottle caps"],ans:1,exp:"According to the lecture, the highest volume injection molded part ever made is the LEGO brick — billions are produced annually to micrometer tolerances."},
+  {q:"Injection molding production is growing at approximately what annual rate?",opts:["0–1%","3–5%","10–15%","25–30%"],ans:1,exp:"The lecture states that plastic production is increasing 3–5% annually, driven by packaging, automotive, and electronics industries."},
+  {q:"What does the word 'polymer' literally mean?",opts:["Many shapes","Many units","Single chain","Plastic material"],ans:1,exp:"Polymer = poly (many) + mer (structural unit). Polyethylene, for example, is many ethylene monomer units linked together."},
+  {q:"Which polymer network architecture defines a thermoplastic?",opts:["Network (highly cross-linked)","Cross-linked","Linear or branched","Crystalline only"],ans:2,exp:"Thermoplastics have linear or branched chain architectures. These allow the chains to slide past each other when heated, enabling melting and injection molding. Network/cross-linked polymers are thermosets."},
+  {q:"The viscosity of liquid thermoplastics during processing is approximately how many times that of water?",opts:["10 times","1,000 times","100,000–1,000,000 times","Same as water"],ans:2,exp:"Liquid thermoplastics are 100,000–1,000,000 times more viscous than water. This is why very high injection pressures (100–200 MPa) are needed to force the melt into thin cavities."},
+  {q:"Polymer viscosity is 'shear-thinning'. What does this mean for injection molding?",opts:["Faster injection increases viscosity, slowing flow","Faster injection decreases viscosity, making flow easier","Viscosity is constant regardless of injection speed","Temperature has no effect on viscosity"],ans:1,exp:"Shear-thinning (pseudoplastic) behaviour means that as the shear rate increases (faster injection), the apparent viscosity drops. This makes filling thin, complex cavities feasible at high injection speeds."},
+  {q:"Higher crystallinity in a polymer leads to which set of property changes?",opts:["Softer, more ductile, lower melting point","Harder, stiffer, less ductile, higher melting point","No change in mechanical properties","More transparent, lower density"],ans:1,exp:"Higher crystallinity → harder, stiffer, less ductile, and higher melting temperature. The ordered crystallite regions resist deformation more than the amorphous regions."},
+  {q:"The injection molding machine has two main units. Which two?",opts:["Heating unit and cooling unit","Injection unit and clamping unit","Screw unit and platen unit","Hopper unit and barrel unit"],ans:1,exp:"The machine consists of the injection unit (melts and injects the polymer) and the clamping unit (holds the mold closed against injection pressure)."},
+  {q:"What is the function of the 'clamping force' in an injection molding machine?",opts:["To push the screw forward during injection","To hold the two mold halves closed against injection pressure","To eject the part after cooling","To control the temperature of the barrel"],ans:1,exp:"The clamping force must exceed the force that injection pressure exerts on the projected area of the mold cavity. If insufficient, the mold opens and flash is produced."},
+  {q:"What is the 'shot size' of an injection molding machine?",opts:["Maximum wall thickness of the part","Volume of material transferred per cycle (part + runners + sprue)","Force required to inject the plastic","Speed of the screw during plasticisation"],ans:1,exp:"Shot size is the total volume of material injected per cycle — including the part(s), runner system, and sprue. The machine must have a shot size at least equal to the total volume required."},
+  {q:"What is the function of the 'sprue' in an injection mold?",opts:["Ejects the finished part","Connects the nozzle to the runner system — the first entry point for molten plastic","Controls cooling rate","Aligns the two mold halves"],ans:1,exp:"The sprue is the primary entry channel through which molten plastic enters the mold from the machine nozzle, connecting it to the runner system."},
+  {q:"What is the purpose of a 'cold slug well' in the runner system?",opts:["Store extra plastic for the next shot","Trap the first (cooled) slug of plastic from the nozzle before it can enter the cavity","Cool the runners faster","Provide a location for the ejector pins"],ans:1,exp:"The first plastic from the nozzle may have cooled and partly solidified. The cold slug well traps this slug to prevent it blocking the gate or creating a defect in the cavity."},
+  {q:"A hot runner mold keeps the runner plastic permanently molten. What is the primary advantage?",opts:["Shorter cooling time for the part","Eliminates runner scrap — no wasted material needs to be sorted or reground","Better surface finish on the part","Lower clamping force required"],ans:1,exp:"In a hot runner system only the finished part solidifies and is ejected; the plastic in the heated runner manifold stays molten and feeds directly into the next shot. LEGO uses this system for zero waste."},
+  {q:"Why are draft angles required on injection-molded parts?",opts:["To improve flow of plastic into the cavity","To allow the solidified part to be ejected without sticking to the mold walls","To increase wall thickness uniformly","To reduce warpage after ejection"],ans:1,exp:"Draft angles (1°–5°) taper the part walls slightly so the part can slide cleanly out of the mold without friction or damage. Without draft, the part would stick and tear."},
+  {q:"Which stage of the injection molding cycle takes the longest?",opts:["Mold closing","Injection and packing","Cooling","Ejection"],ans:2,exp:"Cooling dominates the cycle — typically 50–80% of total cycle time. The screw simultaneously rotates to plasticize the next shot during cooling, so the two operations overlap."},
+  {q:"Cooling time scales with wall thickness according to which relationship?",opts:["t ∝ s (linear)","t ∝ s² (square)","t ∝ s³ (cube)","t is independent of wall thickness"],ans:1,exp:"Cooling time is proportional to the square of the wall thickness (t ∝ s²). Doubling wall thickness quadruples cooling time. This is why uniform, thin walls are the golden rule for injection molding design."},
+  {q:"The 'short shot' defect in injection molding is caused by:",opts:["Too much injection pressure filling the cavity too fast","Insufficient pressure or temperature — melt freezes before the cavity is completely filled","Flash leaking between the mold halves","Trapped air burning the plastic"],ans:1,exp:"A short shot occurs when the melt solidifies before reaching the far end of the cavity — typically due to insufficient injection pressure, too-low melt temperature, or too small a shot size."},
+  {q:"What causes the 'flash' defect in injection molding?",opts:["Insufficient injection pressure","Plastic leaking out along the mold parting line due to excessive injection pressure or insufficient clamping force","Melt temperature too low causing early solidification","Trapped air igniting at the flow front"],ans:1,exp:"Flash is a thin fin of solidified plastic along the parting line. It forms when injection pressure overcomes the clamping force and forces a small amount of plastic out of the closed mold."},
+  {q:"The 'diesel effect' (thermal degradation burn mark) in injection molding occurs because:",opts:["The melt temperature is set too low","Air trapped at the flow front is rapidly compressed and reaches very high temperatures, burning the plastic and the trapped gas","The mold is too cold, freezing the flow front prematurely","Insufficient packing pressure causes voids"],ans:1,exp:"When the flow front traps air at the far end of the cavity, that air is compressed by the advancing melt. Rapid compression heats it to very high temperature (like a diesel engine), burning the plastic and leaving a black/scorched mark."},
+  {q:"Which of the following is the most important design rule for injection-molded parts?",opts:["Maximise part volume to reduce per-unit cost","Use sharp corners to minimise material usage","Maintain uniform wall thickness throughout the part","Always use a two-plate mold"],ans:2,exp:"Uniform wall thickness is the single most important design rule. Non-uniform thickness causes differential cooling rates, leading to warpage, sink marks, residual stress, and cycle time penalties."},
+  {q:"In 'over-molding', what happens?",opts:["A metal insert is placed in the mold before injection","Two polymers are molded sequentially: a rigid base first, then a softer material on top","The runner stays hot between shots to eliminate scrap","Side-action cores create undercuts in the part"],ans:1,exp:"Over-molding (also called two-shot or 2K molding) involves molding a rigid base, then placing it in a second mold where a softer polymer (e.g. elastomer) is molded over it. Used for tool handles, razor grips, and toothbrushes."},
+  {q:"Insert molding involves:",opts:["Keeping the runner system hot between shots","Placing a pre-formed metal (or other) insert into the mold before injecting plastic around it","Injecting two different plastics simultaneously","Using side cores to form undercuts"],ans:1,exp:"In insert molding, a metal insert (e.g. threaded bushing, electrical contact) is placed in the mold cavity before injection. The plastic flows around it and bonds on cooling — eliminating a secondary assembly operation."},
+  {q:"A 'weld line' in an injection-molded part forms when:",opts:["The gate solidifies before the cavity is filled","Two melt flow fronts meet inside the cavity (e.g., around a hole or with multiple gates)","The mold opens too early before the part solidifies","Excessive packing pressure compresses the part"],ans:1,exp:"Weld lines (knit lines) form where two separate flow fronts meet. The interface between them has lower molecular entanglement and thus reduced strength. Gate placement should be optimised to push weld lines to non-critical areas."},
+  {q:"Compared with amorphous polymers, semi-crystalline polymers during injection molding exhibit:",opts:["Less shrinkage and easier dimensional control","Greater shrinkage and more anisotropic shrinkage, making warpage more likely","Same shrinkage but lower processing temperature","No difference in shrinkage"],ans:1,exp:"Semi-crystalline polymers (PP, PA, POM, PEEK) undergo additional volume reduction during crystallisation on cooling, giving greater and more directional shrinkage than amorphous grades (ABS, PS, PC). This makes dimensional control and warpage more challenging."},
+  {q:"The process window in injection molding is bounded by four defect zones. Which combination correctly lists all four?",opts:["Short shot, flash, thermal degradation, and melt (too hot, low pressure)","Warpage, sink marks, weld lines, and voids","Short shot, burrs, voids, and discolouration","Flash, delamination, jetting, and shrinkage"],ans:0,exp:"The four boundaries of the process window are: short shot (low T, low P), flash (high P), thermal degradation (high T), and a melt-only zone (high T, low P). Good parts require staying within all four boundaries simultaneously."},
+  {q:"Why is it insufficient to simply be 'within the process window' when setting injection molding parameters?",opts:["The process window applies only to the sprue, not the cavity","Temperature and pressure vary throughout the part — the gate region and far end of flow experience different conditions simultaneously","The process window changes every cycle","Process windows only apply to thermosets"],ans:1,exp:"Even if nominal parameters are within the window, the gate region operates at high T and P while the far end of the flow path is at lower T and P. The design must ensure the entire part stays within the window — which requires maximum uniformity of geometry and gate placement."},
+  {q:"What is the primary purpose of cooling channels in an injection mold?",opts:["To heat the mold during startup","To remove heat from the solidifying part, control cycle time, and ensure dimensional accuracy","To maintain melt temperature during injection","To pressurize the mold cavity"],ans:1,exp:"Cooling channels carry chilled water (typically 20–80°C) through the mold body. They remove heat from the plastic, reducing cooling time, preventing warpage from non-uniform temperatures, and controlling crystallinity."},
+  {q:"What is the role of 'packing pressure' in the injection molding cycle?",opts:["It ejects the part from the mold after cooling","It is applied after cavity fill to compensate for shrinkage as the plastic cools","It controls the screw rotation during plasticisation","It sets the clamping force"],ans:1,exp:"After the cavity is filled, injection pressure is held or increased slightly (packing) to force additional material in as the plastic shrinks during cooling. Without packing, sink marks and voids form in thick sections."},
+  {q:"Which mold type does LEGO use, and why?",opts:["Two-plate mold — simplest and cheapest","Three-plate mold — automatically separates parts from runners","Hot runner mold — runner stays molten so there is zero runner scrap","Cold runner mold — provides better control of flow balance"],ans:2,exp:"LEGO uses hot runner molds where the manifold is heated to keep runner plastic molten between shots. Only the finished brick solidifies. This eliminates all runner waste — critical for LEGO's production volume and sustainability goals."},
+  {q:"Sink marks on an injection-molded part are caused by:",opts:["Flash bleeding back into the cavity on cooling","Thick sections cooling more slowly — the core shrinks and pulls the outer surface inward","The gate solidifying too early","Excessive draft angles on the part walls"],ans:1,exp:"Sink marks form on the outer surface opposite a thick section (e.g. a boss or rib). The thick section takes longer to cool and solidify; as its core shrinks, it pulls the already-solid skin inward, creating a depression."},
+];
+
+const fitbData=[
+  {sentence:"The highest-volume injection-molded part ever made is the ___ brick.",blanks:["LEGO"],answers:["lego","LEGO"]},
+  {sentence:"The word polymer comes from Greek: ___ (many) + ___ (structural unit).",blanks:["poly","mer"],answers:["poly","mer"]},
+  {sentence:"___ polymers can be remelted and reprocessed, while ___ polymers cure irreversibly.",blanks:["thermoplastic","thermoset"],answers:["thermoplastic","thermoset"]},
+  {sentence:"The higher the degree of crystallinity, the ___, ___, and less ductile the polymer.",blanks:["harder","stiffer"],answers:["harder","stiffer"]},
+  {sentence:"Liquid thermoplastics are ___ to ___ times more viscous than water.",blanks:["100,000","1,000,000"],answers:["100,000","1,000,000"]},
+  {sentence:"The shear-thinning (pseudoplastic) behaviour of polymers means that faster injection ___ viscosity.",blanks:["decreases"],answers:["decreases","reduces","lowers"]},
+  {sentence:"The injection molding machine has two main units: the ___ unit and the ___ unit.",blanks:["injection","clamping"],answers:["injection","clamping"]},
+  {sentence:"___ force must be sufficient to prevent the mold from opening under injection pressure.",blanks:["Clamping"],answers:["clamping","clamp"]},
+  {sentence:"The ___ is the primary entry channel for molten plastic from the nozzle into the mold.",blanks:["sprue"],answers:["sprue"]},
+  {sentence:"A ___ traps the cooled first slug of plastic from the nozzle before it can enter the cavity.",blanks:["cold slug well"],answers:["cold slug well","slug well"]},
+  {sentence:"In a ___ mold the runner stays permanently molten so only the finished part is ejected as scrap-free.",blanks:["hot runner"],answers:["hot runner","hot-runner"]},
+  {sentence:"___ angles on part walls allow the solidified part to be ejected without sticking.",blanks:["Draft"],answers:["draft"]},
+  {sentence:"The longest stage of the injection molding cycle is ___.",blanks:["cooling"],answers:["cooling"]},
+  {sentence:"Cooling time is proportional to the ___ of the wall thickness — doubling thickness quadruples cooling time.",blanks:["square"],answers:["square","s squared","s²"]},
+  {sentence:"A ___ occurs when melt freezes before completely filling the cavity.",blanks:["short shot"],answers:["short shot","short-shot"]},
+  {sentence:"___ is a thin fin of solidified plastic along the parting line caused by excess injection pressure.",blanks:["Flash"],answers:["flash"]},
+  {sentence:"The 'diesel effect' burn mark is caused by ___ trapped at the flow front being rapidly compressed.",blanks:["air"],answers:["air","trapped air"]},
+  {sentence:"The most important design rule for injection molding is to maintain ___ wall thickness.",blanks:["uniform"],answers:["uniform","constant","even"]},
+  {sentence:"___ lines form where two melt flow fronts meet inside the cavity.",blanks:["Weld"],answers:["weld","knit"]},
+  {sentence:"In ___ molding, a pre-formed metal insert is placed in the mold before plastic is injected around it.",blanks:["insert"],answers:["insert"]},
+  {sentence:"In ___ molding, a rigid base is first molded, then a softer material is molded over it.",blanks:["over"],answers:["over","over-molding","overmolding"]},
+  {sentence:"___ marks form on a surface opposite a thick section as the cooling core shrinks and pulls the skin inward.",blanks:["Sink"],answers:["sink"]},
+  {sentence:"Semi-crystalline polymers have ___ shrinkage than amorphous polymers, making warpage more likely.",blanks:["greater"],answers:["greater","more","higher"]},
+  {sentence:"___ pressure is applied after cavity fill to compensate for shrinkage as the plastic cools.",blanks:["Packing"],answers:["packing","pack"]},
+  {sentence:"Global plastic production is growing at approximately ___% per year.",blanks:["3–5"],answers:["3-5","3–5","3 to 5","4"]},
+  {sentence:"The process window is bounded by four zones: short shot, ___, thermal degradation, and melt.",blanks:["flash"],answers:["flash"]},
+  {sentence:"Shrinkage in injection molding requires mold cavities to be designed ___ than the target part size.",blanks:["larger"],answers:["larger","bigger"]},
+  {sentence:"A ___ angle of 1°–3° is required on vertical walls to allow clean part ejection from the mold.",blanks:["draft"],answers:["draft"]},
+  {sentence:"The ___ is the narrow restriction between the runner and the cavity that controls flow and solidifies first.",blanks:["gate"],answers:["gate"]},
+  {sentence:"___ actions are moving mold cores that retract during mold opening to create undercuts or side holes.",blanks:["Side"],answers:["side"]},
+];
+
+const mock1Qs  =[0,1,2,3,4,5,6,7,8,9];
+const mock1Fitb=[0,1,2,3,4];
+const mock2Qs  =[10,11,12,13,14,15,16,17,18,19];
+const mock2Fitb=[8,9,10,11,12];
+const mock3Qs  =[0,2,4,6,8,10,12,14,16,18,20,22];
+const mock3Fitb=[3,6,13,16,18,22,24,26];
+
+/* ══════════════════ RENDER FUNCTIONS ══════════════════ */
+function renderMCQ(data,container,prefix){
+  let html='';
+  data.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Question ${i+1}</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div><div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div></div>`;
+  });
+  document.getElementById(container).innerHTML=html;
+}
+function answerMCQ(prefix,qi,chosen,correct){
+  document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`).forEach(o=>o.style.pointerEvents='none');
+  const chosenEl=document.getElementById(`${prefix}-opt-${qi}-${chosen}`);
+  const correctEl=document.getElementById(`${prefix}-opt-${qi}-${correct}`);
+  if(chosen===correct){chosenEl.classList.add('correct');}
+  else{chosenEl.classList.add('wrong');correctEl.classList.add('reveal-correct');}
+  document.getElementById(`${prefix}-fb-${qi}`).classList.add('show',chosen===correct?'correct':'wrong');
+}
+function renderFITB2(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" data-qi="${i}"><div class="q-num">Question ${i+1}</div><div class="fitb-sentence">${sentence}</div><button class="check-btn" onclick="checkFITB2(this)">Check Answer</button><div class="fitb-result"></div></div>`;
+  });
+  document.getElementById(containerId).innerHTML=html;
+  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{card.__fitbData=dataArr[i];});
+}
+function checkFITB2(btn){
+  const card=btn.closest('.fitb-card');const data=card.__fitbData;
+  const inputs=card.querySelectorAll('.blank-input');let allCorrect=true;
+  inputs.forEach((inp,idx)=>{
+    const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+    const correct=data.blanks[idx].toLowerCase().replace(/-/g,' ');
+    const ok=userVal===correct||(data.answers&&data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+    inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+    if(!ok)allCorrect=false;
+  });
+  const res=card.querySelector('.fitb-result');res.classList.add('show');btn.disabled=true;
+  if(allCorrect){res.style.color='#155724';res.innerHTML='✅ Correct!';}
+  else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct: <strong>'+data.blanks.join(' / ')+'</strong>';}
+}
+function renderMockMCQ(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Q${i+1} — Multiple Choice</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div></div>`;
+  });
+  document.getElementById(containerId).innerHTML+=html;
+}
+function selectMockMCQ(prefix,qi,chosen){
+  const card=document.getElementById(`${prefix}-m-${qi}-${chosen}`).closest('.q-card');
+  card.querySelectorAll('.option').forEach(o=>{o.style.background='';o.style.borderColor='';});
+  document.getElementById(`${prefix}-m-${qi}-${chosen}`).style.cssText='background:var(--c1);border-color:var(--accent);';
+  if(!window.mockAnswers)window.mockAnswers={};
+  if(!window.mockAnswers[prefix])window.mockAnswers[prefix]={};
+  window.mockAnswers[prefix][`mcq-${qi}`]=chosen;
+}
+function renderMockFITB(dataArr,containerId,prefix,startNum){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx2=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx2++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}"><div class="q-num">Q${startNum+i} — Fill in the Blank</div><div class="fitb-sentence">${sentence}</div></div>`;
+  });
+  const div=document.createElement('div');div.innerHTML=html;
+  document.getElementById(containerId).appendChild(div);
+  dataArr.forEach((q,i)=>{const c=document.getElementById(`${prefix}-fitb-${i}`);if(c)c.__fitbData=q;});
+}
+function submitMock(num){
+  const prefix='m'+num;
+  const mcqD=num===1?mock1Qs.map(i=>mcqData[i]):num===2?mock2Qs.map(i=>mcqData[i]):mock3Qs.map(i=>mcqData[i]);
+  const fitbD=num===1?mock1Fitb.map(i=>fitbData[i]):num===2?mock2Fitb.map(i=>fitbData[i]):mock3Fitb.map(i=>fitbData[i]);
+  let score=0;const total=mcqD.length+fitbD.length;
+  mcqD.forEach((q,i)=>{
+    const chosen=(window.mockAnswers&&window.mockAnswers[prefix])?window.mockAnswers[prefix][`mcq-${i}`]:null;
+    const correctEl=document.getElementById(`${prefix}-m-${i}-${q.ans}`);
+    if(correctEl){correctEl.style.background='#d4edda';correctEl.style.borderColor='#28a745';}
+    if(chosen!==null&&chosen!==undefined){
+      const chosenEl=document.getElementById(`${prefix}-m-${i}-${chosen}`);
+      if(chosen===q.ans){score++;}else if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}
+    }
+    document.querySelectorAll(`[id^="${prefix}-m-${i}-"]`).forEach(o=>o.style.pointerEvents='none');
+  });
+  fitbD.forEach((q,i)=>{
+    const card=document.getElementById(`${prefix}-fitb-${i}`);if(!card)return;
+    const inputs=card.querySelectorAll('.blank-input');let allOk=true;
+    inputs.forEach((inp,idx)=>{
+      const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+      const correct=q.blanks[idx].toLowerCase().replace(/-/g,' ');
+      const ok=userVal===correct||(q.answers&&q.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+      inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+      if(!ok)allOk=false;
+    });
+    if(allOk)score++;
+    const res=document.createElement('div');res.className='fitb-result show';
+    res.innerHTML=allOk?'<span style="color:#155724">✅ Correct!</span>':'<span style="color:#721c24">❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong></span>';
+    card.appendChild(res);
+  });
+  document.getElementById('score'+num+'-num').textContent=`${score}/${total}`;
+  document.getElementById('score'+num).classList.add('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='none';
+  document.getElementById('score'+num).scrollIntoView({behavior:'smooth'});
+}
+function retakeMock(num){
+  window.mockAnswers={};initMocks();
+  document.getElementById('score'+num).classList.remove('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='block';
+}
+function initMocks(){
+  ['mock1-container','mock2-container','mock3-container'].forEach(id=>document.getElementById(id).innerHTML='');
+  renderMockMCQ(mock1Qs.map(i=>mcqData[i]),'mock1-container','m1');
+  renderMockFITB(mock1Fitb.map(i=>fitbData[i]),'mock1-container','m1',mock1Qs.length+1);
+  renderMockMCQ(mock2Qs.map(i=>mcqData[i]),'mock2-container','m2');
+  renderMockFITB(mock2Fitb.map(i=>fitbData[i]),'mock2-container','m2',mock2Qs.length+1);
+  renderMockMCQ(mock3Qs.map(i=>mcqData[i]),'mock3-container','m3');
+  renderMockFITB(mock3Fitb.map(i=>fitbData[i]),'mock3-container','m3',mock3Qs.length+1);
+}
+renderMCQ(mcqData,'mcq-container','q');
+renderFITB2(fitbData,'fitb-container','f');
+initMocks();
+</script>
+</body>
+</html>
