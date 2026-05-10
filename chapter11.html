@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch.11 Material Joining – MECE350</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#F2C4CE;--c2:#E8A0AE;--c3:#B0A8BE;--c4:#fff;--text:#3a2a35;--text2:#6b5060;--card-bg:rgba(255,255,255,0.88);--shadow:rgba(176,168,190,0.22);--accent:#c47b8a;--nav-bg:rgba(242,196,206,0.96);}
+  .theme-hellokitty{--c1:#FFB7C5;--c2:#FF8FAB;--c3:#FFC8DD;--c4:#fff;--text:#8B1A4A;--text2:#c05478;--card-bg:rgba(255,255,255,0.92);--shadow:rgba(255,143,171,0.25);--accent:#FF6B9D;--nav-bg:rgba(255,183,197,0.97);}
+  .theme-hellokitty,body.theme-hellokitty{background:linear-gradient(135deg,#FFB7C5 0%,#fff 50%,#FFC8DD 100%)!important;}
+  .theme-skywars{--c1:#0a1628;--c2:#1e3a6e;--c3:#162444;--c4:#0d1f3c;--text:#e0f0ff;--text2:#8bb8e8;--card-bg:rgba(14,30,60,0.94);--shadow:rgba(0,150,255,0.22);--accent:#00cfff;--nav-bg:rgba(6,14,28,0.97);}
+  .theme-skywars,body.theme-skywars{background:linear-gradient(180deg,#020b18 0%,#0a1628 40%,#0d2040 100%)!important;}
+  .theme-skywars nav{border-bottom-color:rgba(0,207,255,0.25);}
+  .theme-skywars .summary-section,.theme-skywars .q-card,.theme-skywars .fitb-card,.theme-skywars .mock-header{border-color:rgba(0,207,255,0.2);}
+  .theme-skywars .chapter-hero h1{font-family:'Orbitron',sans-serif;letter-spacing:0.04em;text-transform:uppercase;}
+  .theme-skywars .nav-brand{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;}
+  .theme-skywars .tab.active{color:#00cfff;border-bottom-color:#00cfff;}
+  .theme-ppg{--c1:#4BC4E8;--c2:#2AA4CC;--c3:#6DD4F0;--c4:#B0ECFF;--text:#001829;--text2:#0a3a55;--card-bg:rgba(160,225,248,0.85);--shadow:rgba(0,140,200,0.22);--accent:#FF3399;--nav-bg:rgba(20,120,170,0.97);}
+  .theme-ppg,body.theme-ppg{background:linear-gradient(160deg,#1e9ed0 0%,#4BC4E8 45%,#2a8ab8 100%)!important;}
+  .theme-ppg nav{border-bottom-color:rgba(255,51,153,0.4);}
+  .theme-ppg .chapter-hero h1{font-family:'Bangers',cursive;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:0.05em;text-transform:uppercase;color:#fff;text-shadow:3px 3px 0 #001829;}
+  .theme-ppg .nav-brand{font-family:'Bangers',cursive;font-size:1.7rem;letter-spacing:0.06em;text-transform:uppercase;color:#fff;text-shadow:2px 2px 0 #001829;}
+  .theme-ppg .page-tag{background:rgba(255,51,153,0.2);color:#001829;border:2px solid #FF3399;font-weight:700;}
+  .theme-ppg .tab.active{color:#FF3399;border-bottom-color:#FF3399;}
+  .theme-ppg .nav-links a{color:#fff;}
+  .theme-ppg .theme-btn{background:#FF3399;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,var(--c1) 0%,var(--c4) 50%,var(--c3) 100%);min-height:100vh;color:var(--text);transition:background 0.5s,color 0.3s;overflow-x:hidden;}
+  nav{position:sticky;top:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--c2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-brand{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);text-decoration:none;}
+  .nav-brand span{color:var(--accent);}
+  .nav-links{display:flex;gap:1rem;align-items:center;}
+  .nav-links a{text-decoration:none;color:var(--text2);font-size:0.85rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+  .theme-btn{background:var(--accent);color:#fff;border:none;padding:0.4rem 1rem;border-radius:20px;font-size:0.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;}
+  .tabs-wrap{position:sticky;top:64px;z-index:999;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--c2);overflow-x:auto;}
+  .tabs{display:flex;padding:0 1.5rem;gap:0;white-space:nowrap;}
+  .tab{padding:0.9rem 1.3rem;font-size:0.85rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab:hover{color:var(--accent);}
+  .content{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .summary-section{background:var(--card-bg);border-radius:20px;border:1.5px solid var(--c2);padding:2rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .summary-section h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--c1);}
+  .summary-section h3{font-size:1rem;font-weight:600;color:var(--accent);margin:1rem 0 0.4rem;}
+  .summary-section p,.summary-section li{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:0.4rem;}
+  .summary-section ul{padding-left:1.4rem;}
+  .comparison-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;}
+  .comparison-table th{background:var(--c2);color:var(--text);padding:0.6rem 0.9rem;text-align:left;}
+  .comparison-table td{padding:0.6rem 0.9rem;border-bottom:1px solid var(--c1);}
+  .comparison-table tr:last-child td{border:none;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.8rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+  .highlight-box{background:linear-gradient(135deg,var(--c1),var(--c3));border-radius:12px;padding:1rem 1.2rem;margin:0.8rem 0;border-left:4px solid var(--accent);}
+  .highlight-box p{font-size:0.88rem;color:var(--text);font-weight:500;}
+  .q-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .q-num{font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .q-text{font-size:0.95rem;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.5;}
+  .options{display:grid;gap:0.6rem;}
+  .option{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 1rem;border-radius:12px;border:1.5px solid transparent;background:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;font-size:0.88rem;color:var(--text);}
+  .option:hover{border-color:var(--c2);background:var(--c1);}
+  .option.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .option.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .option.reveal-correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-letter{font-weight:700;min-width:1.2rem;}
+  .q-feedback{margin-top:0.8rem;padding:0.65rem 1rem;border-radius:10px;font-size:0.83rem;display:none;}
+  .q-feedback.show{display:block;}
+  .q-feedback.correct{background:#d4edda;color:#155724;}
+  .q-feedback.wrong{background:#f8d7da;color:#721c24;}
+  .fitb-card{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:18px;padding:1.6rem;margin-bottom:1.2rem;box-shadow:0 3px 15px var(--shadow);}
+  .fitb-sentence{font-size:0.95rem;line-height:2.4;color:var(--text);}
+  .blank-input{border:none;border-bottom:2.5px solid var(--accent);background:transparent;font-family:'DM Sans',sans-serif;font-size:0.93rem;padding:0.1rem 0.3rem;min-width:140px;color:var(--text);outline:none;transition:all 0.2s;}
+  .blank-input:focus{border-bottom-color:var(--c3);}
+  .blank-input.correct-ans{border-bottom-color:#28a745;color:#155724;}
+  .blank-input.wrong-ans{border-bottom-color:#dc3545;color:#dc3545;}
+  .check-btn{margin-top:1rem;background:var(--accent);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:12px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .check-btn:hover{opacity:0.85;}
+  .fitb-result{margin-top:0.6rem;font-size:0.82rem;display:none;}
+  .fitb-result.show{display:block;}
+  .mock-header{background:var(--card-bg);border:1.5px solid var(--c2);border-radius:20px;padding:1.8rem;margin-bottom:1.5rem;box-shadow:0 4px 20px var(--shadow);}
+  .mock-header h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:0.5rem;}
+  .mock-meta{display:flex;gap:1.5rem;font-size:0.82rem;color:var(--text2);flex-wrap:wrap;}
+  .mock-meta span{background:var(--c1);padding:0.25rem 0.75rem;border-radius:12px;}
+  .submit-btn{background:var(--accent);color:#fff;border:none;padding:0.75rem 2rem;border-radius:14px;font-size:0.92rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:all 0.2s;}
+  .submit-btn:hover{opacity:0.85;transform:scale(1.02);}
+  .score-box{background:var(--card-bg);border:2px solid var(--accent);border-radius:20px;padding:2rem;text-align:center;margin-top:1.5rem;display:none;}
+  .score-box.show{display:block;}
+  .score-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--accent);}
+  .score-label{font-size:0.9rem;color:var(--text2);margin-top:0.25rem;}
+  .retake-btn{background:transparent;border:2px solid var(--accent);color:var(--accent);padding:0.6rem 1.5rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;margin-top:1rem;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+  .retake-btn:hover{background:var(--accent);color:#fff;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:2.5rem;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:90vh;overflow-y:auto;}
+  .modal h2{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:0.3rem;color:#3a2a35;}
+  .modal p{font-size:0.85rem;color:#6b5060;margin-bottom:1.5rem;}
+  .theme-options{display:grid;gap:0.85rem;}
+  .theme-option{border:2px solid #e8e0ec;border-radius:14px;padding:1rem 1.2rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem;}
+  .theme-option:hover,.theme-option.selected{border-color:#c47b8a;background:#fdf7f9;}
+  .theme-swatch{display:flex;gap:4px;}
+  .theme-swatch span{width:18px;height:18px;border-radius:50%;}
+  .theme-label{font-weight:600;font-size:0.88rem;}
+  .theme-label small{display:block;font-weight:400;color:#888;font-size:0.75rem;}
+  .color-picker-row{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem;}
+  .color-pick{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;}
+  .color-pick input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;}
+  .modal-actions{display:flex;gap:0.75rem;margin-top:1.5rem;}
+  .btn-apply{background:#c47b8a;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:12px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-cancel{background:transparent;color:#6b5060;border:1.5px solid #ddd;padding:0.6rem 1.2rem;border-radius:12px;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .page-tag{display:inline-block;background:var(--c2);color:var(--text);font-size:0.72rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:15px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .chapter-hero{text-align:center;padding:2.5rem 1rem 1rem;}
+  .chapter-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--text);line-height:1.2;}
+  .chapter-hero p{color:var(--text2);font-size:0.9rem;margin-top:0.5rem;}
+  .hk-bg,.skywars-bg,.ppg-bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .theme-hellokitty .hk-bg{display:block;}
+  .theme-skywars .skywars-bg{display:block;}
+  .theme-ppg .ppg-bg{display:block;}
+  .theme-hellokitty .content,.theme-hellokitty .chapter-hero,.theme-skywars .content,.theme-skywars .chapter-hero,.theme-ppg .content,.theme-ppg .chapter-hero{position:relative;z-index:1;}
+  .hk-icon{position:absolute;opacity:0.12;animation:hk-float 6s ease-in-out infinite;}
+  .hk-icon:nth-child(2n){animation-duration:8s;animation-delay:-2s;}
+  .hk-icon:nth-child(3n){animation-duration:7s;animation-delay:-4s;}
+  @keyframes hk-float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+  .sky-star{position:absolute;border-radius:50%;background:#00cfff;animation:sky-twinkle 3s ease-in-out infinite;}
+  @keyframes sky-twinkle{0%,100%{opacity:0.2;transform:scale(1)}50%{opacity:0.9;transform:scale(1.5)}}
+  .sky-player{position:absolute;opacity:0;animation:sky-fly linear infinite;}
+  @keyframes sky-fly{0%{transform:translateX(-140px);opacity:0}5%{opacity:0.8}95%{opacity:0.8}100%{transform:translateX(calc(100vw + 140px));opacity:0}}
+  .ppg-hero{position:absolute;opacity:0;animation:ppg-fly linear infinite;will-change:transform;}
+  @keyframes ppg-fly{0%{transform:translateX(-160px) translateY(0px);opacity:0}5%{opacity:1}50%{transform:translateX(50vw) translateY(var(--dy,0px));opacity:1}95%{opacity:1}100%{transform:translateX(calc(100vw + 160px)) translateY(var(--dy,0px));opacity:0}}
+  .ppg-cloud{position:absolute;animation:ppg-fly linear infinite;opacity:0.2;}
+  .ppg-city{position:absolute;bottom:0;left:0;right:0;height:180px;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="hk-bg" id="hkBg"></div>
+<div class="skywars-bg" id="skywarsBg"></div>
+<div class="ppg-bg" id="ppgBg"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">MECE<span>350</span></a>
+  <div class="nav-links">
+    <a href="index.html">← Home</a>
+    <a href="#" onclick="scrollTo(0,0)">Top</a>
+    <button class="theme-btn" onclick="openTheme()">🎨 Theme</button>
+  </div>
+</nav>
+
+<div class="chapter-hero">
+  <div class="page-tag">Chapter 11</div>
+  <h1>Material Joining · Welding &amp; Brazing</h1>
+  <p>Summary · MCQ Bank · Fill-in-the-Blank · 3 Mock Tests</p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('summary',this)">📖 Summary</div>
+    <div class="tab" onclick="showPanel('mcq',this)">❓ MCQ Bank</div>
+    <div class="tab" onclick="showPanel('fitb',this)">✏️ Fill in the Blank</div>
+    <div class="tab" onclick="showPanel('mock1',this)">🧪 Mock Test 1</div>
+    <div class="tab" onclick="showPanel('mock2',this)">🧪 Mock Test 2</div>
+    <div class="tab" onclick="showPanel('mock3',this)">🧪 Mock Test 3</div>
+  </div>
+</div>
+
+<div class="content">
+<div class="panel active" id="panel-summary">
+
+  <!-- ═══════════════════ SECTION 1 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>1. What is Joining?</h2>
+    <p>Joining is an all-inclusive term covering processes such as <strong>welding, brazing, soldering, adhesive bonding, and mechanical fastening</strong>. These processes permanently or semi-permanently connect two or more parts at their contacting surfaces.</p>
+
+    <h3>Why Do We Need Joining?</h3>
+    <ul>
+      <li>Some products are <strong>impossible to manufacture as a single piece</strong> — joining is the only option (e.g., a thin-walled tubular assembly with long arms)</li>
+      <li>Some products are <strong>easier and more economical</strong> to make in separate components that are then joined</li>
+      <li>Products need to be <strong>disassembled for maintenance or inspection</strong>, so mechanical fastening is preferred</li>
+      <li><strong>Different materials are required</strong> in the same product for different functional zones (e.g., carbide cutting insert brazed to a steel drill shank)</li>
+      <li>Manufacturing in components is easier for <strong>transportation and packaging</strong></li>
+    </ul>
+
+    <h3>Examples in a Typical Automobile</h3>
+    <ul>
+      <li>Spot-welded car body panels</li>
+      <li>Brazed joint for emission control components</li>
+      <li>Soldered electrical circuitry</li>
+      <li>Bolted engine assembly and mechanical fastening of body trim</li>
+      <li>Adhesively bonded windshield to car body</li>
+      <li>Welded exhaust pipes; seam-welded muffler</li>
+    </ul>
+
+    <h3>Overview of All Joining Processes</h3>
+    <table class="comparison-table">
+      <tr><th>Category</th><th>Sub-types</th><th>Examples</th></tr>
+      <tr><td><strong>Welding — Fusion</strong></td><td>Chemical, Electrical</td><td>Oxyfuel-gas, Arc (SMAW, GMAW, TIG), Resistance, Electron beam, Laser beam</td></tr>
+      <tr><td><strong>Welding — Solid State</strong></td><td>Electrical, Chemical, Mechanical</td><td>Resistance, Diffusion, Explosion, Cold, Friction, Ultrasonic</td></tr>
+      <tr><td><strong>Brazing &amp; Soldering</strong></td><td>—</td><td>Torch brazing, furnace brazing, wave soldering</td></tr>
+      <tr><td><strong>Adhesive Bonding</strong></td><td>—</td><td>Structural adhesives, epoxies, sealants</td></tr>
+      <tr><td><strong>Mechanical Fastening</strong></td><td>—</td><td>Fastening, seaming, crimping, stitching</td></tr>
+    </table>
+  </div>
+
+  <!-- ═══════════════════ SECTION 2 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>2. Types of Joints</h2>
+    <p>The five fundamental joint geometries used across all joining processes:</p>
+    <table class="comparison-table">
+      <tr><th>Joint Type</th><th>Description</th></tr>
+      <tr><td><strong>Butt joint</strong></td><td>Parts lie in the same plane and are joined at their edges. Simple, economical, limited by thickness — thicker joints need edge preparation (V-groove, etc.)</td></tr>
+      <tr><td><strong>Corner joint</strong></td><td>Parts form a right angle and are joined at the corner of that angle</td></tr>
+      <tr><td><strong>Tee joint (T-joint)</strong></td><td>One part is perpendicular to the other, forming a T shape</td></tr>
+      <tr><td><strong>Lap joint</strong></td><td>Two overlapping parts joined at their overlapping area</td></tr>
+      <tr><td><strong>Edge joint</strong></td><td>At least one edge between the two pieces is common / shared</td></tr>
+    </table>
+
+    <h3>Weld Groove Types for Butt Joints</h3>
+    <ul>
+      <li><strong>Square groove</strong> — for thin sections; no edge preparation needed</li>
+      <li><strong>Single V-groove</strong> — both parts bevelled; suitable for medium thickness</li>
+      <li><strong>Double V-groove</strong> — welding from both sides; <strong>requires less filler metal</strong> than single V for the same thickness</li>
+      <li><strong>Bevel, U, J grooves</strong> — various geometries for thicker sections and specific applications</li>
+    </ul>
+    <div class="highlight-box">
+      <p>⚠️ <strong>Key exam point:</strong> A double V-groove weld requires less filler metal than a single V-groove weld of the same thickness, because material is removed from both sides instead of only one.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SECTION 3 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>3. Welding — Overview</h2>
+    <p>Welding is a material joining process in which two or more parts are <strong>coalesced at their contacting surfaces by a suitable application of heat and/or pressure</strong>. In some processes, a <strong>filler material</strong> is added to facilitate coalescence. Welding is most commonly associated with metals but is also used for plastics.</p>
+
+    <h3>Advantages of Welding</h3>
+    <ul>
+      <li>Provides a <strong>permanent joint</strong></li>
+      <li>With a proper filler metal, the welded joint can be <strong>stronger than the parent materials</strong></li>
+      <li>Economical in terms of material usage and fabrication costs</li>
+    </ul>
+
+    <h3>Disadvantages of Welding</h3>
+    <ul>
+      <li>Most welding is manual → <strong>high labor costs</strong></li>
+      <li>Can be <strong>dangerous</strong> (heat, pressure, radiation, fumes)</li>
+      <li><strong>Disassembly is not possible</strong> — the joint is permanent</li>
+      <li>Some weld defects are <strong>difficult to detect</strong>, compromising structural integrity</li>
+    </ul>
+
+    <h3>Two Major Categories of Welding</h3>
+    <div class="two-col">
+      <div>
+        <h3>Fusion Welding</h3>
+        <ul>
+          <li>Material is <strong>melted</strong> and coalesced using heat (chemical or electrical)</li>
+          <li>Filler metals may or may not be used</li>
+          <li>Examples: oxyfuel-gas, arc welding (SMAW, GMAW, TIG), resistance, electron beam, laser beam</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Solid-State Welding</h3>
+        <ul>
+          <li>Joining occurs <strong>without fusion</strong> — no liquid (molten) phase in the joint</li>
+          <li>Uses pressure, diffusion, or mechanical energy</li>
+          <li>Examples: cold welding, friction welding, ultrasonic welding, diffusion bonding, explosion welding</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SECTION 4 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>4. Fusion Welding Processes</h2>
+
+    <h3>Chemical — Oxyfuel-Gas Welding (OFW)</h3>
+    <ul>
+      <li>Various fuels (most commonly <strong>acetylene</strong>) are mixed with <strong>oxygen</strong> and burned through a torch</li>
+      <li>Acetylene is favored because it generates temperatures up to <strong>3,500 °C</strong></li>
+      <li>A filler rod coated with <strong>flux</strong> is sometimes used to prevent oxidation and create a better joint</li>
+      <li>The flame comes from the torch; the molten pool of base metal + filler solidifies to form the weld</li>
+    </ul>
+
+    <h3>Electric — Arc Welding (General)</h3>
+    <ul>
+      <li>Heat is generated by an <strong>electric arc</strong> between the electrode and the workpiece</li>
+      <li>The arc is initiated when the electrode contacts the work and is then quickly separated to maintain the gap</li>
+      <li>Arc temperature reaches approximately <strong>5,500 °C</strong> — sufficient to melt most metals</li>
+      <li>Molten metal (base + filler) solidifies in the weld region</li>
+    </ul>
+
+    <h3>Shielded Metal Arc Welding (SMAW) — "Stick Welding"</h3>
+    <ul>
+      <li>Uses a <strong>consumable electrode</strong> — a filler metal rod coated with flux and shielding gas chemicals</li>
+      <li>The coating burns to produce <strong>shielding gas</strong> around the weld pool and a <strong>slag</strong> layer on top</li>
+      <li>Filler rod coating: powdered cellulose mixed with carbonates, bound with silicate</li>
+      <li>Chemical composition of filler metal is usually very close to the base metal</li>
+      <li>The electrode is consumed and must be changed periodically → <strong>reduces production rate</strong> (cannot be automated as easily)</li>
+      <li>Slag must be removed by brushing after each pass</li>
+    </ul>
+
+    <h3>Gas Metal Arc Welding (GMAW) — "MIG Welding"</h3>
+    <ul>
+      <li>Another <strong>consumable electrode</strong> process — but the wire is <strong>continuous</strong> from a reel</li>
+      <li>Shielding gas (helium or argon for MIG; CO₂ for steel welding) is supplied separately via a nozzle around the arc</li>
+      <li><strong>No slag</strong> — can be used for multiple weld passes without inter-pass cleaning</li>
+      <li>The continuous electrode means the process <strong>can be fully automated</strong> — much higher production rate than SMAW</li>
+      <li>Also called Metal Inert Gas (MIG) welding when using argon or helium</li>
+    </ul>
+
+    <h3>Submerged Arc Welding (SAW)</h3>
+    <ul>
+      <li>Uses a continuous bare electrode wire; shielding is provided by <strong>granular flux from a hopper</strong> that completely submerges the arc</li>
+      <li>Because the arc is submerged, there are no sparks, spatter, or radiation → <strong>no safety glasses or gloves required</strong></li>
+      <li>Slow cooling rate due to the flux blanket → <strong>excellent weld quality</strong></li>
+      <li>Unfused flux is collected and can be <strong>reused</strong></li>
+    </ul>
+
+    <h3>Gas Tungsten Arc Welding (GTAW) — "TIG Welding"</h3>
+    <ul>
+      <li>Uses a <strong>non-consumable tungsten electrode</strong> with an inert shielding gas (argon or helium)</li>
+      <li>Also called Tungsten Inert Gas (TIG) welding</li>
+      <li>Filler wire is <strong>optional</strong> — when used, it is fed separately into the weld pool (heated by arc, not transferred across it)</li>
+      <li>Tungsten is ideal because its melting point is ~<strong>3,400 °C</strong></li>
+      <li>Advantages: <strong>highest quality welds</strong>, no spatter, minimal post-weld cleaning (no flux used)</li>
+    </ul>
+
+    <table class="comparison-table">
+      <tr><th>Process</th><th>Electrode</th><th>Shielding</th><th>Key Advantage</th><th>Key Limitation</th></tr>
+      <tr><td><strong>SMAW</strong></td><td>Consumable (coated rod)</td><td>Coating burns → gas + slag</td><td>Portable, simple equipment</td><td>Slow, manual, slag must be cleaned</td></tr>
+      <tr><td><strong>GMAW/MIG</strong></td><td>Consumable (continuous wire)</td><td>External gas (Ar, He, CO₂)</td><td>Automatable, no slag, multi-pass</td><td>Needs external gas supply</td></tr>
+      <tr><td><strong>SAW</strong></td><td>Consumable (bare wire)</td><td>Granular flux (reusable)</td><td>High quality, no PPE needed, flux reusable</td><td>Horizontal welds only; large equipment</td></tr>
+      <tr><td><strong>TIG/GTAW</strong></td><td>Non-consumable (tungsten)</td><td>Inert gas (Ar or He)</td><td>Highest quality, no spatter</td><td>Slower; skilled operator required</td></tr>
+      <tr><td><strong>OFW</strong></td><td>Filler rod (optional)</td><td>Flame itself</td><td>Simple, portable, no electricity needed</td><td>Slow; lower temperatures than arc</td></tr>
+    </table>
+  </div>
+
+  <!-- ═══════════════════ SECTION 5 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>5. Electrodes, Shielding &amp; Flux</h2>
+
+    <h3>Consumable vs Non-Consumable Electrodes</h3>
+    <table class="comparison-table">
+      <tr><th>Type</th><th>Description</th><th>Notes</th></tr>
+      <tr><td><strong>Consumable</strong></td><td>Rod or wire (200–450 mm length, &lt;10 mm diameter) that provides the filler metal source; consumed by the arc and added to the weld pool</td><td>Must be replaced periodically (SMAW) or fed continuously (GMAW); reduces production rate in SMAW</td></tr>
+      <tr><td><strong>Non-consumable</strong></td><td>Does not melt into the weld; some depletion occurs by vaporization; filler metal supplied separately if needed</td><td>Used in TIG; allows finer control of heat and filler independently</td></tr>
+    </table>
+
+    <h3>Shielding Gas</h3>
+    <ul>
+      <li>The weld area (arc, electrode tip, weld pool) is shielded from the atmosphere by a blanket of gas</li>
+      <li>Objective: prevent exposure to <strong>oxygen, nitrogen, and hydrogen</strong> present in air (causes porosity, embrittlement, oxidation)</li>
+      <li>Common shielding gases: <strong>Argon and Helium</strong> (inert); <strong>CO₂</strong> for steel (active)</li>
+    </ul>
+
+    <h3>Flux</h3>
+    <ul>
+      <li>Protects the weld region from formation of oxides and other contaminants, or dissolves them for easy removal</li>
+      <li>During welding, flux melts and covers the weld region → solidifies into <strong>slag</strong> → must be removed by brushing</li>
+      <li>Flux also <strong>stabilizes the arc</strong> and reduces spatter</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════ SECTION 6 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>6. Weld Morphology &amp; Grain Structure</h2>
+    <p>A typical fusion weld has four distinct zones:</p>
+    <table class="comparison-table">
+      <tr><th>Zone</th><th>Description</th></tr>
+      <tr><td><strong>Fusion Zone (Weld Metal)</strong></td><td>A mixture of filler and base metal that have completely melted and resolidified. Grains are coarse, columnar, and grow perpendicular to the weld interface (solidification direction).</td></tr>
+      <tr><td><strong>Weld Interface</strong></td><td>A narrow boundary separating the fusion zone from the heat-affected zone. A thin layer of base metal that was partially melted.</td></tr>
+      <tr><td><strong>Heat-Affected Zone (HAZ)</strong></td><td>Between the fusion zone and unaffected base metal. Temperature was below melting point but high enough to alter microstructure and therefore mechanical properties.</td></tr>
+      <tr><td><strong>Unaffected Base Metal</strong></td><td>The parent material beyond the HAZ, unaffected by the welding heat.</td></tr>
+    </table>
+    <div class="highlight-box">
+      <p>🔑 <strong>Key fact:</strong> Grains in the solidified weld metal grow <strong>perpendicular to their interface with the base metal</strong> — they grow toward the heat source (outward from the fusion boundary). Deep welds have longer columnar grains than shallow welds.</p>
+    </div>
+    <p>The micro-hardness profile across a weld bead typically shows the <strong>highest hardness at the center of the fusion zone</strong>, decreasing through the HAZ toward the unaffected base metal.</p>
+  </div>
+
+  <!-- ═══════════════════ SECTION 7 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>7. Weldability of Materials</h2>
+
+    <h3>Ferrous Materials</h3>
+    <table class="comparison-table">
+      <tr><th>Material</th><th>Weldability</th></tr>
+      <tr><td>Low-carbon steel</td><td>Excellent</td></tr>
+      <tr><td>Medium-carbon steel</td><td>Fair to good</td></tr>
+      <tr><td>High-carbon steel</td><td>Poor</td></tr>
+      <tr><td>Low-alloy steel</td><td>Fair to good</td></tr>
+      <tr><td>High-alloy steel</td><td>Good under well-controlled conditions</td></tr>
+      <tr><td>Stainless steel</td><td>Generally weldable</td></tr>
+      <tr><td>Cast iron</td><td>Generally weldable</td></tr>
+    </table>
+
+    <h3>Non-Ferrous Materials</h3>
+    <ul>
+      <li><strong>Aluminium alloys</strong> — weldable with high heat input, inert gas shielding, and absence of moisture</li>
+      <li><strong>Aluminium alloys containing Zinc or Copper</strong> — un-weldable</li>
+      <li><strong>Magnesium alloys</strong> — weldable with shielding gas or flux</li>
+      <tr><td><strong>Titanium alloys</strong> — weldable with shielding gas</td></tr>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════ SECTION 8 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>8. Weld Defects</h2>
+
+    <h3>Porosity</h3>
+    <ul>
+      <li>Caused by: <strong>gases released during melting and trapped during solidification</strong>; chemical reactions; contaminants</li>
+      <li>Remedy: proper electrode and filler metal selection; preheat the weld area; clean the weld zone; reduce welding speed to allow gas to escape</li>
+    </ul>
+
+    <h3>Slag Inclusions</h3>
+    <ul>
+      <li>Compounds (oxides, fluxes, electrode-coating materials) <strong>trapped in the weld zone</strong></li>
+      <li>Remedy: clean the weld-bead surface before depositing the next layer; provide sufficient shielding gas; redesign the joint for better access</li>
+    </ul>
+
+    <h3>Cracks</h3>
+    <ul>
+      <li>Can be <strong>longitudinal, transverse, toe, crater, or underbead</strong> cracks</li>
+      <li>Caused by: <strong>temperature gradients</strong> causing thermal stresses; <strong>variations in weld composition</strong> causing differential contraction rates during cooling</li>
+    </ul>
+
+    <h3>Incomplete Fusion &amp; Incomplete Penetration</h3>
+    <ul>
+      <li><strong>Incomplete fusion (lack of fusion)</strong> — the weld metal does not fully bond with the base metal; bridging occurs leaving voids at the interface</li>
+      <li><strong>Incomplete penetration</strong> — weld metal does not extend through the full joint thickness</li>
+    </ul>
+
+    <h3>Distortion</h3>
+    <ul>
+      <li>Caused by <strong>differential thermal expansion and contraction</strong> of different regions of the welded assembly</li>
+      <li>Types: transverse shrinkage, longitudinal shrinkage, angular distortion, bowing/buckling</li>
+    </ul>
+
+    <h3>Other Surface Defects</h3>
+    <ul>
+      <li><strong>Undercut</strong> — groove melted into the base metal adjacent to the weld toe, not filled by weld metal</li>
+      <li><strong>Overlap</strong> — weld metal flows over the base metal surface without fusing to it</li>
+      <li><strong>Underfill</strong> — the weld cross-section is below the surface of the base metal</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════ SECTION 9 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>9. Brazing &amp; Soldering</h2>
+    <p>Both brazing and soldering join materials using a <strong>filler metal that melts at a temperature lower than the base metals</strong>. The base metals do not melt — only the filler metal does. The joint forms by <strong>capillary action</strong> drawing the liquid filler into the gap.</p>
+
+    <h3>Key Distinction — Temperature</h3>
+    <div class="highlight-box">
+      <p>🔑 <strong>Brazing:</strong> Filler metal melts <strong>above 450 °C</strong> (below the base metal solidus). Produces stronger joints than soldering. Used for: carbide inserts on drill shanks, copper pipe fittings, heat exchangers.<br><br>
+      <strong>Soldering:</strong> Filler metal (solder) melts <strong>below 450 °C</strong>. Much lower strength. Used for: electrical circuit connections, plumbing (soft solder).</p>
+    </div>
+
+    <h3>Brazing vs Welding</h3>
+    <table class="comparison-table">
+      <tr><th>Attribute</th><th>Brazing</th><th>Welding</th></tr>
+      <tr><td>Base metal melting</td><td>No — base metal stays solid</td><td>Yes — base metal melts</td></tr>
+      <tr><td>Joint strength</td><td>Good, but weaker than base metal</td><td>Can exceed base metal strength</td></tr>
+      <tr><td>Dissimilar materials</td><td>Excellent — can join very different materials</td><td>Limited by metallurgical compatibility</td></tr>
+      <tr><td>Distortion risk</td><td>Lower (lower temperatures)</td><td>Higher</td></tr>
+      <tr><td>HAZ</td><td>Minimal or none</td><td>Significant HAZ present</td></tr>
+    </table>
+
+    <h3>Classic Brazing Example</h3>
+    <p>A carbide cutting insert brazed to a low-alloy steel drill body — the two materials (ceramic-like carbide and steel) cannot be fusion-welded due to metallurgical incompatibility, but brazing joins them effectively without melting either base material.</p>
+  </div>
+
+  <!-- ═══════════════════ SECTION 10 ═══════════════════ -->
+  <div class="summary-section">
+    <h2>10. Process Selection Quick Guide</h2>
+    <table class="comparison-table">
+      <tr><th>Requirement</th><th>Best Process</th></tr>
+      <tr><td>Permanent, strongest possible joint</td><td>Fusion welding (arc welding)</td></tr>
+      <tr><td>Highest quality / precision weld</td><td>TIG (GTAW)</td></tr>
+      <tr><td>Fastest / most automatable weld</td><td>GMAW (MIG) or SAW</td></tr>
+      <tr><td>Portable, no external gas supply</td><td>SMAW (stick) or OFW</td></tr>
+      <tr><td>No sparks, safest environment, reusable shielding</td><td>Submerged Arc Welding (SAW)</td></tr>
+      <tr><td>Joining dissimilar metals without melting them</td><td>Brazing</td></tr>
+      <tr><td>Electrical circuit connections</td><td>Soldering</td></tr>
+      <tr><td>Disassembly needed later</td><td>Mechanical fastening (bolts)</td></tr>
+      <tr><td>Join thermoplastics</td><td>Ultrasonic or friction welding</td></tr>
+    </table>
+  </div>
+
+</div><!-- end summary -->
+
+<div class="panel" id="panel-mcq"><div id="mcq-container"></div></div>
+<div class="panel" id="panel-fitb"><div id="fitb-container"></div></div>
+
+<div class="panel" id="panel-mock1">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 1 — Joining Fundamentals &amp; Welding Basics</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock1-container"></div>
+  <button class="submit-btn" onclick="submitMock(1)">Submit Test 1</button>
+  <div class="score-box" id="score1">
+    <div class="score-num" id="score1-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(1)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-mock2">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 2 — Arc Welding Processes &amp; Weld Morphology</h2>
+    <div class="mock-meta"><span>📝 15 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock2-container"></div>
+  <button class="submit-btn" onclick="submitMock(2)">Submit Test 2</button>
+  <div class="score-box" id="score2">
+    <div class="score-num" id="score2-num">0/15</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(2)">🔄 Retake Test</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-mock3">
+  <div class="mock-header">
+    <h2>🧪 Mock Test 3 — Comprehensive Material Joining</h2>
+    <div class="mock-meta"><span>📝 20 Questions</span><span>⏱ Mixed: MCQ + Fill-in-Blank</span></div>
+  </div>
+  <div id="mock3-container"></div>
+  <button class="submit-btn" onclick="submitMock(3)">Submit Test 3</button>
+  <div class="score-box" id="score3">
+    <div class="score-num" id="score3-num">0/20</div>
+    <div class="score-label">Your Score</div>
+    <button class="retake-btn" onclick="retakeMock(3)">🔄 Retake Test</button>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<!-- THEME MODAL -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <h2>🎨 Choose Your Theme</h2>
+    <p>Pick a predefined palette or build your own custom one.</p>
+    <div class="theme-options">
+      <div class="theme-option selected" id="opt-default" onclick="selectTheme('default')">
+        <div class="theme-swatch"><span style="background:#F2C4CE"></span><span style="background:#E8A0AE"></span><span style="background:#B0A8BE"></span></div>
+        <div class="theme-label">Default Blush <small>The original pink-mauve palette</small></div>
+      </div>
+      <div class="theme-option" id="opt-hellokitty" onclick="selectTheme('hellokitty')">
+        <div class="theme-swatch"><span style="background:#FFB7C5"></span><span style="background:#FF8FAB"></span><span style="background:#FFC8DD"></span></div>
+        <div class="theme-label">Hello Kitty 🎀 <small>Sanrio hot pink vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-skywars" onclick="selectTheme('skywars')">
+        <div class="theme-swatch"><span style="background:#0a1628"></span><span style="background:#1e3a6e"></span><span style="background:#00cfff"></span></div>
+        <div class="theme-label">Skywars 🚀 <small>Deep sky cosmic vibes</small></div>
+      </div>
+      <div class="theme-option" id="opt-ppg" onclick="selectTheme('ppg')">
+        <div class="theme-swatch"><span style="background:#4BC4E8"></span><span style="background:#FF3399"></span><span style="background:#33CC66"></span></div>
+        <div class="theme-label">Powerpuff Girls 💥 <small>Sugar, spice &amp; everything nice</small></div>
+      </div>
+      <div class="theme-option" id="opt-custom" onclick="selectTheme('custom')">
+        <div class="theme-swatch"><span id="sw1" style="background:#aaa"></span><span id="sw2" style="background:#bbb"></span><span id="sw3" style="background:#ccc"></span></div>
+        <div class="theme-label">Custom 🎨 <small>Pick your own colors</small></div>
+      </div>
+    </div>
+    <div id="colorPickers" style="display:none;margin-top:1rem;">
+      <div class="color-picker-row">
+        <div class="color-pick"><input type="color" id="cp1" value="#F2C4CE" oninput="previewCustom()"> Primary</div>
+        <div class="color-pick"><input type="color" id="cp2" value="#E8A0AE" oninput="previewCustom()"> Secondary</div>
+        <div class="color-pick"><input type="color" id="cp3" value="#B0A8BE" oninput="previewCustom()"> Accent Bg</div>
+        <div class="color-pick"><input type="color" id="cp4" value="#c47b8a" oninput="previewCustom()"> Accent</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-apply" onclick="applyTheme()">Apply</button>
+      <button class="btn-cancel" onclick="closeTheme()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const THEME_KEY='mece350-theme-v2';let selectedTheme='default';
+function openTheme(){document.getElementById('themeModal').classList.add('open');}
+function closeTheme(){document.getElementById('themeModal').classList.remove('open');}
+function selectTheme(t){selectedTheme=t;document.querySelectorAll('.theme-option').forEach(o=>o.classList.remove('selected'));const el=document.getElementById('opt-'+t);if(el)el.classList.add('selected');const p=document.getElementById('colorPickers');if(p)p.style.display=t==='custom'?'block':'none';}
+function previewCustom(){document.getElementById('sw1').style.background=document.getElementById('cp1').value;document.getElementById('sw2').style.background=document.getElementById('cp2').value;document.getElementById('sw3').style.background=document.getElementById('cp3').value;}
+function applyTheme(){let data={type:selectedTheme};if(selectedTheme==='custom'){data.c1=document.getElementById('cp1').value;data.c2=document.getElementById('cp2').value;data.c3=document.getElementById('cp3').value;data.c4=document.getElementById('cp4').value;}applyThemeData(data);localStorage.setItem(THEME_KEY,JSON.stringify(data));closeTheme();}
+function clearBgs(){['hkBg','skywarsBg','ppgBg'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});document.body.classList.remove('theme-hellokitty','theme-skywars','theme-ppg');const r=document.documentElement.style;['--c1','--c2','--c3','--accent','--nav-bg'].forEach(p=>r.removeProperty(p));}
+function applyThemeData(data){clearBgs();const t=data?data.type:'default';if(t==='hellokitty'){document.body.classList.add('theme-hellokitty');spawnHKIcons();}else if(t==='skywars'){document.body.classList.add('theme-skywars');spawnSkywars();}else if(t==='ppg'){document.body.classList.add('theme-ppg');spawnPPG();}else if(t==='custom'&&data.c1){const r=document.documentElement.style;r.setProperty('--c1',data.c1);r.setProperty('--c2',data.c2);r.setProperty('--c3',data.c3);r.setProperty('--accent',data.c4);r.setProperty('--nav-bg',data.c1+'f5');}selectTheme(t||'default');}
+function spawnHKIcons(){const bg=document.getElementById('hkBg');if(!bg)return;const icons=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 55"><path d="M30 50 C10 35 0 25 0 15 C0 5 8 0 15 0 C21 0 27 4 30 9 C33 4 39 0 45 0 C52 0 60 5 60 15 C60 25 50 35 30 50Z" fill="#FF3366"/></svg>','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><polygon points="30,4 36,22 56,22 40,34 46,52 30,40 14,52 20,34 4,22 24,22" fill="#FF6B9D"/></svg>'];for(let i=0;i<18;i++){const d=document.createElement('div');d.className='hk-icon';const sz=35+Math.random()*55;d.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;width:${sz}px;height:${sz}px;--rot:${(Math.random()-0.5)*40}deg;animation-delay:${-Math.random()*8}s;`;d.innerHTML=icons[i%icons.length];bg.appendChild(d);}}
+function makeSkyShip(b,c){return`<svg xmlns="http://www.w3.org/2000/svg" width="88" height="48" viewBox="0 0 88 48"><polygon points="88,24 60,8 52,24 60,40" fill="${b}"/><ellipse cx="36" cy="24" rx="28" ry="10" fill="${b}"/><polygon points="8,24 0,42 18,30" fill="${b}" opacity="0.7"/><polygon points="8,24 0,6 18,18" fill="${b}" opacity="0.7"/><ellipse cx="42" cy="20" rx="10" ry="6" fill="${c}" opacity="0.9"/><ellipse cx="40" cy="19" rx="5" ry="3" fill="#cef8ff" opacity="0.75"/><ellipse cx="10" cy="24" rx="6" ry="3" fill="#ff7700" opacity="0.95"/><ellipse cx="7" cy="24" rx="8" ry="2.5" fill="#ffcc00" opacity="0.55"/></svg>`;}
+function spawnSkywars(){const bg=document.getElementById('skywarsBg');if(!bg)return;for(let i=0;i<150;i++){const s=document.createElement('div');s.className='sky-star';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${-Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;bg.appendChild(s);}['rgba(0,207,255,0.05)','rgba(60,0,200,0.04)','rgba(0,100,200,0.05)'].forEach(col=>{const o=document.createElement('div');const sz=180+Math.random()*280;o.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;top:${Math.random()*90}%;left:${Math.random()*90}%;background:${col};filter:blur(55px);`;bg.appendChild(o);});[{b:'#1a5fa0',c:'#00cfff',top:12,dur:20,d:0},{b:'#0c3560',c:'#55eeff',top:32,dur:27,d:-9},{b:'#1d3d7a',c:'#00cfff',top:55,dur:18,d:-5},{b:'#2a146e',c:'#8888ff',top:74,dur:24,d:-14},{b:'#0a2a50',c:'#00aaff',top:88,dur:31,d:-20}].forEach(sh=>{const el=document.createElement('div');el.className='sky-player';el.style.cssText=`top:${sh.top}%;animation-duration:${sh.dur}s;animation-delay:${sh.d}s;`;el.innerHTML=makeSkyShip(sh.b,sh.c);bg.appendChild(el);});}
+function spawnPPG(){const bg=document.getElementById('ppgBg');if(!bg)return;[{top:25,col:'rgba(255,100,160,0.22)',dur:20,d:0,w:350},{top:42,col:'rgba(80,150,255,0.22)',dur:26,d:-8,w:280},{top:32,col:'rgba(50,200,100,0.22)',dur:17,d:-14,w:320}].forEach(tr=>{const el=document.createElement('div');el.style.cssText=`position:absolute;top:calc(${tr.top}% + 45px);height:14px;width:${tr.w}px;background:${tr.col};border-radius:7px;filter:blur(4px);animation:ppg-fly ${tr.dur}s linear ${tr.d}s infinite;`;bg.appendChild(el);});[{src:'img/powerR.png',top:18,dur:20,d:0,dy:-25},{src:'img/powerB.png',top:38,dur:26,d:-9,dy:18},{src:'img/powerG.png',top:26,dur:17,d:-14,dy:-12}].forEach(ch=>{const el=document.createElement('div');el.className='ppg-hero';el.style.cssText=`top:${ch.top}%;--dy:${ch.dy}px;animation-duration:${ch.dur}s;animation-delay:${ch.d}s;`;const img=document.createElement('img');img.src=ch.src;img.style.cssText='width:120px;height:auto;display:block;';el.appendChild(img);bg.appendChild(el);});for(let i=0;i<4;i++){const cl=document.createElement('div');cl.className='ppg-cloud';cl.style.cssText=`top:${4+Math.random()*20}%;animation-duration:${35+Math.random()*20}s;animation-delay:${-Math.random()*35}s;`;cl.innerHTML='<svg width="130" height="55" viewBox="0 0 130 55" xmlns="http://www.w3.org/2000/svg"><ellipse cx="65" cy="38" rx="60" ry="20" fill="white"/><ellipse cx="42" cy="30" rx="30" ry="20" fill="white"/><ellipse cx="82" cy="28" rx="25" ry="17" fill="white"/></svg>';bg.appendChild(cl);}const city=document.createElement('div');city.className='ppg-city';city.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none" style="width:100%;height:100%"><rect x="0" y="90" width="70" height="90" fill="#001829" opacity="0.35"/><rect x="65" y="55" width="48" height="125" fill="#001829" opacity="0.4"/><rect x="140" y="35" width="62" height="145" fill="#001829" opacity="0.45"/><rect x="245" y="42" width="45" height="138" fill="#001829" opacity="0.42"/><rect x="342" y="22" width="72" height="158" fill="#001829" opacity="0.45"/><rect x="490" y="38" width="58" height="142" fill="#001829" opacity="0.42"/><rect x="608" y="28" width="52" height="152" fill="#001829" opacity="0.45"/><rect x="788" y="32" width="65" height="148" fill="#001829" opacity="0.45"/><rect x="990" y="22" width="75" height="158" fill="#001829" opacity="0.45"/><rect x="1105" y="36" width="60" height="144" fill="#001829" opacity="0.42"/></svg>';bg.appendChild(city);}
+(function(){const saved=localStorage.getItem(THEME_KEY);if(saved){try{applyThemeData(JSON.parse(saved));}catch(e){}}})();
+function showPanel(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+/* ══════════════════════ DATA ══════════════════════ */
+const mcqData=[
+  {q:"Joining is defined as a process category that includes which of the following?",opts:["Only welding and riveting","Welding, brazing, soldering, adhesive bonding, and mechanical fastening","Casting, forging, and machining only","Extrusion and rolling"],ans:1,exp:"Joining is an all-inclusive term covering welding, brazing, soldering, adhesive bonding, and mechanical fastening — all processes that connect two or more parts at their contacting surfaces."},
+  {q:"Which of the following is the BEST reason to use joining rather than making a single-piece product?",opts:["Joining is always cheaper","Some products are impossible to manufacture in one piece, and joining is the only option","Joining always produces stronger parts than monolithic ones","Joined parts never need maintenance"],ans:1,exp:"Some products — especially thin-walled, large-diameter, or complex assemblies — cannot be manufactured in a single piece by any known process. Joining is the only viable manufacturing route."},
+  {q:"In a Tee (T) joint:",opts:["Both parts lie in the same plane and are joined at their edges","One part is perpendicular to the other, forming a T shape","Two overlapping parts are joined at their overlap zone","The parts form a right angle and are joined at the corner"],ans:1,exp:"A T-joint has one part perpendicular to the other in approximately the shape of the letter T. Compare: butt (same plane, edges joined), corner (right angle joined at corner), lap (overlapping parts)."},
+  {q:"A double V-groove weld compared to a single V-groove weld of the same plate thickness:",opts:["Requires more filler metal and is weaker","Requires more filler metal but produces a stronger joint","Requires less filler metal because material is removed from both sides","Requires the same filler metal but is faster to complete"],ans:2,exp:"In a double V-groove, the preparation is symmetric and the total volume of the groove is smaller than a single V that goes through the full thickness from one side. Less filler metal is therefore needed."},
+  {q:"What is the key defining criterion of a FUSION welding process?",opts:["A filler metal is always used","The joint is made by melting and coalescing the materials with heat, with or without filler","No heat is applied — only pressure","The base metal is never melted, only the filler"],ans:1,exp:"Fusion welding melts the contacting surfaces of the base metals and allows them to coalesce (join) as they solidify, with or without a filler metal. This distinguishes it from solid-state welding, where no melting occurs."},
+  {q:"In oxyfuel-gas welding, which fuel generates the highest temperatures — up to 3,500 °C?",opts:["Propane","Hydrogen","Acetylene","Natural gas (methane)"],ans:2,exp:"Acetylene (C₂H₂) is the most common oxyfuel gas welding fuel because it produces the highest flame temperature (~3,500 °C) when burned with oxygen, sufficient to weld most metals."},
+  {q:"The approximate temperature generated by an electric arc in arc welding is:",opts:["1,200 °C","2,500 °C","5,500 °C","10,000 °C"],ans:2,exp:"An electric arc generates approximately 5,500 °C — well above the melting point of most metals, including steel (~1,500 °C). This is roughly twice the temperature achievable with oxyfuel gas."},
+  {q:"Shielded Metal Arc Welding (SMAW) uses what type of electrode?",opts:["Non-consumable tungsten electrode with separate filler wire","Consumable bare wire electrode with external shielding gas","Consumable coated rod that provides both filler metal and shielding","Continuous wire electrode with granular flux from a hopper"],ans:2,exp:"SMAW uses a consumable coated rod. The coating burns to produce shielding gas (protecting the weld pool) and flux that forms slag over the weld. Both shielding and filler come from the electrode — no external gas supply is needed."},
+  {q:"Why does SMAW reduce production rate compared to GMAW?",opts:["SMAW operates at lower temperatures","The SMAW electrode must be replaced periodically as it is consumed, stopping the weld; slag must also be removed between passes","SMAW requires higher-skilled operators who work more slowly","SMAW can only be used on thin materials"],ans:1,exp:"In SMAW, when the coated rod is consumed, welding must stop to insert a new rod. Slag also deposits over each pass and must be brushed off before the next. GMAW has a continuous wire reel and no slag, enabling uninterrupted, automatable welding."},
+  {q:"Gas Metal Arc Welding (GMAW) is also called:",opts:["TIG welding","SAW (Submerged Arc Welding)","MIG (Metal Inert Gas) welding when argon or helium is the shielding gas","SMAW when used with solid wire"],ans:2,exp:"GMAW is called MIG (Metal Inert Gas) welding when the shielding gas is argon or helium. When CO₂ (an active gas) is used for welding steel, it is sometimes called MAG (Metal Active Gas) welding. Both are subtypes of GMAW."},
+  {q:"In Submerged Arc Welding (SAW), what provides the shielding and why does it not require safety glasses?",opts:["Argon gas flows around the arc; it emits no visible light","Granular flux completely covers and submerges the arc, blocking all sparks, spatter, and radiation","The arc operates at a lower energy and produces no radiation","Flux-cored wire eliminates the need for external shielding"],ans:1,exp:"In SAW, granular flux from a hopper completely submerges the arc. The arc is invisible, and there are no sparks, spatter, or UV/IR radiation escaping, so protective gear like welding helmets and gloves is not required during operation."},
+  {q:"Gas Tungsten Arc Welding (TIG/GTAW) produces the highest quality welds because:",opts:["It uses the highest current of any process","The arc temperature reaches 10,000 °C","It uses a non-consumable tungsten electrode, inert gas shielding, and no flux — resulting in no spatter, minimal contamination, and very clean welds","It is the fastest process and so the weld pool is exposed to air for less time"],ans:2,exp:"TIG uses a non-consumable tungsten electrode (no filler metal transferred across the arc = no spatter), inert gas shielding (no atmospheric contamination), and no flux (no slag to clean). This combination gives the cleanest, highest quality welds."},
+  {q:"Why is tungsten an excellent electrode material for TIG welding?",opts:["Tungsten is the cheapest available metal","Tungsten has the highest melting point of all metals at approximately 3,400 °C","Tungsten generates argon gas when heated","Tungsten is non-reactive with all metals"],ans:1,exp:"Tungsten's extremely high melting point (~3,400 °C) means it does not melt or consume during welding even at arc temperatures, making it the ideal non-consumable electrode material for TIG."},
+  {q:"Which zone in a fusion weld contains metal that was NOT melted but was heated enough to alter its microstructure and mechanical properties?",opts:["Fusion zone","Weld interface","Heat-Affected Zone (HAZ)","Unaffected base metal"],ans:2,exp:"The Heat-Affected Zone (HAZ) sits between the fusion zone and the unaffected base metal. Temperatures were sub-solidus but high enough to change grain size, hardness, and other properties — a critical region for fatigue and corrosion behavior."},
+  {q:"In the fusion zone, how do grains grow during solidification?",opts:["Randomly, with no preferred direction","Parallel to the weld bead surface","Perpendicular to their interface with the base metal (toward the heat source)","In the direction of welding travel"],ans:2,exp:"Solidification occurs by epitaxial growth from the base metal surface. Grains nucleate at the fusion boundary and grow in the direction of the steepest temperature gradient — perpendicular to the weld interface, i.e., toward the center of the weld pool."},
+  {q:"Which aluminium alloys are considered un-weldable?",opts:["All aluminium alloys","Aluminium alloys containing Zinc or Copper","Pure aluminium only","Aluminium alloys containing Magnesium"],ans:1,exp:"Aluminium alloys that contain zinc or copper as primary alloying elements (e.g., 2xxx and 7xxx series) are generally considered un-weldable because these alloys are prone to hot cracking and severe strength loss in the HAZ during fusion welding."},
+  {q:"Weld porosity is caused by:",opts:["Incorrect electrode diameter","Gases released during melting and trapped during solidification, or chemical reactions and contaminants","Applying too slow a welding speed","Using too large a V-groove angle"],ans:1,exp:"Porosity in welds is caused by gas bubbles trapped during solidification — from gases released by the molten metal, chemical reactions at the weld pool, or contaminants (moisture, oil, paint) on the base metal or electrode."},
+  {q:"Weld distortion is primarily caused by:",opts:["Incorrect electrode selection","Differential thermal expansion and contraction of different regions during and after welding","Too high a filler metal deposition rate","Using the wrong joint type"],ans:1,exp:"Different regions of the weld assembly heat and cool at different rates, causing non-uniform thermal strains. When the hot regions contract on cooling they pull the assembly out of shape — causing transverse and longitudinal shrinkage, angular distortion, and bowing."},
+  {q:"The key distinction between brazing and welding is:",opts:["Brazing uses electricity; welding uses a flame","In brazing, the base metal does NOT melt — only the filler metal melts (above 450 °C); in welding, the base metal melts","Brazing always produces a stronger joint than welding","Brazing can only be used for copper pipes"],ans:1,exp:"Brazing joins metals by melting only the filler metal (liquidus above 450 °C) and allowing it to flow into the joint by capillary action — the base metals remain solid throughout. This is the fundamental metallurgical distinction from fusion welding."},
+  {q:"What is the temperature boundary that distinguishes brazing from soldering?",opts:["200 °C","350 °C","450 °C","600 °C"],ans:2,exp:"By definition: soldering uses filler metals with liquidus below 450 °C; brazing uses filler metals with liquidus above 450 °C (but below the solidus of the base metal). This 450 °C threshold is the international standard boundary."},
+  {q:"A carbide cutting insert is brazed to a steel drill shank because:",opts:["Brazing is cheaper than welding carbide","The two materials (carbide and steel) cannot be fusion-welded due to metallurgical incompatibility — brazing joins them without melting either base material","Carbide is too soft to machine after welding","Brazing produces a harder joint surface"],ans:1,exp:"Cemented carbide and steel have very different melting points and thermal expansion coefficients. Fusion welding would cause cracking and metallurgical problems. Brazing, which melts only the filler metal, joins them effectively without damaging either material."},
+  {q:"Slag inclusions in welds can be prevented by:",opts:["Increasing welding current","Cleaning the weld-bead surface before depositing the next layer and providing sufficient shielding gas","Reducing the arc length","Using a larger electrode diameter"],ans:1,exp:"Slag inclusions — compounds trapped in the weld zone — are prevented by thorough cleaning of each weld bead before the next pass, ensuring adequate shielding gas coverage to prevent oxidation, and proper joint design for good access."},
+  {q:"What is an 'undercut' weld defect?",opts:["A weld that does not penetrate fully through the joint","A groove melted into the base metal adjacent to the weld toe that is not filled by weld metal","Excess weld metal deposited above the base metal surface","Internal porosity just below the weld surface"],ans:1,exp:"Undercut is a groove or channel melted into the base metal alongside the weld bead (at the 'toe' where the weld meets the base metal) that is not refilled by weld metal. It acts as a stress concentration point and can initiate fatigue cracks."},
+  {q:"In SMAW, the electrode coating consists of:",opts:["Pure tungsten with inert gas passivation","Powdered cellulose mixed with carbonates, bound with a silicate binder","Granular flux from a separate hopper","A continuous inert-gas-filled tube"],ans:1,exp:"SMAW electrode coatings consist of powdered cellulose (cotton and wood powder) mixed with carbonates and other minerals, bound together using a silicate binder. When burned, this produces shielding gas and flux simultaneously."},
+  {q:"For which application is Submerged Arc Welding (SAW) particularly well suited?",opts:["Thin-sheet, out-of-position welding in the field","Long, flat horizontal welds in a workshop environment, such as ship plates and pressure vessel seams","Precision welding of small intricate parts","Welding of plastics and polymers"],ans:1,exp:"SAW is ideal for long, flat horizontal welds in a fixed workshop setting. The process cannot be used for vertical or overhead welds (the granular flux would fall away). It is widely used for shipbuilding plates, structural beams, and pressure vessels."},
+  {q:"A welded joint can be STRONGER than the parent base material when:",opts:["The weld is made using the same material as the base metal","An appropriate filler metal with higher strength than the base metal is selected and correctly applied","The weld is made using low heat input","The HAZ is maximised in size"],ans:1,exp:"One of welding's key advantages over other joining methods is that, by selecting a filler metal with higher mechanical properties than the base metal, the weld metal itself can be stronger. The HAZ remains a potential weak zone, however."},
+  {q:"Which welding process requires NO external shielding gas and uses the electrode coating to provide ALL shielding?",opts:["GMAW (MIG)","TIG (GTAW)","SMAW (stick welding)","SAW (submerged arc)"],ans:2,exp:"SMAW (stick welding) requires no external gas supply. The electrode coating burns to simultaneously produce shielding gas (protecting the arc and weld pool) and flux (forming slag over the weld bead). This makes SMAW highly portable."},
+  {q:"The objective of shielding the weld area (arc, electrode tip, and weld pool) from the atmosphere is to prevent exposure to:",opts:["Argon and helium","Oxygen, nitrogen, and hydrogen present in air","Carbon dioxide only","UV radiation from sunlight"],ans:1,exp:"Oxygen causes oxidation (scale and porosity), nitrogen causes embrittlement and porosity, and hydrogen causes hydrogen cracking (cold cracking) — particularly dangerous in high-strength steels. Shielding prevents contact with all three."},
+  {q:"What type of weld crack is caused by temperature gradients creating thermal stresses in the weld zone?",opts:["Porosity","Slag inclusion","Thermal cracking / solidification cracking","Undercut"],ans:2,exp:"Thermal (solidification) cracks form because different parts of the weld zone cool and contract at different rates, generating residual tensile stresses. If these stresses exceed the material's strength at elevated temperature, cracks initiate."},
+  {q:"In the context of welding weld morphology, what is the 'weld interface'?",opts:["The outer visible surface of the weld bead","A narrow boundary separating the fusion zone from the HAZ — a thin layer of base metal that was partially melted","The region of undisturbed base metal far from the weld","The area where slag collects on the weld surface"],ans:1,exp:"The weld interface is the narrow transitional boundary between the fusion zone (fully melted and resolidified) and the heat-affected zone (solid but heat-altered). It consists of base metal that was only partially melted — a zone of special metallurgical interest."},
+  {q:"What makes GMAW more suitable for automation than SMAW?",opts:["GMAW uses lower currents and is safer for robots","GMAW uses a continuous consumable wire electrode and produces no slag, allowing uninterrupted multi-pass welding","GMAW does not require shielding gas","GMAW produces smaller weld beads that are easier for robots to place precisely"],ans:1,exp:"GMAW's continuous wire feed eliminates the need to stop and change electrodes, and the absence of slag means no inter-pass cleaning. Both features make GMAW inherently automatable — it is the dominant process in robotic automotive welding."},
+];
+
+const fitbData=[
+  {sentence:"Joining is an all-inclusive term covering welding, brazing, soldering, ___ bonding, and mechanical fastening.",blanks:["adhesive"],answers:["adhesive"]},
+  {sentence:"A ___ joint has parts lying in the same plane, joined at their edges; it is limited by joint thickness.",blanks:["butt"],answers:["butt"]},
+  {sentence:"A double V-groove weld requires ___ filler metal than a single V-groove weld of the same plate thickness.",blanks:["less"],answers:["less","less filler","fewer"]},
+  {sentence:"In ___ welding, joining occurs without fusion — there is no liquid phase in the joint.",blanks:["solid-state"],answers:["solid-state","solid state"]},
+  {sentence:"Oxyfuel-gas welding with ___ can generate flame temperatures up to 3,500 °C.",blanks:["acetylene"],answers:["acetylene","oxyacetylene"]},
+  {sentence:"The electric arc in arc welding generates a temperature of approximately ___ °C.",blanks:["5,500"],answers:["5,500","5500","5500°c","5,500°c"]},
+  {sentence:"SMAW (stick welding) uses a ___ electrode — the filler metal rod is consumed and added to the weld pool.",blanks:["consumable"],answers:["consumable"]},
+  {sentence:"The SMAW electrode coating consists of powdered cellulose mixed with carbonates, bound with a ___ binder.",blanks:["silicate"],answers:["silicate"]},
+  {sentence:"GMAW (MIG) welding can be fully ___ because the electrode is continuous and no slag is deposited.",blanks:["automated"],answers:["automated","automatable","automation","automatic"]},
+  {sentence:"In GMAW, when argon or helium is used as the shielding gas, the process is also called ___ welding.",blanks:["MIG"],answers:["mig","metal inert gas","mig welding"]},
+  {sentence:"In Submerged Arc Welding, the shielding is provided by ___ flux fed through a hopper just ahead of the arc.",blanks:["granular"],answers:["granular"]},
+  {sentence:"SAW requires no safety glasses because the arc is ___ by the flux, blocking all sparks and radiation.",blanks:["submerged"],answers:["submerged","covered","buried"]},
+  {sentence:"TIG welding uses a non-consumable ___ electrode with an inert shielding gas.",blanks:["tungsten"],answers:["tungsten"]},
+  {sentence:"Tungsten is used as a TIG electrode because its melting point is approximately ___ °C.",blanks:["3,400"],answers:["3,400","3400","3,400°c","3400°c"]},
+  {sentence:"In a fusion weld, grains in the solidified weld metal grow ___ to their interface with the base metal.",blanks:["perpendicular"],answers:["perpendicular","perpendicular to"]},
+  {sentence:"The ___ Zone (HAZ) is heated above the temperature at which microstructure changes but not enough to melt.",blanks:["Heat-Affected"],answers:["heat-affected","heat affected","haz"]},
+  {sentence:"Aluminium alloys containing ___ or Copper are considered un-weldable by conventional fusion processes.",blanks:["Zinc"],answers:["zinc"]},
+  {sentence:"Weld ___ is caused by gases released during melting and trapped during solidification, creating voids.",blanks:["porosity"],answers:["porosity"]},
+  {sentence:"Weld distortion is caused by differential thermal ___ and contraction of different regions of the welded assembly.",blanks:["expansion"],answers:["expansion"]},
+  {sentence:"Brazing joins materials using a filler metal that melts ___ the base metals — the base metals do not melt.",blanks:["below"],answers:["below","lower than","at a lower temperature than"]},
+  {sentence:"The temperature boundary distinguishing brazing (above) from soldering (below) is ___ °C.",blanks:["450"],answers:["450","450°c"]},
+  {sentence:"Brazing is preferred over welding when joining ___ materials that are metallurgically incompatible for fusion.",blanks:["dissimilar"],answers:["dissimilar","different"]},
+  {sentence:"___ inclusions in welds are compounds such as oxides and flux materials trapped inside the solidified weld.",blanks:["Slag"],answers:["slag"]},
+  {sentence:"An ___ defect is a groove melted into the base metal at the weld toe that is not filled with weld metal.",blanks:["undercut"],answers:["undercut","undercut defect"]},
+  {sentence:"SMAW can be performed without external gas cylinders because all shielding comes from the ___ coating.",blanks:["electrode"],answers:["electrode","electrode's","rod","rod's"]},
+  {sentence:"The ___ zone of a fusion weld contains a mixture of completely melted filler and base metal that has resolidified.",blanks:["fusion"],answers:["fusion"]},
+  {sentence:"In TIG welding, there is no ___ because filler metal is not transferred across the arc.",blanks:["spatter"],answers:["spatter","weld spatter"]},
+  {sentence:"Weld cracks can be caused by temperature gradients creating ___ stresses in the weld zone.",blanks:["thermal"],answers:["thermal","residual","residual thermal"]},
+  {sentence:"In a ___ joint, one part lies perpendicular to the other and the joint is made at the corner of the right angle.",blanks:["corner"],answers:["corner"]},
+  {sentence:"SAW produces slow cooling rates because the granular flux acts as an ___ blanket over the weld pool.",blanks:["insulating"],answers:["insulating","thermal insulating","insulation"]},
+];
+
+const mock1Qs  =[0,1,2,3,4,5,6,7,8,9];
+const mock1Fitb=[0,1,2,3,4];
+const mock2Qs  =[10,11,12,13,14,15,16,17,18,19];
+const mock2Fitb=[10,11,12,13,14];
+const mock3Qs  =[0,2,4,6,8,10,12,14,16,18,20,22];
+const mock3Fitb=[3,7,15,17,19,22,25,27];
+
+function renderMCQ(data,container,prefix){
+  let html='';
+  data.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Question ${i+1}</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="answerMCQ('${prefix}',${i},${j},${q.ans})" id="${prefix}-opt-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div><div class="q-feedback" id="${prefix}-fb-${i}">${q.exp}</div></div>`;
+  });
+  document.getElementById(container).innerHTML=html;
+}
+function answerMCQ(prefix,qi,chosen,correct){
+  document.querySelectorAll(`[id^="${prefix}-opt-${qi}-"]`).forEach(o=>o.style.pointerEvents='none');
+  const chosenEl=document.getElementById(`${prefix}-opt-${qi}-${chosen}`);
+  const correctEl=document.getElementById(`${prefix}-opt-${qi}-${correct}`);
+  if(chosen===correct){chosenEl.classList.add('correct');}
+  else{chosenEl.classList.add('wrong');correctEl.classList.add('reveal-correct');}
+  document.getElementById(`${prefix}-fb-${qi}`).classList.add('show',chosen===correct?'correct':'wrong');
+}
+function renderFITB2(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" data-qi="${i}"><div class="q-num">Question ${i+1}</div><div class="fitb-sentence">${sentence}</div><button class="check-btn" onclick="checkFITB2(this)">Check Answer</button><div class="fitb-result"></div></div>`;
+  });
+  document.getElementById(containerId).innerHTML=html;
+  document.querySelectorAll(`#${containerId} .fitb-card`).forEach((card,i)=>{card.__fitbData=dataArr[i];});
+}
+function checkFITB2(btn){
+  const card=btn.closest('.fitb-card');const data=card.__fitbData;
+  const inputs=card.querySelectorAll('.blank-input');let allCorrect=true;
+  inputs.forEach((inp,idx)=>{
+    const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+    const correct=data.blanks[idx].toLowerCase().replace(/-/g,' ');
+    const ok=userVal===correct||(data.answers&&data.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+    inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+    if(!ok)allCorrect=false;
+  });
+  const res=card.querySelector('.fitb-result');res.classList.add('show');btn.disabled=true;
+  if(allCorrect){res.style.color='#155724';res.innerHTML='✅ Correct!';}
+  else{res.style.color='#721c24';res.innerHTML='❌ Incorrect. Correct: <strong>'+data.blanks.join(' / ')+'</strong>';}
+}
+function renderMockMCQ(dataArr,containerId,prefix){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    html+=`<div class="q-card"><div class="q-num">Q${i+1} — Multiple Choice</div><div class="q-text">${q.q}</div><div class="options">`;
+    ['A','B','C','D'].forEach((l,j)=>{html+=`<div class="option" onclick="selectMockMCQ('${prefix}',${i},${j})" id="${prefix}-m-${i}-${j}"><span class="opt-letter">${l}</span>${q.opts[j]}</div>`;});
+    html+=`</div></div>`;
+  });
+  document.getElementById(containerId).innerHTML+=html;
+}
+function selectMockMCQ(prefix,qi,chosen){
+  const card=document.getElementById(`${prefix}-m-${qi}-${chosen}`).closest('.q-card');
+  card.querySelectorAll('.option').forEach(o=>{o.style.background='';o.style.borderColor='';});
+  document.getElementById(`${prefix}-m-${qi}-${chosen}`).style.cssText='background:var(--c1);border-color:var(--accent);';
+  if(!window.mockAnswers)window.mockAnswers={};
+  if(!window.mockAnswers[prefix])window.mockAnswers[prefix]={};
+  window.mockAnswers[prefix][`mcq-${qi}`]=chosen;
+}
+function renderMockFITB(dataArr,containerId,prefix,startNum){
+  let html='';
+  dataArr.forEach((q,i)=>{
+    let sentence=q.sentence;let idx2=0;
+    sentence=sentence.replace(/___/g,()=>`<input class="blank-input" data-idx="${idx2++}" type="text" placeholder="...">`);
+    html+=`<div class="fitb-card" id="${prefix}-fitb-${i}"><div class="q-num">Q${startNum+i} — Fill in the Blank</div><div class="fitb-sentence">${sentence}</div></div>`;
+  });
+  const div=document.createElement('div');div.innerHTML=html;
+  document.getElementById(containerId).appendChild(div);
+  dataArr.forEach((q,i)=>{const c=document.getElementById(`${prefix}-fitb-${i}`);if(c)c.__fitbData=q;});
+}
+function submitMock(num){
+  const prefix='m'+num;
+  const mcqD=num===1?mock1Qs.map(i=>mcqData[i]):num===2?mock2Qs.map(i=>mcqData[i]):mock3Qs.map(i=>mcqData[i]);
+  const fitbD=num===1?mock1Fitb.map(i=>fitbData[i]):num===2?mock2Fitb.map(i=>fitbData[i]):mock3Fitb.map(i=>fitbData[i]);
+  let score=0;const total=mcqD.length+fitbD.length;
+  mcqD.forEach((q,i)=>{
+    const chosen=(window.mockAnswers&&window.mockAnswers[prefix])?window.mockAnswers[prefix][`mcq-${i}`]:null;
+    const correctEl=document.getElementById(`${prefix}-m-${i}-${q.ans}`);
+    if(correctEl){correctEl.style.background='#d4edda';correctEl.style.borderColor='#28a745';}
+    if(chosen!==null&&chosen!==undefined){
+      const chosenEl=document.getElementById(`${prefix}-m-${i}-${chosen}`);
+      if(chosen===q.ans){score++;}else if(chosenEl){chosenEl.style.background='#f8d7da';chosenEl.style.borderColor='#dc3545';}
+    }
+    document.querySelectorAll(`[id^="${prefix}-m-${i}-"]`).forEach(o=>o.style.pointerEvents='none');
+  });
+  fitbD.forEach((q,i)=>{
+    const card=document.getElementById(`${prefix}-fitb-${i}`);if(!card)return;
+    const inputs=card.querySelectorAll('.blank-input');let allOk=true;
+    inputs.forEach((inp,idx)=>{
+      const userVal=inp.value.trim().toLowerCase().replace(/-/g,' ');
+      const correct=q.blanks[idx].toLowerCase().replace(/-/g,' ');
+      const ok=userVal===correct||(q.answers&&q.answers.some(a=>userVal===a.toLowerCase().replace(/-/g,' ')));
+      inp.classList.toggle('correct-ans',ok);inp.classList.toggle('wrong-ans',!ok);inp.disabled=true;
+      if(!ok)allOk=false;
+    });
+    if(allOk)score++;
+    const res=document.createElement('div');res.className='fitb-result show';
+    res.innerHTML=allOk?'<span style="color:#155724">✅ Correct!</span>':'<span style="color:#721c24">❌ Correct: <strong>'+q.blanks.join(' / ')+'</strong></span>';
+    card.appendChild(res);
+  });
+  document.getElementById('score'+num+'-num').textContent=`${score}/${total}`;
+  document.getElementById('score'+num).classList.add('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='none';
+  document.getElementById('score'+num).scrollIntoView({behavior:'smooth'});
+}
+function retakeMock(num){
+  window.mockAnswers={};initMocks();
+  document.getElementById('score'+num).classList.remove('show');
+  document.querySelector(`#panel-mock${num} .submit-btn`).style.display='block';
+}
+function initMocks(){
+  ['mock1-container','mock2-container','mock3-container'].forEach(id=>document.getElementById(id).innerHTML='');
+  renderMockMCQ(mock1Qs.map(i=>mcqData[i]),'mock1-container','m1');
+  renderMockFITB(mock1Fitb.map(i=>fitbData[i]),'mock1-container','m1',mock1Qs.length+1);
+  renderMockMCQ(mock2Qs.map(i=>mcqData[i]),'mock2-container','m2');
+  renderMockFITB(mock2Fitb.map(i=>fitbData[i]),'mock2-container','m2',mock2Qs.length+1);
+  renderMockMCQ(mock3Qs.map(i=>mcqData[i]),'mock3-container','m3');
+  renderMockFITB(mock3Fitb.map(i=>fitbData[i]),'mock3-container','m3',mock3Qs.length+1);
+}
+renderMCQ(mcqData,'mcq-container','q');
+renderFITB2(fitbData,'fitb-container','f');
+initMocks();
+</script>
+</body>
+</html>
